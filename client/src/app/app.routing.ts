@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { DrawComponent } from './draw/draw.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        component: AppComponent
+        component: HomeComponent
     },
     {
         path: 'tekenen',

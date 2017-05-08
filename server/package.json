@@ -1,0 +1,30 @@
+{
+  "name": "poodle",
+  "version": "1.0.0",
+  "description": "cool drawing app with friends",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Timvdv/Poodle.git"
+  },
+  "keywords": [
+    "poodle",
+    "draw",
+    "app"
+  ],
+  "author": "Tim van de Vathorst <tim@vandevathorst.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Timvdv/Poodle/issues"
+  },
+  "homepage": "https://github.com/Timvdv/Poodle#readme"
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-draw',
@@ -6,13 +6,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./draw.component.css']
 })
 export class DrawComponent implements OnInit {
+    @ViewChild('myCanvas') canvasRef: ElementRef;
+    ctx: CanvasRenderingContext2D;
 
-  constructor() { }
+    stageWidth: number = 400;
+    stageHeight: number = 400;
+    color: string = "#ff7e00";
 
-  ngOnInit() {
-  }
+    constructor() { }
 
-  yay() {
-      alert('yaaay!!');
-  }
+    ngOnInit() {
+    }
+
+    @HostListener('document:mouseup')
+    onMouseUp() {
+        console.log("mouseup");
+    }
+
+    @HostListener('mousemove', ['$event'])
+    changePixel(event) {
+        console.log(event);
+    }
 }

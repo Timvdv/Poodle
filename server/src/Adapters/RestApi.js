@@ -37,9 +37,9 @@ module.exports = function RestApi(adapter){
 
     restApi.post('/image', function(req, res){
         adapter.addData(req.body, function (){
-            res.send('thankyou 4 data');
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ success: true }));
         });
-
     });
 }
 

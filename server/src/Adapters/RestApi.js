@@ -4,13 +4,20 @@
 module.exports = function RestApi(adapter){
     var express = require('express');
     var restApi = express();
+    var cors = require('cors');
     var bodyParser = require('body-parser');
     restApi.use(bodyParser.urlencoded({
         extended: true
     }));
+    var corsOptions = {
+        origin: 'http://localhost:4200'
+    }
+    restApi.use(cors(corsOptions));
     restApi.use(bodyParser.json());
     var port = 3000;
     var adapter = adapter;
+
+
 
     this.startListening = function startListening(){
         restApi.listen(this.port);
@@ -30,9 +37,9 @@ module.exports = function RestApi(adapter){
 
     restApi.post('/image', function(req, res){
         adapter.addData(req.body, function (){
-            res.send('thankyou 4 data');
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ success: true }));
         });
-
     });
 }
 

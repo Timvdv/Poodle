@@ -10,6 +10,8 @@ import { DrawComponent } from './draw/draw.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { ComposeComponent } from './compose/compose.component';
+import { DisplayComponent } from './display/display.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { HomeComponent } from './home/home.component';
     DrawComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ComposeComponent,
+    DisplayComponent
   ],
   imports: [
     BrowserModule,

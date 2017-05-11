@@ -104,12 +104,14 @@ export class DrawComponent implements OnInit {
     }
 
     sendImageResponse(data) {
-        console.log('test');
+        if(data) {
+            console.log(data);
+        }
     }
 
     private extractData(res: Response) {
         let body = res.json();
-        return body.data || { };
+        return body.success || { };
     }
 
     private handleError (error: Response | any) {

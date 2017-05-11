@@ -99,14 +99,19 @@ export class DrawComponent implements OnInit {
         return this.http.post(environment.serverPath + "/image", { data_url }, options)
                    .toPromise()
                    .then(this.extractData)
-                   .then(this.extractData)
+                   .then(this.sendImageResponse)
                    .catch(this.handleError);
+    }
+
+    sendImageResponse(data) {
+        console.log('test');
     }
 
     private extractData(res: Response) {
         let body = res.json();
         return body.data || { };
     }
+
     private handleError (error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
         let errMsg: string;

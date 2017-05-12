@@ -25,10 +25,10 @@ module.exports = function RestApi(adapter){
     }
 
     this.getPort = function getPort(){
-        return this.port;
+        return port;
     }
-    this.setPort = function setPort(port){
-        this.port = port;
+    this.setPort = function setPort(newPort){
+        port = newPort;
     }
 
     restApi.get('/', function(req, res){

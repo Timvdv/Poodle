@@ -6,12 +6,12 @@ function DoodleClassic(name){
     var image;
 
     this.getName = function getName(){
-        return this.name;
+        return name;
     }
     this.getImage = function getImage(){
-        return this.image;
+        return image;
     }
-    this.setImage = function setImage(image){
-        this.image = image;
+    this.setImage = function setImage(newImage){
+        image = newImage;
     }
 }

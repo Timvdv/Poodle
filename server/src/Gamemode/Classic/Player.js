@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-function PlayerClassic(name, image, id){
+module.exports = function PlayerClassic(name, image, id){
     var name = name;
     var image = image;
     var id = id;

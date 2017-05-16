@@ -20,8 +20,8 @@ module.exports = function RestApi(adapter){
 
 
     this.startListening = function startListening(){
-        restApi.listen(this.port);
-        console.log('runningggg on ' + this.port);
+        restApi.listen(port);
+        console.log('runningggg on ' + port);
     }
 
     this.getPort = function getPort(){
@@ -39,6 +39,13 @@ module.exports = function RestApi(adapter){
         adapter.addData(req.body, function (){
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ success: true }));
+        });
+    });
+
+    restApi.post('/join', function(req, res){
+        adapter.joinRequest(req, function(systemResponse){
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ response: systemResponse }));
         });
     });
 }

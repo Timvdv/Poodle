@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-function DoodleClassic(name){
+module.exports = function DoodleClassic(name){
     var name = name;
     var image;
 

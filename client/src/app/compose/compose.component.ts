@@ -3,6 +3,8 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
+import { SocketioService } from '../shared/socketio.service';
+
 class CanvasImage {
     draw: boolean = false;
     x: number;
@@ -12,6 +14,7 @@ class CanvasImage {
     img: any;
     width: number;
     height: number;
+    radius: number;
 
     constructor(posX: number, posY: number, url: string) {
         this.x = posX;
@@ -20,6 +23,7 @@ class CanvasImage {
         this.height = 100;
         this.color = "#FF0000";
         this.url = url;
+        this.radius = 100;
 
         this.loadImage(url);
     }
@@ -36,12 +40,10 @@ class CanvasImage {
     }
 
     hitTest(hitX,hitY) {
-        console.log("compare",hitX,hitY, "with",this.x,this.y );
-        return(
-            (hitX > this.x ) &&
-            (hitX < this.x ) &&
-            (hitY > this.y ) &&
-            (hitY < this.y ));
+        let dx = this.x - hitX;
+        let dy = this.y - hitY;
+
+        return(dx*dx + dy*dy < this.radius*this.radius);
     }
 
     drawToContext(theContext) {
@@ -57,6 +59,8 @@ class CanvasImage {
   styleUrls: ['./compose.component.css']
 })
 export class ComposeComponent implements OnInit {
+    socket: any;
+
     @ViewChild('drawCanvas') canvasRef: ElementRef;
     ctx: CanvasRenderingContext2D;
 
@@ -78,30 +82,38 @@ export class ComposeComponent implements OnInit {
     dragHoldY: number;
     targetX: number;
     targetY: number;
-    timer: number;
+    timer: any;
 
     images: CanvasImage[] = [];
 
     constructor(
         private http: Http,
-    ) { }
+        private socketService: SocketioService
+    ) {
+        this.socket = socketService.getSocket();
+    }
 
     ngOnInit() {
-      this.ctx = this.canvasRef.nativeElement.getContext('2d');
+        this.ctx = this.canvasRef.nativeElement.getContext('2d');
 
-      this.images.push(
-          new CanvasImage(20, 50, "assets/smiley-cool.gif")
-      );
+        this.images.push(
+            new CanvasImage(20, 50, "assets/smiley-cool.gif")
+        );
 
-      this.images.push(
-          new CanvasImage(20, 200, "assets/gallery-field-thumb.jpg")
-      );
+        this.images.push(
+            new CanvasImage(20, 200, "assets/gallery-field-thumb.jpg")
+        );
 
-      // Vieze timeout sorry (╯°□°）╯︵ ┻━┻
-      setTimeout( () => {
-          this.drawImages();
-      }, 200)
+        // Vieze timeout sorry (╯°□°）╯︵ ┻━┻
+        setTimeout( () => {
+            this.drawImages();
+        }, 200);
 
+        if(this.socket) {
+            this.socket.on('init', (msg) => {
+                this.socket.emit('test');
+            });
+        }
     }
 
     drawImages() {
@@ -115,6 +127,7 @@ export class ComposeComponent implements OnInit {
     @HostListener('document:mouseup')
     onMouseUp() {
         this.drag = false;
+        this.draggingImage = false;
     }
 
     @HostListener('mousedown', ['$event'])
@@ -132,6 +145,26 @@ export class ComposeComponent implements OnInit {
         if(this.drag){
             this.mousePos = this.getMousePos(event);
             this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop(), true);
+
+            var posX;
+            var posY;
+            var shapeRad = this.images[this.images.length-1].radius;
+            var minX = shapeRad;
+            var maxX = this.stageWidth - shapeRad;
+            var minY = shapeRad;
+            var maxY = this.stageHeight - shapeRad;
+
+            let mousePos = this.getMousePos(event);
+
+            //clamp x and y positions to prevent object from dragging outside of canvas
+            posX = mousePos.x - this.dragHoldX;
+            posX = (posX < minX) ? minX : ((posX > maxX) ? maxX : posX);
+            posY = mousePos.y - this.dragHoldY;
+            posY = (posY < minY) ? minY : ((posY > maxY) ? maxY : posY);
+
+            this.targetX = posX;
+            this.targetY = posY;
+
             this.redraw();
         }
     }
@@ -150,9 +183,8 @@ export class ComposeComponent implements OnInit {
         this.ctx.lineWidth = 5;
 
         for (let i=0; i < this.images.length; i++) {
-            console.log("click:", this.mousePos.x, this.mousePos.y);
             if (this.images[i].hitTest(this.mousePos.x, this.mousePos.y)) {
-                console.log("HIT!");
+                console.log("HIT!", this.images[i].url);
                 this.draggingImage = true;
                 this.dragIndex = i;
             }
@@ -163,7 +195,9 @@ export class ComposeComponent implements OnInit {
             // window.addEventListener("mousemove", mouseMoveListener, false);
 
             //place currently dragged shape on top
-            this.images.push(this.images.splice(this.dragIndex,1)[0]);
+            this.images.push(
+                this.images.splice(this.dragIndex,1)[0]
+            );
 
             //shapeto drag is now last one in array
             this.dragHoldX = this.mousePos.x - this.images[this.images.length-1].x;
@@ -174,11 +208,36 @@ export class ComposeComponent implements OnInit {
             this.targetX = this.mousePos.x - this.dragHoldX;
             this.targetY = this.mousePos.y - this.dragHoldY;
 
+            this.images[this.images.length-1].x = this.mousePos.x;
+            this.images[this.images.length-1].y = this.mousePos.y;
+
             //start timer
-            // this.timer = setInterval(onTimerTick, 1000/30);
+            //this.timer = setInterval(_ => this.onTimerTick, 1000/30)
         }
 
         this.drawImages();
+    }
+
+    onTimerTick() {
+        let easeAmount = 300;
+
+        //because of reordering, the dragging shape is the last one in the array.
+        this.images[this.images.length-1].x = this.images[this.images.length-1].x + 1*(this.targetX - this.images[this.images.length-1].x);
+        this.images[this.images.length-1].y = this.images[this.images.length-1].y + 1*(this.targetY - this.images[this.images.length-1].y);
+
+        //stop the timer when the target position is reached (close enough)
+        if (
+            (!this.draggingImage)
+            &&(Math.abs(this.images[this.images.length-1].x - this.targetX) < 0.1) &&
+            (Math.abs(this.images[this.images.length-1].y - this.targetY) < 0.1)) {
+
+            this.images[this.images.length-1].x = this.targetX;
+            this.images[this.images.length-1].y = this.targetY;
+
+            clearInterval(this.timer);
+        }
+
+        this.redraw();
     }
 
     done() {
@@ -197,6 +256,7 @@ export class ComposeComponent implements OnInit {
         let body = res.json();
         return body.success || { };
     }
+
 
     getMousePos(event) {
         const rect = this.canvasRef.nativeElement.getBoundingClientRect();

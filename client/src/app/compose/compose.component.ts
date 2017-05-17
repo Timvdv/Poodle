@@ -3,6 +3,54 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
+class CanvasImage {
+    draw: boolean = false;
+    x: number;
+    y: number;
+    color: string;
+    url: string;
+    img: any;
+    width: number;
+    height: number;
+
+    constructor(posX: number, posY: number, url: string) {
+        this.x = posX;
+        this.y = posY;
+        this.width = 100;
+        this.height = 100;
+        this.color = "#FF0000";
+        this.url = url;
+
+        this.loadImage(url);
+    }
+
+    loadImage(imgPath) {
+        let img = new Image();
+
+        img.onload =  () => {
+            this.draw = true;
+            this.img = img;
+        }
+
+        img.src = imgPath;
+    }
+
+    hitTest(hitX,hitY) {
+        console.log("compare",hitX,hitY, "with",this.x,this.y );
+        return(
+            (hitX > this.x ) &&
+            (hitX < this.x ) &&
+            (hitY > this.y ) &&
+            (hitY < this.y ));
+    }
+
+    drawToContext(theContext) {
+        if(this.draw) {
+            theContext.drawImage(this.img, this.x, this.y, this.width, this.height);
+        }
+    }
+};
+
 @Component({
   selector: 'app-compose',
   templateUrl: './compose.component.html',
@@ -15,16 +63,24 @@ export class ComposeComponent implements OnInit {
     @ViewChild('container') containerRef: ElementRef;
     @ViewChild('title') titleRef: ElementRef;
 
-    stageWidth: number = 500;
-    stageHeight: number = 300;
+    stageWidth: number = 1000;
+    stageHeight: number = 1000;
     color: string = "#ff7e00";
 
     clickX: any[] = [];
     clickY: any[] = [];
     clickDrag: any[] = [];
     drag: boolean = false;
+    draggingImage: boolean = false;
+    dragIndex: number = 1;
+    mousePos: {x,y} = {x: 0, y: 0};
+    dragHoldX: number;
+    dragHoldY: number;
+    targetX: number;
+    targetY: number;
+    timer: number;
 
-    images: any[] = [];
+    images: CanvasImage[] = [];
 
     constructor(
         private http: Http,
@@ -33,25 +89,25 @@ export class ComposeComponent implements OnInit {
     ngOnInit() {
       this.ctx = this.canvasRef.nativeElement.getContext('2d');
 
-      this.loadImages("assets/smiley-cool.gif");
-      this.loadImages("assets/gallery-field-thumb.jpg");
-    }
+      this.images.push(
+          new CanvasImage(20, 50, "assets/smiley-cool.gif")
+      );
 
-    loadImages(imgPath) {
-        let img = new Image();
+      this.images.push(
+          new CanvasImage(20, 200, "assets/gallery-field-thumb.jpg")
+      );
 
-        img.onload =  () => {
-            this.images.push(img);
-            this.drawImages();
-        }
+      // Vieze timeout sorry (╯°□°）╯︵ ┻━┻
+      setTimeout( () => {
+          this.drawImages();
+      }, 200)
 
-        img.src = imgPath;
     }
 
     drawImages() {
         if(this.images) {
             for (var i = 0; i < this.images.length; ++i) {
-                this.ctx.drawImage(this.images[i], 100 * i, 55, 150, 110);
+                this.images[i].drawToContext(this.ctx);
             }
         }
     }
@@ -63,7 +119,6 @@ export class ComposeComponent implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMouseDown(event) {
-        console.log('click');
         var mouseX = event.pageX - this.getOffsetLeft();
         var mouseY = event.pageY - this.getOffsetTop();
 
@@ -75,7 +130,7 @@ export class ComposeComponent implements OnInit {
     @HostListener('mousemove', ['$event'])
     changePixel(event) {
         if(this.drag){
-            console.log('dragging');
+            this.mousePos = this.getMousePos(event);
             this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop(), true);
             this.redraw();
         }
@@ -94,19 +149,36 @@ export class ComposeComponent implements OnInit {
         this.ctx.lineJoin = "round";
         this.ctx.lineWidth = 5;
 
-        this.drawImages();
-
-        for(var i=0; i < this.clickX.length; i++) {
-            this.ctx.beginPath();
-            if(this.clickDrag[i] && i){
-                this.ctx.moveTo(this.clickX[i-1], this.clickY[i-1]);
-            }else{
-                this.ctx.moveTo(this.clickX[i]-1, this.clickY[i]);
+        for (let i=0; i < this.images.length; i++) {
+            console.log("click:", this.mousePos.x, this.mousePos.y);
+            if (this.images[i].hitTest(this.mousePos.x, this.mousePos.y)) {
+                console.log("HIT!");
+                this.draggingImage = true;
+                this.dragIndex = i;
             }
-            this.ctx.lineTo(this.clickX[i], this.clickY[i]);
-            this.ctx.closePath();
-            this.ctx.stroke();
         }
+
+        if(this.draggingImage) {
+
+            // window.addEventListener("mousemove", mouseMoveListener, false);
+
+            //place currently dragged shape on top
+            this.images.push(this.images.splice(this.dragIndex,1)[0]);
+
+            //shapeto drag is now last one in array
+            this.dragHoldX = this.mousePos.x - this.images[this.images.length-1].x;
+            this.dragHoldY = this.mousePos.y - this.images[this.images.length-1].y;
+
+            //The "target" position is where the object should be if it were to move there instantaneously. But we will
+            //set up the code so that this target position is approached gradually, producing a smooth motion.
+            this.targetX = this.mousePos.x - this.dragHoldX;
+            this.targetY = this.mousePos.y - this.dragHoldY;
+
+            //start timer
+            // this.timer = setInterval(onTimerTick, 1000/30);
+        }
+
+        this.drawImages();
     }
 
     done() {
@@ -114,16 +186,24 @@ export class ComposeComponent implements OnInit {
     }
 
     getOffsetLeft(): number {
-        return this.canvasRef.nativeElement.offsetLeft + this.containerRef.nativeElement.offsetLeft;
+        return this.canvasRef.nativeElement.getBoundingClientRect().left;
     }
 
     getOffsetTop(): number {
-        return this.canvasRef.nativeElement.offsetTop + this.containerRef.nativeElement.offsetTop + this.titleRef.nativeElement.offsetHeight;
+        return this.canvasRef.nativeElement.getBoundingClientRect().top;
     }
 
     private extractData(res: Response) {
         let body = res.json();
         return body.success || { };
+    }
+
+    getMousePos(event) {
+        const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+        return {
+            x: (event.clientX - rect.left) || (event.changedTouches && event.changedTouches[0].clientX - rect.left),
+            y: (event.clientY - rect.top) || (event.changedTouches && event.changedTouches[0].clientY - rect.top)
+        };
     }
 
     private handleError (error: Response | any) {

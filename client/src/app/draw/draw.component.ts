@@ -84,11 +84,11 @@ export class DrawComponent implements OnInit {
     }
 
     getOffsetLeft(): number {
-        return this.canvasRef.nativeElement.offsetLeft + this.containerRef.nativeElement.offsetLeft;
+        return this.canvasRef.nativeElement.getBoundingClientRect().left;
     }
 
     getOffsetTop(): number {
-        return this.canvasRef.nativeElement.offsetTop + this.containerRef.nativeElement.offsetTop + this.titleRef.nativeElement.offsetHeight;
+        return this.canvasRef.nativeElement.getBoundingClientRect().top;
     }
 
     exportImage() {

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { DrawComponent } from './draw/draw.component';
 import { HomeComponent } from './home/home.component';
+import { ComposeComponent } from './compose/compose.component';
 import { DisplayComponent } from './display/display.component';
 
 const appRoutes: Routes = [
@@ -14,6 +15,10 @@ const appRoutes: Routes = [
     {
         path: 'tekenen',
         component: DrawComponent
+    },
+    {
+        path: 'compose',
+        component: ComposeComponent
     },
     {
         path: 'display',

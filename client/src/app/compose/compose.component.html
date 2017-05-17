@@ -1,3 +1,21 @@
-<p>
-  compose works!
-</p>
+<div class="container" #container>
+    <div class="row justify-content-center">
+        <div class="col-12" #title>
+            <h4>
+                Compose artwork
+            </h4>
+        </div>
+
+        <div class="col-12">
+            <canvas #drawCanvas [attr.width]="stageWidth" [attr.height]="stageHeight"></canvas>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <button class="btn btn-success" (click)="done()">
+                Done
+            </button>
+        </div>
+    </div>
+</div>

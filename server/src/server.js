@@ -1,21 +1,34 @@
-var app = require('http').createServer(handler)
+/**
+ * Created by oteken on 5/9/2017.
+ */
+module.exports = function Server() {
+    var express = require('express');
+    var server = express();
+    var cors = require('cors');
+    var corsOptions = {
+        origin: 'http://localhost:4200'
+    }
+    server.use(cors(corsOptions));
+    var bodyParser = require('body-parser');
+    server.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    server.use(bodyParser.json());
+    var port = 3000;
 
-var fs = require('fs');
-
-
-
-app.listen(8087);
-
-function handler (req, res) {
-  fs.readFile(__dirname + '/dist/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
+    this.startListening = function startListening() {
+        server.listen(port);
+        console.log('runningggg on ' + port);
     }
 
-    res.writeHead(200);
-    res.end(data);
-  });
-}
+    this.getPort = function getPort(){
+        return port;
+    }
+    this.setPort = function setPort(newPort){
+        port = newPort;
+    }
 
+    this.getServer = function (){
+      return server;
+    }
+}

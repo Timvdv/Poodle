@@ -96,7 +96,7 @@ export class DrawComponent implements OnInit {
             headers = new Headers({ 'Content-Type': 'application/json' }),
             options = new RequestOptions({ headers: headers });
 
-        return this.http.post(environment.serverPath + "/image", { data_url }, options)
+        return this.http.post(environment.server_path + "/image", { data_url }, options)
                    .toPromise()
                    .then(this.extractData)
                    .then(this.sendImageResponse)

@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { routing } from './app.routing';
 
+import { SocketioService } from './shared/socketio.service';
+
 import { AppComponent } from './app.component';
 import { DrawComponent } from './draw/draw.component';
 import { HeaderComponent } from './header/header.component';
@@ -29,7 +31,9 @@ import { DisplayComponent } from './display/display.component';
     HttpModule,
     routing,
   ],
-  providers: [],
+  providers: [
+    SocketioService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

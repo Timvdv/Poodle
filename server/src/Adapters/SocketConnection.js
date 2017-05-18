@@ -1,23 +1,26 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-var io = require('socket.io')(app);
 
-var socketInfo = {};
+module.exports = function SocketConnection(server, adapter) {
+    var io = require('socket.io')(server);
 
-io.on('connection', function (socket) {
-    socketInfo[socket.id]  = [];
-    socketInfo[socket.id].socket =  socket;
+    var socketInfo = {};
 
-    socket.emit('news', { hello: 'world' });
+    io.on('connection', function (socket) {
+        socketInfo[socket.id] = [];
+        socketInfo[socket.id].socket = socket;
+        console.log("Goteem");
+        socket.emit('news', {hello: 'world'});
 
-    socket.on('my other event', function (data) {
-        console.log(data);
+        socket.on('my other event', function (data) {
+            console.log(data);
+        });
+
+        // BROADCAST VOORBEELD: socket.broadcast.emit('news', pixel_array);
+
+        socket.on('disconnect', function (data) {
+            delete socketInfo[socket.id];
+        });
     });
-
-    // BROADCAST VOORBEELD: socket.broadcast.emit('news', pixel_array);
-
-    socket.on('disconnect', function (data) {
-        delete socketInfo[socket.id];
-    });
-});
+}

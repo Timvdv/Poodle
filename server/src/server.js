@@ -2,7 +2,7 @@
  * Created by oteken on 5/9/2017.
  */
 module.exports = function Server() {
-    var express = require('express');
+    var express = require('express')
     var server = express();
     var cors = require('cors');
     var corsOptions = {

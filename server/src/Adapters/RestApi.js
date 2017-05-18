@@ -4,10 +4,6 @@
 module.exports = function RestApi(server, adapter){
     var adapter = adapter;
 
-    server.get('/', function(req, res){
-        res.send('working');
-    });
-
     server.post('/image', function(req, res){
         adapter.addData(req.body, function (){
             res.setHeader('Content-Type', 'application/json');
@@ -16,9 +12,9 @@ module.exports = function RestApi(server, adapter){
     });
 
     server.post('/join', function(req, res){
-        adapter.joinRequest(req, function(systemResponse){
+        adapter.joinRequest(req, function(systemResponse, gameReponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ response: systemResponse }));
+            res.send(JSON.stringify({ response: systemResponse, addedPlayer: gameReponse }));
         });
     });
 }

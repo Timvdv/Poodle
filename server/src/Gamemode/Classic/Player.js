@@ -31,4 +31,9 @@ module.exports = function PlayerClassic(name, image, id){
     this.setDoodle = function setDoodle(newDoodle){
         doodle = newDoodle;
     }
+    this.getJsonRepresentation = function(){
+        return {name: name, image: image,
+                id : id, doodle: doodle};
+    }
+
 }

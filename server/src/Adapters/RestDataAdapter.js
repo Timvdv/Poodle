@@ -5,7 +5,6 @@ var joinRequestCommandFactory = require('../GameLogic/JoinRequestCommand');
 var joinCommandFactory = require('../GameLogic/JoinCommand');
 var playerFactory = require('../Gamemode/Classic/Player');
 
-
 module.exports = function RestDataAdapter(gameManager){
 
     var gameManager = gameManager;
@@ -19,15 +18,20 @@ module.exports = function RestDataAdapter(gameManager){
 
     this.joinRequest = function(req, executeResponse){
         var body = req.body;
-        var player = new playerFactory(body.name, body.image, body.playerId);
-        var gameId = body.gameId;
-        var joinRequestCommand = new joinRequestCommandFactory(player, gameId);
-        gameManager.executeCommand(joinRequestCommand);
-        if(joinRequestCommand.getAllowed()){
+        if(body.name != undefined && body.image != undefined &&
+           body.gameId != undefined) {
+            var player = new playerFactory(body.name, body.image);
+            var gameId = body.gameId;
+            var joinRequestCommand = new joinRequestCommandFactory(player, gameId);
             var joinCommand = new joinCommandFactory(player, gameId);
-            gameManager.executeCommand(joinCommand);
+            gameManager.executeCommand(joinRequestCommand);
+            if (joinRequestCommand.getAllowed()) {
+                gameManager.executeCommand(joinCommand);
+            }
+            executeResponse(joinRequestCommand.getResponse(), joinCommand.getResponse());
+        } else {
+            executeResponse("Parameters not valid");
         }
-        executeResponse(joinRequestCommand.getResponse());
     }
 
     this.getData = function(){

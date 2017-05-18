@@ -110,9 +110,13 @@ export class ComposeComponent implements OnInit {
         }, 200);
 
         if(this.socket) {
+            this.socket.emit('refresh');
+
             this.socket.on('init', (msg) => {
                 this.socket.emit('test');
             });
+        } else {
+            console.error('No socket connection :(');
         }
     }
 

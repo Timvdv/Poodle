@@ -34,7 +34,8 @@ module.exports = function SocketConnection(server, adapter) {
         }]
 
         socket.on('getImages', function () {
-            socket.emit(images);
+            console.log("blabal")
+            socket.emit('setImages', images);
         });
 
         socket.on('updateImages', function(){

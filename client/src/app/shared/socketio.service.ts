@@ -17,7 +17,8 @@ export class SocketioService {
 
         console.log("socket");
 
-        this.socket.on('connect', function (msg) {
+        this.socket.on('connect', (msg) => {
+            this.socket.emit('getImages');
             console.log('connected to socket!', msg);
         });
     }

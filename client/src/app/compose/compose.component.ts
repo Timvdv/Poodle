@@ -106,9 +106,11 @@ export class ComposeComponent implements OnInit {
                 this.socket.emit('test');
             });
 
-            this.socket.on('getImages', (data) => {
+            this.socket.on('setImages', (data) => {
+                console.log("emit ding");
+                console.log(data);
                 if(data) {
-                    for (var i = 0; i < length; ++i) {
+                    for (var i = 0; i < data.length; ++i) {
                         let image = data[i];
 
                         this.images.push(

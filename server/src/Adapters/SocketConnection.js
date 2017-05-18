@@ -3,8 +3,7 @@
  */
 
 module.exports = function SocketConnection(server, adapter) {
-    var io = require('socket.io')(server);
-    io.set('origins', 'localhost:4200');
+    var io = require('socket.io')(6060);
 
     var socketInfo = {};
 

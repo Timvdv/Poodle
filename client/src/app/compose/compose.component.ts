@@ -21,7 +21,6 @@ class CanvasImage {
         this.y = posY;
         this.width = 100;
         this.height = 100;
-        this.color = "#FF0000";
         this.url = url;
         this.radius = 100;
 
@@ -96,25 +95,29 @@ export class ComposeComponent implements OnInit {
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');
 
-        this.images.push(
-            new CanvasImage(20, 50, "assets/smiley-cool.gif")
-        );
-
-        this.images.push(
-            new CanvasImage(20, 200, "assets/gallery-field-thumb.jpg")
-        );
-
         // Vieze timeout sorry (╯°□°）╯︵ ┻━┻
         setTimeout( () => {
             this.drawImages();
         }, 200);
 
         if(this.socket) {
-            this.socket.emit('refresh');
 
             this.socket.on('init', (msg) => {
                 this.socket.emit('test');
             });
+
+            this.socket.on('getImages', (data) => {
+                if(data) {
+                    for (var i = 0; i < length; ++i) {
+                        let image = data[i];
+
+                        this.images.push(
+                            new CanvasImage( image.x, image.y, image.url )
+                        );
+                    }
+                }
+            });
+
         } else {
             console.error('No socket connection :(');
         }
@@ -146,6 +149,11 @@ export class ComposeComponent implements OnInit {
 
     @HostListener('mousemove', ['$event'])
     changePixel(event) {
+        if(!this.images.length) {
+            console.error('no images');
+            return;
+        }
+
         if(this.drag){
             this.mousePos = this.getMousePos(event);
             this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop(), true);

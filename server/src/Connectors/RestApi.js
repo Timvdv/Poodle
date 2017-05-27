@@ -22,7 +22,7 @@ module.exports = function RestApi(server, adapter){
     server.get('/newGame', function(req, res){
         adapter.newGameCommand(function(systemResponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ response: systemResponse }));
+            res.send(systemResponse);
         })
     });
 }

@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/18/2017.
  */
-module.exports = function startGameCommand(gameId){
+module.exports = function StartGameCommand(gameId){
     var gameId = gameId;
     var commandType = "gameCommand";
 

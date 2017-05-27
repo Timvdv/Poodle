@@ -1,23 +1,13 @@
 /**
  * Created by oteken on 5/16/2017.
  */
-module.exports = function GamesManager(gameManipulator, gameRunner){
+module.exports = function GamesManager(gameCreator){
 
+    var gameCreator = gameCreator;
     var gameManipulators = [];
-    gameManipulators.push(gameManipulator);
-    var gameRunners = [];
-    gameRunners.push(gameRunner)
 
-
-
-    this.getGameRunner = function(gameId){
-        for (var i = 0; i < gameRunners.length; i++) {
-            console.log(i);
-            if(gameId == gameRunners[i].getGameId()){
-                return gameRunners[i];
-            }
-        }
-        return undefined;
+    this.addGameManipulator = function(gameManipulator){
+        gameManipulators.push(gameManipulator);
     }
 
     this.getGameManipulator = function (gameId){
@@ -36,5 +26,9 @@ module.exports = function GamesManager(gameManipulator, gameRunner){
             }
         }
         return false;
+    }
+
+    this.getGameCreator = function(){
+        return gameCreator;
     }
 }

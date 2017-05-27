@@ -1,17 +1,17 @@
 /**
  * Created by oteken on 5/17/2017.
  */
-module.exports = function PlayerIdGenerator(){
+module.exports = function IdGenerator(){
 
-    var players = [];
+    var ids = [];
     var idLength = 4;
 
     this.generateUniqueId = function(){
         var newId = generateId();
-        while(arrayContains(players, newId)){
+        while(arrayContains(ids, newId)){
             newId = generateId();
         }
-        players.push(newId);
+        ids.push(newId);
         return newId;
     }
 

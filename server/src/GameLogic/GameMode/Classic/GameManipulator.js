@@ -1,10 +1,10 @@
 /**
  * Created by oteken on 5/16/2017.
  */
-module.exports = function GameManipulator(game, playerIdGenerator){
+module.exports = function GameManipulator(game, idGenerator){
     var game = game;
     var players = game.getPlayers();
-    var playerIdGenerator = playerIdGenerator;
+    var idGenerator = idGenerator;
     var gameRunner = gameRunner;
 
     this.tick = function(){
@@ -69,7 +69,7 @@ module.exports = function GameManipulator(game, playerIdGenerator){
     }
 
     this.generateUniqueId = function(){
-        return playerIdGenerator.generateUniqueId();
+        return idGenerator.generateUniqueId();
     }
 
     function findPlayer(id){

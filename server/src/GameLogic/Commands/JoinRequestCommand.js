@@ -6,6 +6,7 @@ module.exports = function JoinRequestCommand(player, gameId){
     var gameId = gameId;
     var response = "Player was not allowed to join.";
     var allowed = false;
+    var commandType = "gameCommand";
 
     this.executeCommand = function(gameManipulator){
         console.log("allowed to game = " + gameManipulator.allowedToJoin(player))
@@ -28,5 +29,8 @@ module.exports = function JoinRequestCommand(player, gameId){
     }
     this.getGameId = function(){
         return gameId;
+    }
+    this.getCommandType = function(){
+        return commandType;
     }
 }

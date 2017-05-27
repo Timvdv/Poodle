@@ -5,6 +5,7 @@ module.exports = function GameManipulator(game, playerIdGenerator){
     var game = game;
     var players = game.getPlayers();
     var playerIdGenerator = playerIdGenerator;
+    var gameRunner = gameRunner;
 
     this.tick = function(){
         console.log("tick");
@@ -86,6 +87,13 @@ module.exports = function GameManipulator(game, playerIdGenerator){
 
     this.getGameId = function(){
         return game.getGameId();
+    }
+
+    this.setGameRunner = function(newGameRunner){
+        gameRunner = newGameRunner;
+    }
+    this.getGameRunner = function(){
+        return gameRunner;
     }
 
     function getCurrentTimeUnixSeconds(){

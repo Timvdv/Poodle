@@ -2,16 +2,17 @@
  * Created by oteken on 5/9/2017.
  */
 var gamesManagerFactory = require('./src/GameLogic/GamesManager');
-var restApiFactory = require('./src/Adapters/RestApi');
+var restApiFactory = require('./src/Connectors/RestApi');
 var restDataAdapterFactory = require('./src/Adapters/RestDataAdapter');
-var gameManipulatorFactory = require('./src/Gamemode/Classic/GameManipulator');
-var gameFactory = require('./src/Gamemode/Classic/Game');
+var gameManipulatorFactory = require('./src/GameLogic/GameMode/Classic/GameManipulator');
+var gameFactory = require('./src/GameLogic/GameMode/Classic/Game');
 var serverFactory = require('./src/server');
-var socketConnectionFactory = require('./src/Adapters/SocketConnection');
+var socketConnectionFactory = require('./src/Connectors/SocketConnection');
 var playerIdGeneratorFactory = require('./src/GameLogic/PlayerIdGenerator');
-var phaseFactory = require('./src/Gamemode/Classic/Phase');
-var startGameCommandFactory = require('./src/GameLogic/startGameCommand');
-var gameRunnerFactory = require('./src/Gamemode/Classic/GameRunner');
+var phaseFactory = require('./src/GameLogic/GameMode/Classic/Phase');
+var startGameCommandFactory = require('./src/GameLogic/Commands/StartGameCommand');
+var gameRunnerFactory = require('./src/GameLogic/GameMode/Classic/GameRunner');
+var systemConsoleFactory = require('./src/GameLogic/SystemConsole');
 
 var startGameCommand = new startGameCommandFactory(1122);
 var phase1 = new phaseFactory("Phase one", 10);
@@ -21,10 +22,12 @@ var game = new gameFactory(1122, 2, phases);
 var playerIdGenerator = new playerIdGeneratorFactory();
 var gameManipulator = new gameManipulatorFactory(game, playerIdGenerator);
 var gameRunner = new gameRunnerFactory(gameManipulator);
+gameManipulator.setGameRunner(gameRunner);
 var gamesManager = new gamesManagerFactory(gameManipulator, gameRunner);
+var systemConsole = new systemConsoleFactory(gamesManager);
 var restDataAdapter = new restDataAdapterFactory(gamesManager);
 var server = new serverFactory();
 var restApi = new restApiFactory(server.getServer(), restDataAdapter);
 var socketConnection = new socketConnectionFactory(server, 0);
 server.startListening();
-gamesManager.executeCommandTest(startGameCommand);
+systemConsole.executeCommand(startGameCommand);

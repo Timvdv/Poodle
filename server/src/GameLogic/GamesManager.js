@@ -8,33 +8,9 @@ module.exports = function GamesManager(gameManipulator, gameRunner){
     var gameRunners = [];
     gameRunners.push(gameRunner)
 
-    this.executeCommand = function(command){
-        if(commandAllowed(command)) {
-            command.executeCommand(getGameManipulator(command.getGameId()));
-        }
-    }
 
-    this.executeCommandTest = function(command){
-        if(commandAllowed(command)) {
-            command.executeCommand(getGameRunner(command.getGameId()));
-        }
-    }
 
-    this.startGame = function(gameId){
-        if(gameExists(gameId)){
-            getGameRunner(gameId).startGame();
-        }
-    }
-
-    function commandAllowed(command){
-        var allowed = false;
-        if(gameExists(command.getGameId())){
-            allowed = true;
-        }
-        return allowed;
-    }
-
-    function getGameRunner(gameId){
+    this.getGameRunner = function(gameId){
         for (var i = 0; i < gameRunners.length; i++) {
             console.log(i);
             if(gameId == gameRunners[i].getGameId()){
@@ -44,7 +20,7 @@ module.exports = function GamesManager(gameManipulator, gameRunner){
         return undefined;
     }
 
-    function getGameManipulator(gameId){
+    this.getGameManipulator = function (gameId){
         for (var i = 0; i < gameManipulators.length; i++) {
             if(gameId == gameManipulators[i].getGameId()){
                 return gameManipulators[i];
@@ -53,7 +29,7 @@ module.exports = function GamesManager(gameManipulator, gameRunner){
         return undefined;
     }
 
-    function gameExists(gameId){
+    this.gameExists = function (gameId){
         for (var i = 0; i < gameManipulators.length; i++) {
             if(gameId == gameManipulators[i].getGameId()){
                 return true;

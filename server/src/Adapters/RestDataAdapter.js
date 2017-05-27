@@ -1,10 +1,13 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-var joinRequestCommandFactory = require('../GameLogic/JoinRequestCommand');
-var joinCommandFactory = require('../GameLogic/JoinCommand');
-var playerFactory = require('../Gamemode/Classic/Player');
 
+/**
+
+ */
+var joinRequestCommandFactory = require('../GameLogic/Commands/JoinRequestCommand');
+var joinCommandFactory = require('../GameLogic/Commands/JoinCommand');
+var playerFactory = require('../GameLogic/GameMode/Classic/Player');
 module.exports = function RestDataAdapter(gameManager){
 
     var gameManager = gameManager;
@@ -13,6 +16,10 @@ module.exports = function RestDataAdapter(gameManager){
         holdingData.push(data);
         console.log("added: " + data);
         console.log("now: " + holdingData);
+        executeResponse();
+    }
+
+    this.saveImageRequest = function(req, executeResponse){
         executeResponse();
     }
 

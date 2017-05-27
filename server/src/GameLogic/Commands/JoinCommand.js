@@ -5,7 +5,7 @@ module.exports = function JoinCommand(player, gameId){
     var player = player;
     var gameId = gameId;
     var response = {};
-
+    var commandType = "gameCommand";
 
     this.executeCommand = function(gameManipulator){
         var playerId = gameManipulator.generateUniqueId();
@@ -23,5 +23,8 @@ module.exports = function JoinCommand(player, gameId){
     }
     this.getGameId = function(){
         return gameId;
+    }
+    this.getCommandType = function(){
+        return commandType;
     }
 }

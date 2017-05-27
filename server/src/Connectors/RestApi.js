@@ -1,11 +1,12 @@
 /**
  * Created by oteken on 5/9/2017.
  */
+
 module.exports = function RestApi(server, adapter){
     var adapter = adapter;
 
     server.post('/image', function(req, res){
-        adapter.addData(req.body, function (){
+        adapter.saveImageRequest(req.body, function (){
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ success: true }));
         });

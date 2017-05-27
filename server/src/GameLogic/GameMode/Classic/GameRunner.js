@@ -20,7 +20,6 @@ module.exports = function GameRunner(gameManipulator){
             setTimeout(tick, tickTime);
         }
     }
-
     this.getGameId = function(){
         return gameManipulator.getGameId();
     }

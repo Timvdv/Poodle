@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-var api = require('./src/Adapters/RestApi');
+var api = require('./src/Connectors/RestApi');
 var dataholder = require('./src/Adapters/RestDataAdapter');
 var db = new dataholder();
 console.log(db.getData());

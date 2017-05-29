@@ -222,8 +222,8 @@ export class ComposeComponent implements OnInit {
             this.targetX = this.mousePos.x - this.dragHoldX;
             this.targetY = this.mousePos.y - this.dragHoldY;
 
-            this.images[this.images.length-1].x = this.mousePos.x;
-            this.images[this.images.length-1].y = this.mousePos.y;
+            this.images[this.images.length-1].x = this.mousePos.x - (this.images[this.images.length-1].width / 2);
+            this.images[this.images.length-1].y = this.mousePos.y - (this.images[this.images.length-1].height / 2);
 
             //start timer
             //this.timer = setInterval(_ => this.onTimerTick, 1000/30)

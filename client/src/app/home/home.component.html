@@ -1,11 +1,16 @@
 
-<p>
-    Fill this game code in your device
-</p>
 
-<h1>
-    {{game.code}}
-</h1>
+
+<input (ngModelChange)="enterCode($event)" [ngModel]="code" type="text" value="Game code input">
+
+
+<button type="submit" name="submit" class="btn btn-success" (click)="submitCode($event)">
+    Play!
+</button>
+
+
+<br>
+<hr>
 
 
 <button class="btn btn-primary" [routerLink]="['/tekenen']"> Maak een tekening </button>

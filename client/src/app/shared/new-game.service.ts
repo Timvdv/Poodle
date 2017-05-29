@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Headers, RequestOptions, Response} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 // ng g service shared/naam-hier -> naamHierService
+// bij aanmaken van een nieuwe component niet vergeten de routing aan te passen
 export class NewGameService {
 
     constructor(private http:Http) {
@@ -13,6 +14,17 @@ export class NewGameService {
 
     getCode() {
         return this.http.get('http://localhost:3000/newGame')
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+    validateCode(code) {
+       
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        
+        return this.http.post('http://localhost:3000/join', {"gameCommand": code}, options )
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import 'rxjs/add/operator/map';
 import {NewGameService} from '../shared/new-game.service';
+
 
 
 @Component({
@@ -10,23 +10,23 @@ import {NewGameService} from '../shared/new-game.service';
 })
 
 export class HomeComponent implements OnInit {
-
-    constructor(private newGame:NewGameService) {
+    constructor(private newGameService: NewGameService) {
     }
 
-    game = {
-        code: ""
-    };
+    code: string = "";
 
-    loadCode() {
-        this.newGame.getCode().then((data) => {
-            this.game.code = data.gameId;
-        });
+    enterCode(event) {
+        this.code = event;
+
     }
+    
+    submitCode(event) {
+        console.log('subimitted:', this.code);
+        this.newGameService.validateCode(this.code);
 
+    }
 
     ngOnInit() {
-    this.loadCode();
+        console.log('component is geladen')
     }
-
 }

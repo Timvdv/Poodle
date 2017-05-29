@@ -1,7 +1,13 @@
-<p>
-    Fill this game code in your device
-</p>
+<div *ngIf="state === DisplayState.NEWGAME">
+    <p>
+        Fill this game code in your device
+    </p>
 
-<h1>
-    {{game.code}}
-</h1>
+    <h1>
+        {{game.code}}
+    </h1>
+</div>
+
+<!-- <div *ngIf="state === DisplayState.COMPOSE"> -->
+    <canvas #composeCanvas [attr.width]="stageWidth" [attr.height]="stageHeight"></canvas>
+<!-- </div> -->

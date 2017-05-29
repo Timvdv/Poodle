@@ -19,8 +19,6 @@ export default class CanvasImage {
         this.url = url;
         this.radius = 100;
 
-        console.log(url);
-
         this.loadImage(url);
     }
 

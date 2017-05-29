@@ -48,7 +48,6 @@ export class DisplayComponent implements OnInit {
 
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');
-        window.requestAnimationFrame( () => this.draw );
 
         // Load the gamecode
         this.loadCode();
@@ -69,8 +68,6 @@ export class DisplayComponent implements OnInit {
             for (var i = 0; i < images.length; ++i) {
 
                 let index = this.findIndexInData(this.images, 'id', images[i].id);
-
-                console.log("yay");
 
                 if(index != -1) {
                     this.images[index].x = images[i].x;
@@ -95,16 +92,6 @@ export class DisplayComponent implements OnInit {
         }
       }
       return -1;
-    }
-
-    draw() {
-        // this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-
-        // if(this.images) {
-        //     for (var i = this.images.length - 1; i >= 0; i--) {
-        //         this.images[i].drawToContext(this.ctx);
-        //     }
-        // }
     }
 }
 

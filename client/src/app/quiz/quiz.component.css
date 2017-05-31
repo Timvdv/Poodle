@@ -1,12 +1,28 @@
-body {
+h1 {
+    margin: 30px;
     text-align: center;
-    margin: 0 auto;
 }
-
-.hide {
-    display: none;
+img {
+    width: 100%;
+    height: 100%;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+.btn-defaut {
+    color: #fff;
+    background-color: #0495c9;
+    border-color: #357ebd; /*set the color you want here*/
+    margin: 4px;
+    width: 100%;
 }
 .title {
-    text-align: center;
-
+    width: 250px
+}
+.btn-defaut:hover, .btn-defaut:focus, .btn-defaut:active, .btn-defaut.active, .open>.dropdown-toggle.btn-defaut {
+    color: #fff;
+    background-color: #00b3db;
+    border-color: #285e8e; /*set the color you want here*/
 }

@@ -1,39 +1,17 @@
-<h1>Kies een van de volgende antwoorden die het beste de tekening beschrijft</h1>
+<h1>Kies het juiste antwoord!</h1>
 
-<body>
+<body class="row jumbotron">
 
-
-<table class="table">
-    <thead>
-    <tr>
-        <th class="hide">id</th>
-        <th class="title">Possible Answers</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td class="hide">1</td>
-        <td>A Pizza slice in universe</td>
-
-    </tr>
-    <tr>
-        <td class="hide">2</td>
-        <td>A Pizza slice in the fridge</td>
-
-    </tr>
-    <tr>
-        <td class="hide">3</td>
-        <td> A pizza slice on a rock</td>
-    </tr>
-    <tr>
-        <td class="hide">4</td>
-        <td>A pizza slice with salami</td>
-
-    </tr>
-    <tr>
-
-    </tr>
-    </tbody>
-
-</table>
+<div class="col-xs-6 col-md-4">
+    <h4>Picture Created</h4>
+    <img src="../../assets/Pizza-slice.png"/>
+</div>
+<div class="col-xs-6 col-md-4">
+    <h4 class="title">Possible Answers</h4>
+    <button (click)="clicked($event)" class="btn btn-defaut" data="false">A Pizza slice in universe</button>
+    <button (click)="clicked($event)" class="btn btn-defaut" data="false">A Pizza slice in the fridge</button>
+    <button (click)="clicked($event)" class="btn btn-defaut" data="false"> A pizza slice on a rock</button>
+    <button (click)="clicked($event)" class="btn btn-defaut" data="true">A pizza slice with salami</button>
+    <button (click)="clicked($event)" class="btn btn-defaut" data="false">A pizza slice with sausage</button>
+</div>
 </body>

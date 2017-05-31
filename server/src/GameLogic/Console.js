@@ -1,8 +1,7 @@
 /**
  * Created by oteken on 5/24/2017.
  */
-module.exports = function SystemConsole(gamesManager){
-    var gamesManager = gamesManager;
+module.exports = function Console(){
 
     this.executeCommand = function(command){
         /*
@@ -17,20 +16,26 @@ module.exports = function SystemConsole(gamesManager){
     }
 
     function executeSystemCommand(command){
-            command.executeCommand(gamesManager);
+            command.executeCommand(navigator);
     }
 
     function executeGameCommand(command){
         if(commandAllowed(command)) {
-            command.executeCommand(gamesManager.getGameManipulator(command.getGameId()));
+            var gameManipulator = navigator.getGamesManager().getGameManipulator(command.getGameId())
+            command.executeCommand(gameManipulator);
         }
     }
 
     function commandAllowed(command){
         var allowed = false;
+        var gamesManager = navigator.getGamesManager();
         if(gamesManager.gameExists(command.getGameId())){
             allowed = true;
         }
         return allowed;
+    }
+
+    this.setNavigator = function(newNavigator){
+        navigator = newNavigator;
     }
 }

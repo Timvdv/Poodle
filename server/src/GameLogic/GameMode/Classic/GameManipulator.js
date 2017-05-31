@@ -1,11 +1,12 @@
 /**
  * Created by oteken on 5/16/2017.
  */
-module.exports = function GameManipulator(game, idGenerator){
+module.exports = function GameManipulator(game, idGenerator, notifier){
     var game = game;
     var players = game.getPlayers();
     var idGenerator = idGenerator;
-    var gameRunner = gameRunner;
+    var gameRunner;
+    var notifier = notifier
 
     this.tick = function(){
         console.log("tick");
@@ -50,6 +51,11 @@ module.exports = function GameManipulator(game, idGenerator){
 
     this.addPlayer = function(player){
         players.push(player);
+        notifyNewPlayerAdded(player);
+    }
+
+    function notifyNewPlayerAdded(player){
+        notifier.notifyNewPlayerAdded(player, game);
     }
 
     this.addDoodleToPlayer = function(doodle, id){

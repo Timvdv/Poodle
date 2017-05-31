@@ -6,6 +6,8 @@ import { DrawComponent } from './draw/draw.component';
 import { HomeComponent } from './home/home.component';
 import { ComposeComponent } from './compose/compose.component';
 import { DisplayComponent } from './display/display.component';
+import { QuizComponent } from './quiz/quiz.component';
+
 
 const appRoutes: Routes = [
     {
@@ -23,6 +25,10 @@ const appRoutes: Routes = [
     {
         path: 'display',
         component: DisplayComponent
+    },
+    {
+        path: 'quiz',
+        component: QuizComponent
     }
 ];
 

@@ -1,10 +1,17 @@
 
-<h1>
-    Fill this game code in your device
-</h1>
-<h2>
-  Random generated code from server
-</h2>
+
+
+<input (ngModelChange)="enterCode($event)" [ngModel]="code" type="text" value="Game code input">
+
+
+<button type="submit" name="submit" class="btn btn-success" (click)="submitCode($event)">
+    Play!
+</button>
+
+
+<br>
+<hr>
+
 
 <button class="btn btn-primary" [routerLink]="['/tekenen']"> Maak een tekening </button>
 <button class="btn btn-primary" [routerLink]="['/compose']"> Verplaats de tekeningen </button>

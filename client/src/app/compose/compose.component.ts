@@ -4,53 +4,8 @@ import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
 import { SocketioService } from '../shared/socketio.service';
+import CanvasImage from '../shared/CanvasImage';
 
-class CanvasImage {
-    draw: boolean = false;
-    x: number;
-    y: number;
-    color: string;
-    url: string;
-    img: any;
-    width: number;
-    height: number;
-    radius: number;
-
-    constructor(posX: number, posY: number, url: string) {
-        this.x = posX;
-        this.y = posY;
-        this.width = 100;
-        this.height = 100;
-        this.url = url;
-        this.radius = 100;
-
-        this.loadImage(url);
-    }
-
-    loadImage(imgPath) {
-        let img = new Image();
-
-        img.onload =  () => {
-            this.draw = true;
-            this.img = img;
-        }
-
-        img.src = imgPath;
-    }
-
-    hitTest(hitX,hitY) {
-        let dx = this.x - hitX;
-        let dy = this.y - hitY;
-
-        return(dx*dx + dy*dy < this.radius*this.radius);
-    }
-
-    drawToContext(theContext) {
-        if(this.draw) {
-            theContext.drawImage(this.img, this.x, this.y, this.width, this.height);
-        }
-    }
-};
 
 @Component({
   selector: 'app-compose',
@@ -107,14 +62,12 @@ export class ComposeComponent implements OnInit {
             });
 
             this.socket.on('setImages', (data) => {
-                console.log("emit ding");
-                console.log(data);
                 if(data) {
                     for (var i = 0; i < data.length; ++i) {
                         let image = data[i];
 
                         this.images.push(
-                            new CanvasImage( image.x, image.y, image.url )
+                            new CanvasImage( image.id, image.x, image.y, image.url )
                         );
                     }
                 }
@@ -198,15 +151,12 @@ export class ComposeComponent implements OnInit {
 
         for (let i=0; i < this.images.length; i++) {
             if (this.images[i].hitTest(this.mousePos.x, this.mousePos.y)) {
-                console.log("HIT!", this.images[i].url);
                 this.draggingImage = true;
                 this.dragIndex = i;
             }
         }
 
         if(this.draggingImage) {
-
-            // window.addEventListener("mousemove", mouseMoveListener, false);
 
             //place currently dragged shape on top
             this.images.push(
@@ -222,36 +172,13 @@ export class ComposeComponent implements OnInit {
             this.targetX = this.mousePos.x - this.dragHoldX;
             this.targetY = this.mousePos.y - this.dragHoldY;
 
-            this.images[this.images.length-1].x = this.mousePos.x;
-            this.images[this.images.length-1].y = this.mousePos.y;
+            this.images[this.images.length-1].x = this.mousePos.x - (this.images[this.images.length-1].width / 2);
+            this.images[this.images.length-1].y = this.mousePos.y - (this.images[this.images.length-1].height / 2);
 
-            //start timer
-            //this.timer = setInterval(_ => this.onTimerTick, 1000/30)
+            this.socket.emit('updateImages', this.images[this.images.length-1]);
         }
 
         this.drawImages();
-    }
-
-    onTimerTick() {
-        let easeAmount = 300;
-
-        //because of reordering, the dragging shape is the last one in the array.
-        this.images[this.images.length-1].x = this.images[this.images.length-1].x + 1*(this.targetX - this.images[this.images.length-1].x);
-        this.images[this.images.length-1].y = this.images[this.images.length-1].y + 1*(this.targetY - this.images[this.images.length-1].y);
-
-        //stop the timer when the target position is reached (close enough)
-        if (
-            (!this.draggingImage)
-            &&(Math.abs(this.images[this.images.length-1].x - this.targetX) < 0.1) &&
-            (Math.abs(this.images[this.images.length-1].y - this.targetY) < 0.1)) {
-
-            this.images[this.images.length-1].x = this.targetX;
-            this.images[this.images.length-1].y = this.targetY;
-
-            clearInterval(this.timer);
-        }
-
-        this.redraw();
     }
 
     done() {

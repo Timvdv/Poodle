@@ -52,11 +52,16 @@ module.exports = function SocketConnection(server, adapter) {
     });
 
     function findIndexInData(data, property, value) {
-      for(var i = 0, l = data.length ; i < l ; i++) {
-        if(data[i][property] === value) {
-          return i;
+        for(var i = 0, l = data.length ; i < l ; i++) {
+            if(data[i][property] === value) {
+                return i;
+            }
         }
-      }
-      return -1;
+        return -1;
+    }
+
+    this.notify = function(eventName, data){
+        console.log("Event :" + eventName + " notifying :" + data.player.getId());
+        io.emit(eventName, data);
     }
 }

@@ -18,7 +18,7 @@ enum DisplayState {
 export class DisplayComponent implements OnInit {
     socket: any;
 
-    state: DisplayState = DisplayState.COMPOSE;
+    state: DisplayState = DisplayState.NEWGAME;
     DisplayState = DisplayState;
 
     @ViewChild('composeCanvas') canvasRef: ElementRef;
@@ -92,6 +92,10 @@ export class DisplayComponent implements OnInit {
         }
       }
       return -1;
+    }
+
+    changeState() {
+         this.state = DisplayState.COMPOSE;
     }
 }
 

@@ -5,13 +5,29 @@ var joinRequestCommandFactory = require('../GameLogic/Commands/JoinRequestComman
 var joinCommandFactory = require('../GameLogic/Commands/JoinCommand');
 var createGameCommandFactory = require('../GameLogic/Commands/CreateGameCommand');
 var playerFactory = require('../GameLogic/GameMode/Classic/Player');
+var storeImageRequestCommandFactory = require('../GameLogic/Commands/StoreImageRequestCommand');
+var storeImageCommandFactory = require('../GameLogic/Commands/StoreImageCommand');
 
 module.exports = function RestDataAdapter(console){
 
     var console = console;
 
-    this.saveImageRequest = function(req, executeResponse){
-        executeResponse();
+    this.saveImage = function(req, executeResponse){
+        var body = req.body;
+        var playerId = body.playerId;
+        var gameId = body.gameId;
+        var image = body.image;
+        if(playerId != undefined && gameId != undefined && image != undefined) {
+            var storeImageRequestCommand = new storeImageRequestCommandFactory(playerId, gameId, image);
+            var storeImageCommand = new storeImageCommandFactory(playerId, gameId, image);
+            console.executeCommand(storeImageRequestCommand);
+            if(storeImageRequestCommand.getAllowed()){
+                console.executeCommand(storeImageCommand);
+            }
+            executeResponse(storeImageRequestCommand.getResponse(), storeImageCommand.getResponse);
+        } else {
+            executeResponse("Parameters not valid");
+        }
     }
 
     this.joinRequest = function(req, executeResponse){

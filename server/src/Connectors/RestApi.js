@@ -6,9 +6,9 @@ module.exports = function RestApi(server, adapter){
     var adapter = adapter;
 
     server.post('/image', function(req, res){
-        adapter.saveImageRequest(req.body, function (){
+        adapter.saveImage(req, function (requestResponse, commandResponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ success: true }));
+            res.send({request : requestResponse, added: commandResponse});
         });
     });
 

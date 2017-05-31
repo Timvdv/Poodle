@@ -1,6 +1,8 @@
 /**
  * Created by oteken on 5/9/2017.
  */
+var imagesManagerFactory = require('./src/ImagesManager');
+var imageWriterFactory = require('./src/ImageWriter');
 var notifierFactory = require('./src/GameLogic/GameMode/Classic/Notifier');
 var notificationAdapterFactory = require('./src/Adapters/NotificationAdapter');
 var systemNavigatorFactory = require('./src/SystemNavigator');
@@ -48,8 +50,13 @@ var socketConnection = new socketConnectionFactory(0);
 
 var notificationAdapter = new notificationAdapterFactory(socketConnection);
 
-var systemNavigator = new systemNavigatorFactory(gamesManager, systemConsole, notificationAdapter);
+var imageWriter = new imageWriterFactory();
+var imagesManager = new imagesManagerFactory(imageWriter);
+
+var systemNavigator = new systemNavigatorFactory(gamesManager, systemConsole, notificationAdapter, imagesManager);
 systemConsole.setNavigator(systemNavigator);
 
 server.startListening();
 systemConsole.executeCommand(startGameCommand);
+
+

@@ -61,7 +61,7 @@ module.exports = function SocketConnection(server, adapter) {
     }
 
     this.notify = function(eventName, data){
-        console.log("Event :" + eventName + " notifying :" + data.player.getId());
+        console.log("Event :" + eventName + " notifying :" + data.playerId);
         io.emit(eventName, data);
     }
 }

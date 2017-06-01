@@ -64,6 +64,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
 
     this.allowedToJoin = function(player){
+        console.log(maximumPlayersReached());
         if(maximumPlayersReached()) {
             return false;
         }
@@ -100,6 +101,10 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
     this.getGameRunner = function(){
         return gameRunner;
+    }
+
+    this.getNotifier = function(){
+        return notifier;
     }
 
     function getCurrentTimeUnixSeconds(){

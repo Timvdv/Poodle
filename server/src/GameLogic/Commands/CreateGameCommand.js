@@ -10,6 +10,8 @@ module.exports = function CreateGameCommand(){
         console.log("creating a game.....");
         var gameCreator = gamesManager.getGameCreator();
         var gameManipulator = gameCreator.createNewGame();
+        var notifier = gameManipulator.getNotifier();
+        notifier.setConsole(navigator.getConsole());
         gamesManager.addGameManipulator(gameManipulator);
         var gameId = gameManipulator.getGameId()
         response = {gameId: gameId};

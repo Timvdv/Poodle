@@ -9,6 +9,7 @@ module.exports = function GameCreator(idGenerator){
     var phaseFactory = require('./GameMode/Classic/Phase');
     var gameRunnerFactory = require('./GameMode/Classic/GameRunner');
     var idGenerator = idGenerator;
+    var notifierFactory = require('./GameMode/Classic/Notifier');
 
 
     this.createNewGame = function(){
@@ -22,8 +23,9 @@ module.exports = function GameCreator(idGenerator){
         var phase2 = new phaseFactory("Phase two", 5);
         var phases = [phase1, phase2];
         var game = new gameFactory(gameId, 2, phases);
+        var notifier = new notifierFactory();
         var playerIdGenerator = new playerIdGeneratorFactory();
-        var gameManipulator = new gameManipulatorFactory(game, playerIdGenerator);
+        var gameManipulator = new gameManipulatorFactory(game, playerIdGenerator, notifier);
         var gameRunner = new gameRunnerFactory(gameManipulator);
         gameManipulator.setGameRunner(gameRunner);
         return gameManipulator;

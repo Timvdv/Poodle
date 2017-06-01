@@ -4,14 +4,14 @@
 var notifyNewPlayerCommandFactory = require('../../Commands/NotifyNewPlayerCommand');
 
 module.exports = function Notifier(){
-    var console;
+    var systemConsole;
 
     this.notifyNewPlayerAdded = function(player, game){
         var notifyNewPlayerCommand = new notifyNewPlayerCommandFactory(player, game);
-        console.executeCommand(notifyNewPlayerCommand);
+        systemConsole.executeCommand(notifyNewPlayerCommand);
     }
 
     this.setConsole = function(newConsole){
-        console = newConsole;
+        systemConsole = newConsole;
     }
 }

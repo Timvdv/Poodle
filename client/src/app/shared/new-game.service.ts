@@ -9,7 +9,6 @@ import 'rxjs/add/operator/toPromise';
 export class NewGameService {
 
     playerName: string = "pipo";
-
     constructor(private http:Http) {
     }
 
@@ -55,6 +54,7 @@ export class NewGameService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
+        console.log("eroorroror");
         console.error(errMsg);
         return Promise.reject(errMsg);
     }

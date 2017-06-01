@@ -1,17 +1,23 @@
+<h1>
+    Hi there, wanna join?
+</h1>
 
+<div class="form-group">
+    <label for="name">Name</label>
+    <input (ngModelChange)="enterCode($event)" [ngModel]="code" type="text" value="Game code input" id="name">
+</div>
 
-
-<input (ngModelChange)="enterCode($event)" [ngModel]="code" type="text" value="Game code input">
-
+<div class="form-group">
+    <label for="name">Game Code</label>
+    <input (ngModelChange)="enterName($event)" [ngModel]="name" type="text" value="Game game" id="name">
+</div>
 
 <button type="submit" name="submit" class="btn btn-success" (click)="submitCode($event)">
     Play!
 </button>
 
-
 <br>
 <hr>
-
 
 <button class="btn btn-primary" [routerLink]="['/tekenen']"> Maak een tekening </button>
 <button class="btn btn-primary" [routerLink]="['/compose']"> Verplaats de tekeningen </button>

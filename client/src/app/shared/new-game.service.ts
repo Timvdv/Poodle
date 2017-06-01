@@ -8,6 +8,8 @@ import 'rxjs/add/operator/toPromise';
 // bij aanmaken van een nieuwe component niet vergeten de routing aan te passen
 export class NewGameService {
 
+    playerName: string = "pipo";
+
     constructor(private http:Http) {
     }
 
@@ -19,12 +21,19 @@ export class NewGameService {
             .catch(this.handleError);
     }
 
-    validateCode(code) {
-       
+    validateCode(code, playerName?) {
+        if(playerName) {
+            this.playerName = playerName;
+        }
+
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        
-        return this.http.post('http://localhost:3000/join', {"gameCommand": code}, options )
+
+        return this.http.post('http://localhost:3000/join', {
+            "name": this.playerName,
+            "image": "to be developed",
+            "gameId": code
+        }, options )
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

@@ -14,16 +14,18 @@ export class HomeComponent implements OnInit {
     }
 
     code: string = "";
+    playerName: string = "";
 
     enterCode(event) {
         this.code = event;
-
     }
-    
-    submitCode(event) {
-        console.log('subimitted:', this.code);
-        this.newGameService.validateCode(this.code);
 
+    enterName(event) {
+        this.playerName = event;
+    }
+
+    submitCode(event) {
+        this.newGameService.validateCode(this.code, this.playerName);
     }
 
     ngOnInit() {

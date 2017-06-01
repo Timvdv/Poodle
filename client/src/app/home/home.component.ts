@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewGameService} from '../shared/new-game.service';
-
-
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -10,8 +9,10 @@ import {NewGameService} from '../shared/new-game.service';
 })
 
 export class HomeComponent implements OnInit {
-    constructor(private newGameService: NewGameService) {
-    }
+    constructor(
+        private newGameService: NewGameService,
+        private router: Router,
+    ) {}
 
     code: string = "";
     playerName: string = "";
@@ -25,7 +26,18 @@ export class HomeComponent implements OnInit {
     }
 
     submitCode(event) {
-        this.newGameService.validateCode(this.code, this.playerName);
+        this.newGameService.validateCode(this.code, this.playerName).then( (data) => {
+
+            console.log(data.response);
+
+            if(data.response == "Player was allowed to join.") {
+                // GREAAAT SUCCESS (met borat stem)
+                this.router.navigate(['/tekenen'])
+            } else {
+                // @TODO: show errors
+            }
+
+        })
     }
 
     ngOnInit() {

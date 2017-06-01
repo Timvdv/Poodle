@@ -8,9 +8,9 @@ var playerFactory = require('../GameLogic/GameMode/Classic/Player');
 var storeImageRequestCommandFactory = require('../GameLogic/Commands/StoreImageRequestCommand');
 var storeImageCommandFactory = require('../GameLogic/Commands/StoreImageCommand');
 
-module.exports = function RestDataAdapter(console){
+module.exports = function RestDataAdapter(systemConsole){
 
-    var console = console;
+    var systemConsole = systemConsole;
 
     this.saveImage = function(req, executeResponse){
         var body = req.body;
@@ -20,9 +20,9 @@ module.exports = function RestDataAdapter(console){
         if(playerId != undefined && gameId != undefined && image != undefined) {
             var storeImageRequestCommand = new storeImageRequestCommandFactory(playerId, gameId, image);
             var storeImageCommand = new storeImageCommandFactory(playerId, gameId, image);
-            console.executeCommand(storeImageRequestCommand);
+            systemConsole.executeCommand(storeImageRequestCommand);
             if(storeImageRequestCommand.getAllowed()){
-                console.executeCommand(storeImageCommand);
+                systemConsole.executeCommand(storeImageCommand);
             }
             executeResponse(storeImageRequestCommand.getResponse(), storeImageCommand.getResponse);
         } else {
@@ -36,11 +36,12 @@ module.exports = function RestDataAdapter(console){
            body.gameId != undefined) {
             var player = new playerFactory(body.name, body.image);
             var gameId = body.gameId;
+            console.log("Join request, name: " + body.name + ", image:" + body.image + ", gameId:" + body.gameId);
             var joinRequestCommand = new joinRequestCommandFactory(player, gameId);
             var joinCommand = new joinCommandFactory(player, gameId);
-            console.executeCommand(joinRequestCommand);
+            systemConsole.executeCommand(joinRequestCommand);
             if (joinRequestCommand.getAllowed()) {
-                console.executeCommand(joinCommand);
+                systemConsole.executeCommand(joinCommand);
             }
             executeResponse(joinRequestCommand.getResponse(), joinCommand.getResponse());
         } else {
@@ -48,9 +49,10 @@ module.exports = function RestDataAdapter(console){
         }
     }
 
+
     this.newGameCommand = function(executeResponse){
         var createGameCommand = new createGameCommandFactory();
-        console.executeCommand(createGameCommand);
+        systemConsole.executeCommand(createGameCommand);
         executeResponse(createGameCommand.getResponse());
     }
 

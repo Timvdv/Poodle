@@ -31,8 +31,9 @@ module.exports = function SocketConnection(adapter) {
         }]
 
         socket.on('getImages', function (gameId) {
-            var doodles = adapter.getGameDoodles(gameId);
-            socket.emit('setImages', doodles);
+            var doodles = adapter.getGameDoodles(gameId, function executeResponse(doodles){
+                socket.emit('setImages', doodles);
+            });
         });
 
         socket.on('updateImages', function(image) {
@@ -45,6 +46,10 @@ module.exports = function SocketConnection(adapter) {
                 socket.broadcast.emit('positionChangeImages', images);
             }
 
+        });
+
+        socket.on('identifyGame', function(playerId, gameId){
+            adapter.identifySocketConnection(playerId, gameId, socket.id);
         });
 
         socket.on('disconnect', function (data) {
@@ -62,7 +67,11 @@ module.exports = function SocketConnection(adapter) {
     }
 
     this.notify = function(eventName, data){
-        console.log("Event :" + eventName + " notifying :" + data.playerId);
         io.emit(eventName, data);
+    }
+
+    this.notifySpecific = function(eventName, data, socketId){
+        var socket = socketInfo[socketId].socket;
+        socket.emit(eventName, data);
     }
 }

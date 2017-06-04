@@ -19,13 +19,31 @@ var startGameCommandFactory = require('./src/GameLogic/Commands/StartGameCommand
 var gameRunnerFactory = require('./src/GameLogic/GameMode/Classic/GameRunner');
 var systemConsoleFactory = require('./src/GameLogic/Console');
 var gameCreatorFactory = require('./src/GameLogic/GameCreator');
+var scenarioFactory = require('./src/GameLogic/GameMode/Classic/Scenario');
+var scenarioElementFactory = require('./src/GameLogic/GameMode/Classic/ScenarioElement');
+
 
 var startGameCommand = new startGameCommandFactory(1122);
 
 var phase1 = new phaseFactory("Phase one", 10);
 var phase2 = new phaseFactory("Phase two", 5);
 var phases = [phase1, phase2];
-var game = new gameFactory(1122, 2, phases);
+
+
+var scenarioElements = [];
+var scenarioElement1 = new scenarioElementFactory("Schuur", 1, 1);
+scenarioElements.push(scenarioElement1);
+var scenarioElement2 = new scenarioElementFactory("Kip", 1, 1);
+scenarioElements.push(scenarioElement2);
+var scenarioElement3 = new scenarioElementFactory("Schaap", 1, 1);
+scenarioElements.push(scenarioElement3);
+var scenarioElement4 = new scenarioElementFactory("Zon", 1, 1);
+scenarioElements.push(scenarioElement4);
+var scenarioElement5 = new scenarioElementFactory("Hek", 1, 1);
+scenarioElements.push(scenarioElement5);
+
+var scenario = new scenarioFactory("", "Kinderboerderij", scenarioElements, 5)
+var game = new gameFactory(1122, scenario, phases);
 
 var playerIdGenerator = new idGeneratorFactory();
 

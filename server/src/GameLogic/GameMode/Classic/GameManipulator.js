@@ -1,14 +1,20 @@
 /**
  * Created by oteken on 5/16/2017.
  */
+var doodleFactory = require('./Doodle');
+
 module.exports = function GameManipulator(game, idGenerator, notifier){
     var game = game;
     var players = game.getPlayers();
     var idGenerator = idGenerator;
     var gameRunner;
     var notifier = notifier
+    var distributedElements = false;
 
     this.tick = function(){
+        if(!distributedElements){
+            distributeScenarioElementsToPlayer();
+        }
         console.log("tick");
         if(currentPhaseExists()) {
             console.log(game.getCurrentPhase().getDescription());
@@ -58,9 +64,32 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         notifier.notifyNewPlayerAdded(player, game);
     }
 
-    this.addDoodleToPlayer = function(doodle, id){
-        var player = findPlayer(id);
-        player.setDoodle(doodle);
+    function notifyDoodleToPlayer(playerId, doodleName){
+        notifier.notifyDoodleToPlayer(playerId, this.getGameId(), doodleName);
+    }
+
+    function distributeScenarioElementsToPlayer(){
+        var scenarioElements = game.getScenario().getElements();
+        var doodle;
+        for (var i = 0; i < players.length; i++) {
+            doodle = createDoodleFromScenarioElement(scenarioElements[i]);
+            players[i].setDoodle(doodle);
+        }
+        notifyDoodlesToPlayers();
+        distributedElements = true;
+    }
+
+    function createDoodleFromScenarioElement(element){
+        var name = element.getName();
+        var priority = element.getPriority();
+        var layer = element.getLayer();
+        var doodle = new doodleFactory(name, priority, layer);
+    }
+
+    function notifyDoodlesToPlayers(){
+        for (var i = 0; i < players.length; i++) {
+            notifier.notifyDoodleToPlayer(players[i].getId(), this.getGameId(), players[i].getDoodle().getName());
+        }
     }
 
     this.allowedToJoin = function(player){

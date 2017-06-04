@@ -5,26 +5,26 @@ var joinRequestCommandFactory = require('../GameLogic/Commands/JoinRequestComman
 var joinCommandFactory = require('../GameLogic/Commands/JoinCommand');
 var createGameCommandFactory = require('../GameLogic/Commands/CreateGameCommand');
 var playerFactory = require('../GameLogic/GameMode/Classic/Player');
-var storeImageRequestCommandFactory = require('../GameLogic/Commands/StoreImageRequestCommand');
-var storeImageCommandFactory = require('../GameLogic/Commands/StoreImageCommand');
+var storeDoodleRequestCommandFactory = require('../GameLogic/Commands/StoreDoodleRequestCommand');
+var storeDoodleCommandFactory = require('../GameLogic/Commands/StoreDoodleCommand');
 
 module.exports = function RestDataAdapter(systemConsole){
 
     var systemConsole = systemConsole;
 
-    this.saveImage = function(req, executeResponse){
+    this.saveDoodle = function(req, executeResponse){
         var body = req.body;
         var playerId = body.playerId;
         var gameId = body.gameId;
-        var image = body.image;
-        if(playerId != undefined && gameId != undefined && image != undefined) {
-            var storeImageRequestCommand = new storeImageRequestCommandFactory(playerId, gameId, image);
-            var storeImageCommand = new storeImageCommandFactory(playerId, gameId, image);
-            systemConsole.executeCommand(storeImageRequestCommand);
-            if(storeImageRequestCommand.getAllowed()){
-                systemConsole.executeCommand(storeImageCommand);
+        var doodle = body.doodle;
+        if(playerId != undefined && gameId != undefined && doodle != undefined) {
+            var storeDoodleRequestCommand = new storeDoodleRequestCommandFactory(playerId, gameId, doodle);
+            var storeDoodleCommand = new storeDoodleCommandFactory(playerId, gameId, doodle);
+            systemConsole.executeCommand(storeDoodleRequestCommand);
+            if(storeDoodleRequestCommand.getAllowed()){
+                systemConsole.executeCommand(storeDoodleCommand);
             }
-            executeResponse(storeImageRequestCommand.getResponse(), storeImageCommand.getResponse);
+            executeResponse(storeDoodleRequestCommand.getResponse(), storeDoodleCommand.getResponse);
         } else {
             executeResponse("Parameters not valid");
         }

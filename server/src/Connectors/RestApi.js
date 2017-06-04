@@ -5,8 +5,8 @@
 module.exports = function RestApi(server, adapter){
     var adapter = adapter;
 
-    server.post('/image', function(req, res){
-        adapter.saveImage(req, function (requestResponse, commandResponse){
+    server.post('/doodle', function(req, res){
+        adapter.saveDoodle(req, function (requestResponse, commandResponse){
             res.setHeader('Content-Type', 'application/json');
             res.send({request : requestResponse, added: commandResponse});
         });

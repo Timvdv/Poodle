@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 6/4/2017.
  */
-module.exports = function getGameDoodlesCommand(gameId){
+module.exports = function GetGameDoodlesCommand(gameId){
     var gameId = gameId;
     var response = {};
     var commandType = "gameCommand";

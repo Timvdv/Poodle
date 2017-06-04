@@ -2,11 +2,12 @@
  * Created by oteken on 5/9/2017.
  */
 
-module.exports = function Game(gameId, maximumPlayers, phases){
+module.exports = function Game(gameId, scenario, phases){
     var gameId = gameId;
-    var players = [];
-    var maximumPlayers = maximumPlayers;
+    var scenario = scenario;
     var phases = phases;
+    var players = [];
+    var maximumPlayers = scenario.getMaximumPlayers();
     var currentPhaseIndex = 0;
     var currentlyPlaying = false;
 
@@ -14,10 +15,13 @@ module.exports = function Game(gameId, maximumPlayers, phases){
         return gameId;
     }
 
+    this.getScenario = function(){
+        return scenario;
+    }
+
     this.getPlayers = function(){
         return players;
     }
-
     this.getMaximumPlayers = function(){
         return maximumPlayers;
     }

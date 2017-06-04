@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/11/2017.
  */
-var getGameDoodlesCommandFactory = require('../GameLogic/Commands/getGameDoodlesCommand');
+var getGameDoodlesCommandFactory = require('../GameLogic/Commands/GetGameDoodlesCommand');
 
 module.exports = function SocketDataAdapter(systemConsole){
 

@@ -121,10 +121,10 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         return gameDoodles;
     }
 
-    this.setPlayerDoodle = function(playerId, doodle){
+    this.setPlayerDoodleImage = function(playerId, doodle){
         var player = getPlayer(playerId);
         if(player != undefined){
-            player.setDoodle(doodle);
+            player.getDoodle().setImage(doodle);
         }
     }
 

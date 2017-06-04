@@ -10,8 +10,13 @@ module.exports = function StoreImageCommand(playerId, gameId, doodle){
 
     this.executeCommand = function(navigator){
         var imagesManager = navigator.getImagesManager();
+        var gameManipulator = navigator.getGamesManager().getGameManipulator(gameId);
+
         doodleName = imagesManager.getImageName(playerId, gameId, doodle);
         imagesManager.storeImage(playerId, gameId, doodle);
+
+        gameManipulator.setPlayerDoodle(doodleName);
+
         response = {doodleName: doodleName};
     }
 

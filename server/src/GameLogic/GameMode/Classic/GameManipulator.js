@@ -111,4 +111,29 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         var time = Math.floor(new Date() / 1000);
         return time;
     }
+
+    this.getDoodles = function() {
+        var gameDoodles = [];
+        for (var i = 0; i < players.length; i++) {
+            if(players[i].getDoodle() != undefined)
+                gameDoodles += {playerId: players[i].getId(), url: players[i].getDoodle()};
+        }
+        return gameDoodles;
+    }
+
+    this.setPlayerDoodle = function(playerId, doodle){
+        var player = getPlayer(playerId);
+        if(player != undefined){
+            player.setDoodle(doodle);
+        }
+    }
+
+    function getPlayer(playerId){
+        for (var i = 0; i < players.length; i++) {
+            if(playerId == players[i].getId()){
+                return players[i];
+            }
+        }
+        return undefined;
+    }
 }

@@ -11,8 +11,18 @@ module.exports = function StoreImageRequestCommand(playerId, gameId, doodle){
 
     this.executeCommand = function(navigator){
         var imagesManager = navigator.getImagesManager();
-        var allowedToStore = imagesManager.allowedToStore(playerId, gameId, doodle);
-        if(allowedToStore){
+        var gamesManager = navigator.getGamesManager();
+
+        var allowedToStoreImage = imagesManager.allowedToStore(playerId, gameId, doodle);
+        var gameExists = gamesManager.gameExists(gameId);
+        var playerExists = false;
+
+        if(gameExists) {
+            var gameManipulator = gamesManager.getGameManipulator(gameId);
+            playerExists = gameManipulator.playerExists(playerId);
+        }
+
+        if(allowedToStoreImage && gameExists && playerExists){
             response = "Doodle was allowed to be stored."
             allowed = true;
         }

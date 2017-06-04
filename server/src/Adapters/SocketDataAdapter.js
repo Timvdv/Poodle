@@ -1,12 +1,15 @@
 /**
  * Created by oteken on 5/11/2017.
  */
-module.exports = function SocketDataAdapter(gameManager){
+var getGameDoodlesCommandFactory = require('../GameLogic/Commands/getGameDoodlesCommand');
 
-    var gameManager = gameManager;
+module.exports = function SocketDataAdapter(systemConsole){
 
-    this.joinRequest = function(req){
+    var systemConsole = systemConsole;
 
+    this.getGameDoodles = function(gameId){
+        var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
+        systemConsole.executeCommand(getGameDoodlesCommand);
+        return getGameDoodlesCommand.getResponse();
     }
-
 }

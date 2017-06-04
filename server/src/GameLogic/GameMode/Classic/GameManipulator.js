@@ -128,6 +128,13 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         }
     }
 
+    this.playerExists = function(playerId){
+        var player = getPlayer(playerId);
+        if(player == undefined)
+            return false
+        return true;
+    }
+
     function getPlayer(playerId){
         for (var i = 0; i < players.length; i++) {
             if(playerId == players[i].getId()){

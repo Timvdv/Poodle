@@ -15,7 +15,7 @@ module.exports = function StoreImageCommand(playerId, gameId, doodle){
         doodleName = imagesManager.getImageName(playerId, gameId, doodle);
         imagesManager.storeImage(playerId, gameId, doodle);
 
-        gameManipulator.setPlayerDoodle(doodleName);
+        gameManipulator.setPlayerDoodle(playerId, doodleName);
 
         response = {doodleName: doodleName};
     }

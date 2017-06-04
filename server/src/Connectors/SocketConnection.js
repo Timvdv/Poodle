@@ -2,7 +2,7 @@
  * Created by oteken on 5/9/2017.
  */
 
-module.exports = function SocketConnection(server, adapter) {
+module.exports = function SocketConnection(adapter) {
     var io = require('socket.io')(6060);
 
     var socketInfo = {};
@@ -30,8 +30,9 @@ module.exports = function SocketConnection(server, adapter) {
             url: 'http://iheartdogs.com/wp-content/uploads/2017/01/Poodle-1.jpg'
         }]
 
-        socket.on('getImages', function () {
-            socket.emit('setImages', images);
+        socket.on('getImages', function (gameId) {
+            var doodles = adapter.getGameDoodles(gameId);
+            socket.emit('setImages', doodles);
         });
 
         socket.on('updateImages', function(image) {

@@ -1,17 +1,19 @@
 <div id="background">
 <div [hidden]="state != DisplayState.NEWGAME" class="center">
+    <br><br><br><br><br><br><br>
     <h1 class="orange">Welcome to Poodle</h1>
-
+    <br>
     <h1 class="code green center">
         {{game.code}}
     </h1>
-
+    <br>
     <ul>
         <li *ngFor="let player of players">
             {{ player.playerName }}
         </li>
     </ul>
 <h3 class="green">Everybody in?</h3>
+    <br>
     <button (click)="changeState()" class="mybutton">
     </button>
 </div>

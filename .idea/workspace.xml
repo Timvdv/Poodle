@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5acd91c-0384-4c57-a1cb-d0d182fbf162" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/assets/Arvo-Bold.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/assets/Montserrat-Bold.otf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/src/assets/startgame_button.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/display/display.component.css" afterPath="$PROJECT_DIR$/client/src/app/display/display.component.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/display/display.component.html" afterPath="$PROJECT_DIR$/client/src/app/display/display.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/src/Connectors/SocketConnection.js" afterPath="$PROJECT_DIR$/server/src/Connectors/SocketConnection.js" />
     </list>
     <ignored path="Poodle.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,10 +27,11 @@
       <file leaf-file-name="SocketConnection.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/Connectors/SocketConnection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+            <state relative-caret-position="390">
+              <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <marker date="1496670599000" expanded="true" signature="658:847" ph="//..." />
               </folding>
             </state>
           </provider>
@@ -52,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="display.component.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="display.component.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/app/display/display.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+            <state relative-caret-position="30">
+              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -74,7 +69,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="display.component.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="display.component.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/app/display/display.component.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
@@ -123,8 +118,8 @@
         <option value="$PROJECT_DIR$/client/src/app/shared/new-game.service.ts" />
         <option value="$PROJECT_DIR$/server/src/Adapters/SocketDataAdapter.js" />
         <option value="$PROJECT_DIR$/server/src/Connectors/SocketConnection.js" />
-        <option value="$PROJECT_DIR$/client/src/app/display/display.component.html" />
         <option value="$PROJECT_DIR$/client/src/app/display/display.component.css" />
+        <option value="$PROJECT_DIR$/client/src/app/display/display.component.html" />
       </list>
     </option>
   </component>
@@ -461,12 +456,12 @@
       <workItem from="1496318072428" duration="1335000" />
       <workItem from="1496664069077" duration="1680000" />
       <workItem from="1496666424448" duration="83000" />
-      <workItem from="1496666510522" duration="3852000" />
+      <workItem from="1496666510522" duration="3989000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26007000" />
+    <option name="totallyTimeSpent" value="26144000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="960" height="1128" extended-state="0" />
@@ -820,10 +815,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/Connectors/SocketConnection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+        <state relative-caret-position="390">
+          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+            <marker date="1496670599000" expanded="true" signature="658:847" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -854,18 +850,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/display/display.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/display/display.component.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/display/display.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
           <folding />
         </state>
       </provider>

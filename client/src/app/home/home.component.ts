@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
         private router: Router,
     ) {}
 
+    error: string = "";
     code: string = "";
     playerName: string = "";
 
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit {
     }
 
     submitCode(event) {
+        this.error = "";
+
         this.newGameService.validateCode(this.code, this.playerName).then( (data) => {
 
             console.log(data.response);
@@ -34,7 +37,7 @@ export class HomeComponent implements OnInit {
                 // GREAAAT SUCCESS (met borat stem)
                 this.router.navigate(['/tekenen'])
             } else {
-                // @TODO: show errors
+                this.error = data.response;
             }
 
         })

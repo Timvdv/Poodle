@@ -7,6 +7,12 @@
         {{game.code}}
     </h1>
 
+    <ul>
+        <li *ngFor="let player of players">
+            {{ player.playerName }}
+        </li>
+    </ul>
+
     <button (click)="changeState()">
         composeState
     </button>

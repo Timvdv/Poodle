@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterContentInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { SocketioService } from '../shared/socketio.service';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
@@ -9,6 +10,8 @@ import 'rxjs/add/operator/toPromise';
   styleUrls: ['./draw.component.css']
 })
 export class DrawComponent implements OnInit {
+    socket: any;
+
     @ViewChild('drawCanvas') canvasRef: ElementRef;
     ctx: CanvasRenderingContext2D;
 
@@ -26,7 +29,10 @@ export class DrawComponent implements OnInit {
 
     constructor(
         private http: Http,
-    ) { }
+        private socketService: SocketioService
+    ) {
+        this.socket = socketService.getSocket();
+    }
 
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');

@@ -4,6 +4,10 @@
 
 <hr>
 
+<div class="error">
+    {{ error }}
+</div>
+
 <div class="form-group">
     <label for="name">Name</label>
     <input (ngModelChange)="enterName($event)" [ngModel]="name" type="text" placeholder="Name" id="name">

@@ -1,14 +1,20 @@
 /**
  * Created by oteken on 5/16/2017.
  */
+var doodleFactory = require('./Doodle');
+
 module.exports = function GameManipulator(game, idGenerator, notifier){
     var game = game;
     var players = game.getPlayers();
     var idGenerator = idGenerator;
     var gameRunner;
     var notifier = notifier
+    var distributedElements = false;
 
     this.tick = function(){
+        if(!distributedElements){
+            distributeScenarioElementsToPlayer();
+        }
         console.log("tick");
         if(currentPhaseExists()) {
             console.log(game.getCurrentPhase().getDescription());
@@ -58,13 +64,36 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         notifier.notifyNewPlayerAdded(player, game);
     }
 
-    this.addDoodleToPlayer = function(doodle, id){
-        var player = findPlayer(id);
-        player.setDoodle(doodle);
+    function notifyDoodleToPlayer(playerId, doodleName){
+        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), doodleName);
+    }
+
+    function distributeScenarioElementsToPlayer(){
+        var scenarioElements = game.getScenario().getElements();
+        var doodle;
+        for (var i = 0; i < players.length; i++) {
+            doodle = createDoodleFromScenarioElement(scenarioElements[i]);
+            players[i].setDoodle(doodle);
+        }
+        notifyDoodlesToPlayers();
+        distributedElements = true;
+    }
+
+    function createDoodleFromScenarioElement(element){
+        var name = element.getName();
+        var priority = element.getPriority();
+        var layer = element.getLayer();
+        var doodle = new doodleFactory(name, priority, layer);
+        return doodle;
+    }
+
+    function notifyDoodlesToPlayers(){
+        for (var i = 0; i < players.length; i++) {
+            notifier.notifyDoodleToPlayer(players[i].getId(), game.getGameId(), players[i].getDoodle().getName());
+        }
     }
 
     this.allowedToJoin = function(player){
-        console.log(maximumPlayersReached());
         if(maximumPlayersReached()) {
             return false;
         }
@@ -72,7 +101,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
 
     function maximumPlayersReached(){
-        return (game.getMaximumPlayers() < players.length);
+        return (players.length >= game.getMaximumPlayers());
     }
 
     this.generateUniqueId = function(){
@@ -88,7 +117,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         return 0;
     }
 
-    this.getGame = function (){
+    this.getGame = function(){
         return game;
     }
 
@@ -110,5 +139,37 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     function getCurrentTimeUnixSeconds(){
         var time = Math.floor(new Date() / 1000);
         return time;
+    }
+
+    this.getDoodles = function() {
+        var gameDoodles = [];
+        for (var i = 0; i < players.length; i++) {
+            if(players[i].getDoodle() != undefined)
+                gameDoodles += {playerId: players[i].getId(), url: players[i].getDoodle()};
+        }
+        return gameDoodles;
+    }
+
+    this.setPlayerDoodleImage = function(playerId, doodle){
+        var player = getPlayer(playerId);
+        if(player != undefined){
+            player.getDoodle().setImage(doodle);
+        }
+    }
+
+    this.playerExists = function(playerId){
+        var player = getPlayer(playerId);
+        if(player == undefined)
+            return false
+        return true;
+    }
+
+    function getPlayer(playerId){
+        for (var i = 0; i < players.length; i++) {
+            if(playerId == players[i].getId()){
+                return players[i];
+            }
+        }
+        return undefined;
     }
 }

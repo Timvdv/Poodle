@@ -29,6 +29,8 @@ export class DisplayComponent implements OnInit {
 
     images: CanvasImage[] = [];
 
+    players = []
+
     constructor(
         private newGame:NewGameService,
         private socketService: SocketioService
@@ -56,6 +58,14 @@ export class DisplayComponent implements OnInit {
         if(this.socket) {
             this.socket.on('positionChangeImages', (images) => {
                 this.drawImages(images);
+            });
+
+            this.socket.on('playerJoined', (data) => {
+                this.players.push({
+                    gameId: data.gameId,
+                    playerId: data.playerId,
+                    playerName: data.playerName
+                })
             });
         }
     }

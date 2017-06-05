@@ -2,6 +2,7 @@
  * Created by oteken on 5/9/2017.
  */
 module.exports = function Server() {
+    var path = require('path');
     var express = require('express')
     var server = express();
     var cors = require('cors');
@@ -15,7 +16,7 @@ module.exports = function Server() {
     }));
     server.use(bodyParser.json());
     var port = 3000;
-
+    server.use('/assets', express.static(path.join(__dirname, '../assets')));
 
     this.startListening = function startListening() {
         server.listen(port);

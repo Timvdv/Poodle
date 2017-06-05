@@ -16,10 +16,10 @@ module.exports = function SocketDataAdapter(systemConsole){
         var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
         systemConsole.executeCommand(getGameDoodlesCommand);
         executeResponse(getGameDoodlesCommand.getResponse());
-    }
+    };
 
     this.identifySocketConnection = function(playerId, gameId, socketId){
         var socketIdentifyCommand = new socketIdentifyCommandFactory(playerId, gameId, socketId);
         systemConsole.executeCommand(socketIdentifyCommand);
     }
-}
+};

@@ -56,7 +56,7 @@ module.exports = function SocketConnection(adapter) {
 
     this.notify = function(eventName, data){
         io.emit(eventName, data);
-    }
+    };
 
     this.notifySpecific = function(eventName, data, socketId){
         if(socketId != undefined) {
@@ -64,4 +64,4 @@ module.exports = function SocketConnection(adapter) {
             socket.emit(eventName, data);
         }
     }
-}
+};

@@ -24,7 +24,7 @@
 
 <div class="start-new-game" [hidden]="isEmpty(gameData)">
     <hr>
-    <button onClick="startGame()" class="btn btn-lg">
+    <button (click)="startGame($event)" class="btn btn-lg">
         Start game
     </button>
 </div>

@@ -12,10 +12,10 @@ module.exports = function SocketDataAdapter(systemConsole){
 
     var systemConsole = systemConsole;
 
-    this.getGameDoodles = function(gameId, executeResponse){
+    this.getGameDoodles = function(gameId){
         var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
         systemConsole.executeCommand(getGameDoodlesCommand);
-        executeResponse(getGameDoodlesCommand.getResponse());
+        return getGameDoodlesCommand.getResponse();
     }
 
     this.identifySocketConnection = function(playerId, gameId, socketId){

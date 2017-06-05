@@ -23,6 +23,12 @@ module.exports = function NotificationAdapter(socketConnection){
         socketConnection.notify(eventName, data);
     }
 
+    this.notifyGameStarted = function(gameId){
+        var data = {started: true};
+        var eventName = "gameStarted"
+        socketConnection.notifySpecific();
+    }
+
     this.identifySocketConnection = function(playerId, gameId, socketId){
         identifiedSocketConnections[socketId] = [];
         identifiedSocketConnections[socketId].socketId = socketId;
@@ -48,5 +54,13 @@ module.exports = function NotificationAdapter(socketConnection){
                 socketId = property.socketId;
         }
         return socketId;
+    }
+
+    function notifyAllGameSockets(gameId){
+
+        for (var i = 0; i < socketConnection.length; i++) {
+            var obj = socketConnection[i];
+
+        }
     }
 }

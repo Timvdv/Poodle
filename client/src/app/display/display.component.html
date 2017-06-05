@@ -1,11 +1,8 @@
-<div id="test"></div>
+<div id="background">
+<div [hidden]="state != DisplayState.NEWGAME" class="center">
+    <h1 class="orange">Welcome to Poodle</h1>
 
-<div [hidden]="state != DisplayState.NEWGAME">
-    <p>
-        Fill this game code in your device
-    </p>
-
-    <h1>
+    <h1 class="code green center">
         {{game.code}}
     </h1>
 
@@ -14,12 +11,12 @@
             {{ player.playerName }}
         </li>
     </ul>
-
-    <button (click)="changeState()">
-        composeState
+<h3 class="green">Everybody in?</h3>
+    <button (click)="changeState()" class="mybutton">
     </button>
 </div>
 
 <div [hidden]="state != DisplayState.COMPOSE">
     <canvas #composeCanvas [attr.width]="stageWidth" [attr.height]="stageHeight"></canvas>
+</div>
 </div>

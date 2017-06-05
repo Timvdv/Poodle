@@ -1,4 +1,42 @@
-#test {
+@font-face {
+    font-family: Arvo-Bold;
+    src: url(../../assets/Arvo-bold.ttf);
+}
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url(../../assets/Montserrat-Bold.otf);
+}
+
+
+#background {
     background-image: url("../../assets/background.png");
-    position: absolute;
+    height: 640px;
+    width: 1136px;
+}
+.mybutton {
+    background-image: url("../../assets/startgame_button.png");
+    height: 55px;
+    width: 216px;
+    border-radius: 100px;
+    border-color: #F59A15;
+    background-color: #F59A15;
+}
+.center {
+    text-align: center;
+    margin: auto;
+    width: 50%;
+}
+.green {
+    color: #3AAF93;
+    font-family: Montserrat-Bold;
+}
+.orange{
+    color: #F59A15;
+    font-family: Arvo-Bold;
+}
+.code {
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    width: 150px;
 }

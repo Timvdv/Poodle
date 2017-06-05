@@ -114,7 +114,7 @@ export class DrawComponent implements OnInit {
         return this.http.post(environment.server_path + "/doodle", {
             playerId: "1234",
             gameId: "1234",
-            image: data_url
+            doodle: data_url
         }, options)
                    .toPromise()
                    .then(this.extractData)

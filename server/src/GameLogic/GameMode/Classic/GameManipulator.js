@@ -65,7 +65,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
 
     function notifyDoodleToPlayer(playerId, doodleName){
-        notifier.notifyDoodleToPlayer(playerId, this.getGameId(), doodleName);
+        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), doodleName);
     }
 
     function distributeScenarioElementsToPlayer(){
@@ -84,16 +84,16 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         var priority = element.getPriority();
         var layer = element.getLayer();
         var doodle = new doodleFactory(name, priority, layer);
+        return doodle;
     }
 
     function notifyDoodlesToPlayers(){
         for (var i = 0; i < players.length; i++) {
-            notifier.notifyDoodleToPlayer(players[i].getId(), this.getGameId(), players[i].getDoodle().getName());
+            notifier.notifyDoodleToPlayer(players[i].getId(), game.getGameId(), players[i].getDoodle().getName());
         }
     }
 
     this.allowedToJoin = function(player){
-        console.log(maximumPlayersReached());
         if(maximumPlayersReached()) {
             return false;
         }
@@ -101,7 +101,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
 
     function maximumPlayersReached(){
-        return (game.getMaximumPlayers() < players.length);
+        return (players.length >= game.getMaximumPlayers());
     }
 
     this.generateUniqueId = function(){
@@ -117,7 +117,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         return 0;
     }
 
-    this.getGame = function (){
+    this.getGame = function(){
         return game;
     }
 

@@ -22,9 +22,12 @@
     Play!
 </button>
 
-<button [hidden]="isEmpty(gameData)" onClick="startGame()" class="btn btn-success">
-    Start game
-</button>
+<div class="start-new-game" [hidden]="isEmpty(gameData)">
+    <hr>
+    <button onClick="startGame()" class="btn btn-lg">
+        Start game
+    </button>
+</div>
 
 <br>
 <hr>

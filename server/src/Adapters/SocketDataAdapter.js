@@ -4,6 +4,10 @@
 var getGameDoodlesCommandFactory = require('../GameLogic/Commands/GetGameDoodlesCommand');
 var socketIdentifyCommandFactory = require('../GameLogic/Commands/SocketIdentifyCommand');
 
+/*
+ * This class is responsible for receiving requests from the websocket
+ * and process this data into a command that can be executed by the system.
+ */
 module.exports = function SocketDataAdapter(systemConsole){
 
     var systemConsole = systemConsole;

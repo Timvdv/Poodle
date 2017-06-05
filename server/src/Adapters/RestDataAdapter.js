@@ -10,6 +10,12 @@ var playerFactory = require('../GameLogic/GameMode/Classic/Player');
 var storeDoodleRequestCommandFactory = require('../GameLogic/Commands/StoreDoodleRequestCommand');
 var storeDoodleCommandFactory = require('../GameLogic/Commands/StoreDoodleCommand');
 
+/*
+ * This class is responsible for receiving requests from the rest api
+ * and process this data into a command that can be executed by the system.
+ * After execution the response of the command is processed into an object and
+ * returned as a response to the caller.
+ */
 module.exports = function RestDataAdapter(systemConsole){
 
     var systemConsole = systemConsole;
@@ -26,7 +32,7 @@ module.exports = function RestDataAdapter(systemConsole){
             if(storeDoodleRequestCommand.getAllowed()){
                 systemConsole.executeCommand(storeDoodleCommand);
             }
-            executeResponse(storeDoodleRequestCommand.getResponse(), storeDoodleCommand.getResponse);
+            executeResponse({response: storeDoodleRequestCommand.getResponse()});
         } else {
             executeResponse("Parameters not valid");
         }
@@ -45,12 +51,11 @@ module.exports = function RestDataAdapter(systemConsole){
             if (joinRequestCommand.getAllowed()) {
                 systemConsole.executeCommand(joinCommand);
             }
-            executeResponse(joinRequestCommand.getResponse(), joinCommand.getResponse());
+            executeResponse({systemResponse: joinRequestCommand.getResponse(), addedPlayer: joinCommand.getResponse()});
         } else {
             executeResponse("Parameters not valid");
         }
     }
-
 
     this.newGameCommand = function(executeResponse){
         var createGameCommand = new createGameCommandFactory();
@@ -67,12 +72,12 @@ module.exports = function RestDataAdapter(systemConsole){
             if(startGameRequestCommand.getAllowed()){
                 var startGameCommand = new startGameCommandFactory(gameId);
                 systemConsole.executeCommand(startGameCommand);
-                executeResponse(startGameRequestCommand.getResponse());
+                executeResponse({response: startGameRequestCommand.getResponse()});
             } else {
-                executeResponse("Game was not allowed to be started.");
+                executeResponse({response: "Game was not allowed to be started."});
             }
         } else {
-            executeResponse("Parameters not valid");
+            executeResponse({response: "Parameters not valid"});
         }
     }
 }

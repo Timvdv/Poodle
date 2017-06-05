@@ -2,20 +2,26 @@
  * Created by oteken on 5/9/2017.
  */
 
+/*
+ * This class is responsible for receiving requests and
+ * sending the data of the request to the adapter object.
+ * The adapter sends a response back from the system and
+ * this response is returned to the caller.
+ */
 module.exports = function RestApi(server, adapter){
     var adapter = adapter;
 
     server.post('/doodle', function(req, res){
-        adapter.saveDoodle(req, function (requestResponse, commandResponse){
+        adapter.saveDoodle(req, function (systemResponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send({request : requestResponse, added: commandResponse});
+            res.send(systemResponse);
         });
     });
 
     server.post('/join', function(req, res){
-        adapter.joinRequest(req, function(systemResponse, gameReponse){
+        adapter.joinRequest(req, function(systemResponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ response: systemResponse, addedPlayer: gameReponse }));
+            res.send(systemResponse);
         });
     });
 
@@ -29,7 +35,7 @@ module.exports = function RestApi(server, adapter){
     server.post('/startGame', function(req, res){
         adapter.startGameRequest(req, function(systemResponse){
             res.setHeader('Content-Type', 'application/json');
-            res.send({response: systemResponse});
+            res.send(systemResponse);
         });
     });
 }

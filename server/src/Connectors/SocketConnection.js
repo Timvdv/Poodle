@@ -2,33 +2,22 @@
  * Created by oteken on 5/9/2017.
  */
 
+/*
+ * This class is responsible for receiving requests and
+ * sending the data of the request to the adapter object.
+ */
 module.exports = function SocketConnection(adapter) {
     var io = require('socket.io')(6060);
 
     var socketInfo = {};
 
     io.on('connection', function (socket) {
-        socketInfo[socket.id] = [];
-        socketInfo[socket.id].socket = socket;
-        console.log("Goteem");
-        socket.emit('news', {hello: 'world'});
+        addSocket(socket);
 
-        var images = [{
-            id: 1,
-            x: 50,
-            y: 10,
-            url: 'https://upload.wikimedia.org/wikibooks/en/4/43/Video_game_fencing.png'
-        }, {
-            id: 2,
-            x: 30,
-            y: 10,
-            url: 'http://hdwallpaperbackgrounds.net/wp-content/uploads/2017/05/Best-Images-2017.jpg'
-        }, {
-            id: 3,
-            x: 10,
-            y: 10,
-            url: 'http://iheartdogs.com/wp-content/uploads/2017/01/Poodle-1.jpg'
-        }]
+        //This call links the socket of a client with the game it is participating in.
+        socket.on('identifyGame', function(playerId, gameId){
+            adapter.identifySocketConnection(playerId, gameId, socket.id);
+        });
 
         socket.on('getImages', function (gameId) {
             var doodles = adapter.getGameDoodles(gameId, function executeResponse(doodles){
@@ -37,25 +26,25 @@ module.exports = function SocketConnection(adapter) {
         });
 
         socket.on('updateImages', function(image) {
-
             const index = findIndexInData(images, 'id', image.id);
-
             if(index != -1) {
                 images[index].x = image.x;
                 images[index].y = image.y;
                 socket.broadcast.emit('positionChangeImages', images);
             }
-
         });
 
-        socket.on('identifyGame', function(playerId, gameId){
-            adapter.identifySocketConnection(playerId, gameId, socket.id);
-        });
+
 
         socket.on('disconnect', function (data) {
             delete socketInfo[socket.id];
         });
     });
+
+    function addSocket(socket){
+        socketInfo[socket.id] = [];
+        socketInfo[socket.id].socket = socket;
+    }
 
     function findIndexInData(data, property, value) {
         for(var i = 0, l = data.length ; i < l ; i++) {

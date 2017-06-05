@@ -27,6 +27,8 @@ export class DrawComponent implements OnInit {
     clickDrag: any[] = [];
     paint: boolean = false;
 
+    doodle_name: string = "";
+
     constructor(
         private http: Http,
         private socketService: SocketioService
@@ -36,6 +38,13 @@ export class DrawComponent implements OnInit {
 
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');
+
+        this.socket.emit('getDoodle');
+
+        this.socket.on('setDoodle', (doodle_name) => {
+           console.log(doodle_name);
+           this.doodle_name = doodle_name;
+        });
     }
 
     @HostListener('document:mouseup')
@@ -105,7 +114,7 @@ export class DrawComponent implements OnInit {
         return this.http.post(environment.server_path + "/doodle", {
             playerId: "1234",
             gameId: "1234",
-            image: data_url
+            doodle: data_url
         }, options)
                    .toPromise()
                    .then(this.extractData)

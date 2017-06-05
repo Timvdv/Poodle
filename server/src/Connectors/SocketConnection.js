@@ -20,8 +20,12 @@ module.exports = function SocketConnection(adapter) {
         });
 
         socket.on('getImages', function (gameId) {
-            // var doodles = adapter.getGameDoodles(gameId);
-            //     socket.emit('setImages', doodles);
+            console.log("adapter: " + adapter);
+
+            if(adapter) {
+                var doodles = adapter.getGameDoodles(gameId);
+                socket.emit('setImages', doodles);
+            }
         });
 
         socket.on('updateImages', function(image) {

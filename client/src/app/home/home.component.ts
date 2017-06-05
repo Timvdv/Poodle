@@ -26,13 +26,9 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.socket = this.socketService.getSocket();
 
-        console.log('component is geladen')
-
-        this.socket.on('gameReady', (player_id) => {
-            console.log('yaya');
-
+        this.socket.on('gameStarted', (player_id) => {
             // GREAAAT SUCCESS (met borat stem)
-            this.router.navigate(['/tekenen'])
+            this.router.navigate( ['/tekenen'] );
         });
     }
 
@@ -45,17 +41,17 @@ export class HomeComponent implements OnInit {
     }
 
     startGame(event) {
-        this.socket.emit('gameStarted', this.gameData.addedPlayer.game);
+        this.socket.emit('startGame', this.code);
     }
 
     submitCode(event) {
         this.error = "";
 
         this.newGameService.validateCode(this.code, this.playerName).then( (data) => {
-            console.log(data.response);
+            console.log(data);
 
-            if(data.response == "Player was allowed to join.") {
-                this.gameData = data.response;
+            if(data.systemResponse == "Player was allowed to join.") {
+                this.gameData = data.addedPlayer;
 
                 this.identify(this.gameData);
             } else {
@@ -66,8 +62,7 @@ export class HomeComponent implements OnInit {
     }
 
     identify(data) {
-        let player_id = data.addedPlayer.id;
-        this.socket.emit('identifyGame', player_id);
+        this.socket.emit('identifyGame', data.id);
     }
 
     isEmpty(obj) {

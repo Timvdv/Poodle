@@ -4,6 +4,8 @@
 var joinRequestCommandFactory = require('../GameLogic/Commands/JoinRequestCommand');
 var joinCommandFactory = require('../GameLogic/Commands/JoinCommand');
 var createGameCommandFactory = require('../GameLogic/Commands/CreateGameCommand');
+var startGameCommandFactory = require('../GameLogic/Commands/StartGameCommand');
+var startGameRequestCommandFactory = require('../GameLogic/Commands/StartGameRequestCommand');
 var playerFactory = require('../GameLogic/GameMode/Classic/Player');
 var storeDoodleRequestCommandFactory = require('../GameLogic/Commands/StoreDoodleRequestCommand');
 var storeDoodleCommandFactory = require('../GameLogic/Commands/StoreDoodleCommand');
@@ -56,4 +58,21 @@ module.exports = function RestDataAdapter(systemConsole){
         executeResponse(createGameCommand.getResponse());
     }
 
+    this.startGameRequest = function(req, executeResponse){
+        var body = req.body;
+        var gameId = body.gameId;
+        if(!(gameId == undefined)){
+            var startGameRequestCommand = new startGameRequestCommandFactory(gameId);
+            systemConsole.executeCommand(startGameRequestCommand);
+            if(startGameRequestCommand.getAllowed()){
+                var startGameCommand = new startGameCommandFactory(gameId);
+                systemConsole.executeCommand(startGameCommand);
+                executeResponse(startGameRequestCommand.getResponse());
+            } else {
+                executeResponse("Game was not allowed to be started.");
+            }
+        } else {
+            executeResponse("Parameters not valid");
+        }
+    }
 }

@@ -25,6 +25,13 @@ module.exports = function RestApi(server, adapter){
             res.send(systemResponse);
         })
     });
+
+    server.post('/startGame', function(req, res){
+        adapter.startGameRequest(req, function(systemResponse){
+            res.setHeader('Content-Type', 'application/json');
+            res.send({response: systemResponse});
+        });
+    });
 }
 
 

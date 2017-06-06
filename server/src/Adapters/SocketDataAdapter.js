@@ -5,6 +5,7 @@ var getGameDoodlesCommandFactory = require('../GameLogic/Commands/GetGameDoodles
 var socketIdentifyCommandFactory = require('../GameLogic/Commands/SocketIdentifyCommand');
 var startGameCommandFactory = require('../GameLogic/Commands/StartGameCommand');
 var startGameRequestCommandFactory = require('../GameLogic/Commands/StartGameRequestCommand');
+var getPlayerDoodleNameCommandFactory = require('../GameLogic/Commands/GetPlayerDoodleNameCommand');
 
 /*
  * This class is responsible for receiving requests from the websocket
@@ -33,6 +34,11 @@ module.exports = function SocketDataAdapter(systemConsole){
         } else {
             return {response: "Parameters not valid"};
         }
+    }
+
+    this.notifyDoodleToPlayer = function(playerId, gameId){
+        var getPlayerDoodleNameCommand = new getPlayerDoodleNameCommandFactory(playerId, gameId);
+        systemConsole.executeCommand(getPlayerDoodleNameCommand);
     }
 
     this.getGameDoodles = function(gameId){

@@ -65,8 +65,9 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         notifier.notifyNewPlayerAdded(player, game);
     }
 
-    function notifyDoodleToPlayer(playerId, doodleName){
-        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), doodleName);
+    this.notifyDoodleToPlayer = function(playerId){
+        var player = getPlayer(playerId);
+        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), payer.getDoodle().getName());
     }
 
     function distributeScenarioElementsToPlayer(){
@@ -76,7 +77,6 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
             doodle = createDoodleFromScenarioElement(scenarioElements[i]);
             players[i].setDoodle(doodle);
         }
-        notifyDoodlesToPlayers();
         distributedElements = true;
     }
 
@@ -86,12 +86,6 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
         var layer = element.getLayer();
         var doodle = new doodleFactory(name, priority, layer);
         return doodle;
-    }
-
-    function notifyDoodlesToPlayers(){
-        for (var i = 0; i < players.length; i++) {
-            notifier.notifyDoodleToPlayer(players[i].getId(), game.getGameId(), players[i].getDoodle().getName());
-        }
     }
 
     this.allowedToJoin = function(player){
@@ -149,6 +143,11 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
                 gameDoodles += {playerId: players[i].getId(), url: players[i].getDoodle()};
         }
         return gameDoodles;
+    }
+
+    this.getPlayerDoodleName = function(playerId){
+        var doodle = getPlayer(playerId).getDoodle();
+        return doodle.getName();
     }
 
     this.setPlayerDoodleImage = function(playerId, doodle){

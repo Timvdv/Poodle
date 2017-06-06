@@ -29,7 +29,7 @@ module.exports = function SocketConnection(adapter) {
         });
 
         socket.on('getDoodle', function(playerId, gameId){
-
+            adapter.notifyDoodleToPlayer(playerId, gameId);
         });
 
         socket.on('updateImages', function(image) {

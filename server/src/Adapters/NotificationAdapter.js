@@ -10,7 +10,6 @@
 module.exports = function NotificationAdapter(socketConnection){
 
     var socketConnection = socketConnection;
-    var identifiedSocketConnections = [];
     /*
      * Contains a reference to the identified sockets by a grouping of games.
      * This way it is faster to notify all players of a specific game.
@@ -26,18 +25,15 @@ module.exports = function NotificationAdapter(socketConnection){
     this.notifyGameStarted = function(gameId){
         var data = {started: true};
         var eventName = "gameStarted"
-        socketConnection.notifySpecific();
+        notifyAllGameSockets(eventName, data, gameId);
     }
 
     this.identifySocketConnection = function(playerId, gameId, socketId){
-        identifiedSocketConnections[socketId] = [];
-        identifiedSocketConnections[socketId].socketId = socketId;
-        identifiedSocketConnections[socketId].playerId = playerId;
-        identifiedSocketConnections[socketId].gameId = gameId;
-        if(gameSockets[gameId] == undefined)
+        if (gameSockets[gameId] == undefined) {
             gameSockets[gameId] = [];
-        gameSockets[gameId].socketId = socketId;
-        gameSockets[gameId].gameId = gameId;
+            gameSockets[gameId].gameId = gameId;
+        }
+        gameSockets[gameId].push({socketId: socketId, playerId: playerId});
     }
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
@@ -49,18 +45,27 @@ module.exports = function NotificationAdapter(socketConnection){
 
     function getSocketOfPlayer(playerId, gameId){
         var socketId;
-        for (var property in gameSockets) {
-            if(property.gameId = gameId)
-                socketId = property.socketId;
+        var game = getSocketsForGame(gameId);
+        for (var player in game) {
+            if(player.playerId == playerId){
+                socketId = player.socketId;
+            }
         }
         return socketId;
     }
 
-    function notifyAllGameSockets(gameId){
+    function getSocketsForGame(gameId){
+        for (var game in gameSockets) {
+            if(game.gameId == gameId) {
+                return game;
+            }
+        }
+    }
 
-        for (var i = 0; i < socketConnection.length; i++) {
-            var obj = socketConnection[i];
-
+    function notifyAllGameSockets(eventName, data, gameId){
+        var game = getSocketsForGame(gameId);
+        for (var player in game) {
+            socketConnection.notifySpecific(eventName, data, player.socketId)
         }
     }
 }

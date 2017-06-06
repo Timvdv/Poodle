@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
     }
 
     identify(data) {
-        this.socket.emit('identifyGame', data.id);
+        this.socket.emit('identifyGame', data.id, this.code);
     }
 
     isEmpty(obj) {

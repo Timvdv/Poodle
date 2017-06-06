@@ -19,6 +19,10 @@ module.exports = function SocketConnection(adapter) {
             adapter.identifySocketConnection(playerId, gameId, socket.id);
         });
 
+        socket.on('startGame', function(gameId){
+
+        });
+
         socket.on('getImages', function (gameId) {
             console.log("adapter: " + adapter);
 
@@ -27,6 +31,8 @@ module.exports = function SocketConnection(adapter) {
                 socket.emit('setImages', doodles);
             }
         });
+
+        // GET DOODLE AND UPDATE DOODLE.
 
         socket.on('updateImages', function(image) {
             const index = findIndexInData(images, 'id', image.id);

@@ -9,10 +9,12 @@ var systemNavigatorFactory = require('./src/SystemNavigator');
 var gamesManagerFactory = require('./src/GameLogic/GamesManager');
 var restApiFactory = require('./src/Connectors/RestApi');
 var restDataAdapterFactory = require('./src/Adapters/RestDataAdapter');
+
 var gameManipulatorFactory = require('./src/GameLogic/GameMode/Classic/GameManipulator');
 var gameFactory = require('./src/GameLogic/GameMode/Classic/Game');
 var serverFactory = require('./src/server');
 var socketConnectionFactory = require('./src/Connectors/SocketConnection');
+var socketDataAdapterFactory = require('./src/Adapters/SocketDataAdapter');
 var idGeneratorFactory = require('./src/GameLogic/IdGenerator');
 var phaseFactory = require('./src/GameLogic/GameMode/Classic/Phase');
 var startGameCommandFactory = require('./src/GameLogic/Commands/StartGameCommand');
@@ -61,10 +63,11 @@ var systemConsole = new systemConsoleFactory();
 notifier.setConsole(systemConsole);
 
 var restDataAdapter = new restDataAdapterFactory(systemConsole);
+var socketDataAdapter = new socketDataAdapterFactory(systemConsole);
 
 var server = new serverFactory();
 var restApi = new restApiFactory(server.getServer(), restDataAdapter);
-var socketConnection = new socketConnectionFactory(0);
+var socketConnection = new socketConnectionFactory(socketDataAdapter);
 
 var notificationAdapter = new notificationAdapterFactory(socketConnection);
 

@@ -6,7 +6,7 @@ module.exports = function NotifyGameStarted (gameId) {
 
     this.executeCommand = function (navigator) {
         notificationAdapter = navigator.getNotificationAdapter();
-        notificationAdapter.notifyNewPlayerAdded(playerId, gameId);
+        notificationAdapter.notifyGameStarted(gameId);
     }
 
     this.getCommandType = function () {

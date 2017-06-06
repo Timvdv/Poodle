@@ -44,6 +44,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     }
 
     this.startGame = function(){
+        notifier.notifyGameStarted(game.getGameId());
         startInitialPhase();
     }
     function startInitialPhase(){

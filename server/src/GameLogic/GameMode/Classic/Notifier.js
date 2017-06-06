@@ -3,6 +3,7 @@
  */
 var notifyNewPlayerCommandFactory = require('../../Commands/NotifyNewPlayerCommand');
 var notifyDoodleToPlayerCommandFactory = require('../../Commands/NotifyDoodleToPlayerCommand');
+var notifyGameStartedCommandFactory = require('../../Commands/NotifyGameStartedCommand');
 
 module.exports = function Notifier(){
     var systemConsole;
@@ -10,6 +11,11 @@ module.exports = function Notifier(){
     this.notifyNewPlayerAdded = function(player, game){
         var notifyNewPlayerCommand = new notifyNewPlayerCommandFactory(player, game);
         systemConsole.executeCommand(notifyNewPlayerCommand);
+    }
+
+    this.notifyGameStarted = function(gameId){
+        var notifyGameStartedCommand = new notifyGameStartedCommandFactory(gameId);
+        systemConsole.executeCommand(notifyGameStartedCommand);
     }
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){

@@ -20,19 +20,17 @@ module.exports = function SocketConnection(adapter) {
         });
 
         socket.on('startGame', function(gameId){
-
+            var response = adapter.startGameRequest(gameId);
         });
 
         socket.on('getImages', function (gameId) {
-            console.log("adapter: " + adapter);
-
-            if(adapter) {
-                var doodles = adapter.getGameDoodles(gameId);
-                socket.emit('setImages', doodles);
-            }
+            var doodles = adapter.getGameDoodles(gameId);
+            socket.emit('setImages', doodles);
         });
 
-        // GET DOODLE AND UPDATE DOODLE.
+        socket.on('getDoodle', function(playerId, gameId){
+
+        });
 
         socket.on('updateImages', function(image) {
             const index = findIndexInData(images, 'id', image.id);

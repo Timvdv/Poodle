@@ -44,8 +44,7 @@ module.exports = function SocketDataAdapter(systemConsole){
     this.getGameDoodles = function(gameId){
         var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
         systemConsole.executeCommand(getGameDoodlesCommand);
-        console.log('gameId = ' + gameId);
-        console.log(getGameDoodlesCommand.getResponse());
+        console.log(getGameDoodlesCommand.getResponse().doodleUrls);
         return getGameDoodlesCommand.getResponse();
     }
 }

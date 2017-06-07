@@ -137,9 +137,10 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
 
     this.getDoodles = function() {
         var gameDoodles = [];
+        console.log('len = ' + players.length);
         for (var i = 0; i < players.length; i++) {
             if(players[i].getDoodle() != undefined)
-                gameDoodles += {playerId: players[i].getId(), url: players[i].getDoodle()};
+                gameDoodles.push(players[i].getDoodle());
         }
         return gameDoodles;
     }

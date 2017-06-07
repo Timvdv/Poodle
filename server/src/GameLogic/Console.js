@@ -21,7 +21,7 @@ module.exports = function Console(){
 
     function executeGameCommand(command){
         if(commandAllowed(command)) {
-            var gameManipulator = navigator.getGamesManager().getGameManipulator(command.getGameId())
+            var gameManipulator = navigator.getGamesManager().getGameManipulator(command.getGameId());
             command.executeCommand(gameManipulator);
         }
     }

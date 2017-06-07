@@ -13,7 +13,6 @@ module.exports = function StoreImageCommand(playerId, gameId, doodle){
         var gameManipulator = navigator.getGamesManager().getGameManipulator(gameId);
 
         doodleName = imagesManager.getImageName(playerId, gameId, doodle);
-        doodleName += '.png';
         imagesManager.storeImage(playerId, gameId, doodle);
 
         gameManipulator.setPlayerDoodleImage(playerId, doodleName);

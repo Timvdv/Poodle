@@ -8,12 +8,12 @@ module.exports = function GetGameDoodlesCommand(gameId){
 
     this.executeCommand = function(gameManipulator){
         var doodles = gameManipulator.getDoodles();
-        var doodleUrls = [];
+        var doodleData = [];
         for (var i = 0; i < doodles.length; i++) {
             console.log('url = ' + doodles[i].getImage());
-            doodleUrls.push(doodles[i].getImage());
+            doodleData.push({id: i, x: i*10, y: i*10, url: doodles[i].getImage() + '.png'});
         }
-        response = {gameId: gameManipulator.getGameId(), doodleUrls: doodleUrls};
+        response = doodleData;
     }
 
     this.getResponse = function(){

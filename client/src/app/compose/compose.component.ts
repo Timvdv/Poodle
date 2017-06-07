@@ -67,12 +67,12 @@ export class ComposeComponent implements OnInit {
           this.socket.emit('getImages', gameCode);
 
           this.socket.on('setImages', (data) => {
-                var doodleUrls = data.doodleUrls;
-                console.log(doodleUrls);
-                if(doodleUrls) {
-                    for (var i = 0; i < doodleUrls.length; ++i) {
-                        let image = doodleUrls[i];
-
+                if(data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        let image = data[i];
+                        console.log('image = ' + image);
+                        console.log('url = ' + image.url);
+                        console.log(environment.server_path + "/assets/" + image.url);
                         this.images.push(
                             new CanvasImage( image.id, image.x, image.y, environment.server_path + "/assets/" + image.url )
                         );

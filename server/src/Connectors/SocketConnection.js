@@ -14,6 +14,8 @@ module.exports = function SocketConnection(adapter) {
     io.on('connection', function (socket) {
         addSocket(socket);
 
+        var images = [];
+
         //This call links the socket of a client with the game it is participating in.
         socket.on('identifyGame', function(playerId, gameId){
             adapter.identifySocketConnection(playerId, gameId, socket.id);
@@ -25,6 +27,7 @@ module.exports = function SocketConnection(adapter) {
 
         socket.on('getImages', function (gameId) {
             var doodles = adapter.getGameDoodles(gameId);
+            images = doodles;
             socket.emit('setImages', doodles);
         });
 

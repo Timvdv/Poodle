@@ -20,7 +20,7 @@ module.exports = function SocketDataAdapter(systemConsole){
         systemConsole.executeCommand(socketIdentifyCommand);
     }
 
-    this.startGameRequest = function(gameId, executeResponse){
+    this.startGameRequest = function(gameId){
         if(!(gameId == undefined)){
             var startGameRequestCommand = new startGameRequestCommandFactory(gameId);
             systemConsole.executeCommand(startGameRequestCommand);
@@ -44,6 +44,8 @@ module.exports = function SocketDataAdapter(systemConsole){
     this.getGameDoodles = function(gameId){
         var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
         systemConsole.executeCommand(getGameDoodlesCommand);
+        console.log('gameId = ' + gameId);
+        console.log(getGameDoodlesCommand.getResponse());
         return getGameDoodlesCommand.getResponse();
     }
 }

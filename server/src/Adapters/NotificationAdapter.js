@@ -38,7 +38,8 @@ module.exports = function NotificationAdapter(socketConnection){
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
         var socketId = getSocketOfPlayer(playerId, gameId);
-        var eventName = "updateDoodle";
+        console.log('Notifiying to ' + playerId + " from game " + gameId + " doodle name " + doodleName + " through socket " + socketId);
+        var eventName = "setDoodle";
         var data = {doodleName: doodleName};
         socketConnection.notifySpecific(eventName, data, socketId);
     }
@@ -46,9 +47,9 @@ module.exports = function NotificationAdapter(socketConnection){
     function getSocketOfPlayer(playerId, gameId){
         var socketId;
         var game = getSocketsForGame(gameId);
-        for (var player in game) {
-            if(player.playerId == playerId){
-                socketId = player.socketId;
+        for (var i = 0; i < game.length; i++) {
+            if(game[i].playerId == playerId){
+                socketId = game[i].socketId;
             }
         }
         return socketId;
@@ -56,16 +57,16 @@ module.exports = function NotificationAdapter(socketConnection){
 
     function getSocketsForGame(gameId){
         for (var game in gameSockets) {
-            if(game.gameId == gameId) {
-                return game;
+            if(gameSockets[game].gameId == gameId) {
+                return gameSockets[game];
             }
         }
     }
 
     function notifyAllGameSockets(eventName, data, gameId){
         var game = getSocketsForGame(gameId);
-        for (var player in game) {
-            socketConnection.notifySpecific(eventName, data, player.socketId)
+        for (var i = 0; i < game.length; i++) {
+            socketConnection.notifySpecific(eventName, data, game[i].socketId);
         }
     }
 }

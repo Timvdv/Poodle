@@ -12,9 +12,6 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     var distributedElements = false;
 
     this.tick = function(){
-        if(!distributedElements){
-            distributeScenarioElementsToPlayer();
-        }
         console.log("tick");
         if(currentPhaseExists()) {
             console.log(game.getCurrentPhase().getDescription());
@@ -59,6 +56,7 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
     this.addPlayer = function(player){
         players.push(player);
         notifyNewPlayerAdded(player);
+        distributeScenarioElementsToPlayers();
     }
 
     function notifyNewPlayerAdded(player){
@@ -67,10 +65,11 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
 
     this.notifyDoodleToPlayer = function(playerId){
         var player = getPlayer(playerId);
-        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), payer.getDoodle().getName());
+        notifier.notifyDoodleToPlayer(playerId, game.getGameId(), player.getDoodle().getName());
     }
 
-    function distributeScenarioElementsToPlayer(){
+    function distributeScenarioElementsToPlayers(){
+        console.log("disting");
         var scenarioElements = game.getScenario().getElements();
         var doodle;
         for (var i = 0; i < players.length; i++) {

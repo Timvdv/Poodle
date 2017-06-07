@@ -78,6 +78,5 @@ var systemNavigator = new systemNavigatorFactory(gamesManager, systemConsole, no
 systemConsole.setNavigator(systemNavigator);
 
 server.startListening();
-systemConsole.executeCommand(startGameCommand);
 
 

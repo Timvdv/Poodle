@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { SocketioService } from '../shared/socketio.service';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
+import {platform} from "os";
 
 @Component({
   selector: 'app-draw',
@@ -39,11 +40,15 @@ export class DrawComponent implements OnInit {
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');
 
-        this.socket.emit('getDoodle');
+        const playerId = localStorage.getItem('playerId') || '';
+        const gameCode = localStorage.getItem('gameCode') || '';
+        console.log('playerid : ' + playerId);
+        console.log('code : ' + gameCode)
+        this.socket.emit('getDoodle', playerId, gameCode);
 
-        this.socket.on('setDoodle', (doodle_name) => {
-           console.log(doodle_name);
-           this.doodle_name = doodle_name;
+        this.socket.on('setDoodle', (data) => {
+           console.log('doodle naam = ' + data.doodleName);
+           this.doodle_name = data.doodleName;
         });
     }
 

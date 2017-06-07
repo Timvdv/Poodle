@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
         this.socket = this.socketService.getSocket();
 
         this.socket.on('gameStarted', (player_id) => {
+            console.log('game started! Lets go.')
             // GREAAAT SUCCESS (met borat stem)
             this.router.navigate( ['/tekenen'] );
         });
@@ -62,6 +63,10 @@ export class HomeComponent implements OnInit {
     }
 
     identify(data) {
+        // Save game to localstorage
+        localStorage.setItem('gameCode', this.code);
+        localStorage.setItem('playerId', data.id);
+
         this.socket.emit('identifyGame', data.id, this.code);
     }
 

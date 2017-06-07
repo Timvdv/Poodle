@@ -111,9 +111,12 @@ export class DrawComponent implements OnInit {
             headers = new Headers({ 'Content-Type': 'application/json' }),
             options = new RequestOptions({ headers: headers });
 
+        let playerId = localStorage.getItem('playerId') || "";
+        let gameCode = localStorage.getItem('gameCode') || "";
+
         return this.http.post(environment.server_path + "/doodle", {
-            playerId: "1234",
-            gameId: "1234",
+            playerId: playerId,
+            gameId: gameCode,
             doodle: data_url
         }, options)
                    .toPromise()

@@ -63,7 +63,9 @@ export class ComposeComponent implements OnInit {
 
           const gameCode = localStorage.getItem('gameCode') || '';
           console.log('code ' + gameCode);
+
           this.socket.emit('getImages', gameCode);
+
           this.socket.on('setImages', (data) => {
                 var doodleUrls = data.doodleUrls;
                 console.log(doodleUrls);
@@ -72,7 +74,7 @@ export class ComposeComponent implements OnInit {
                         let image = doodleUrls[i];
 
                         this.images.push(
-                            new CanvasImage( image.id, image.x, image.y, image.url )
+                            new CanvasImage( image.id, image.x, image.y, environment.server_path + "/assets/" + image.url )
                         );
                     }
                 }

@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { ComposeComponent } from './compose/compose.component';
 import { DisplayComponent } from './display/display.component';
 import { QuizComponent } from './quiz/quiz.component';
-
+import { WaitingComponent } from './waiting/waiting.component';
 
 const appRoutes: Routes = [
     {
@@ -29,6 +29,10 @@ const appRoutes: Routes = [
     {
         path: 'quiz',
         component: QuizComponent
+    },
+    {
+        path: 'waiting',
+        component: WaitingComponent
     }
 ];
 

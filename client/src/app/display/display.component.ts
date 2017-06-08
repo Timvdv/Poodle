@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterContentInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import {NewGameService} from '../shared/new-game.service';
+import { environment } from '../../environments/environment';
 
 import { SocketioService } from '../shared/socketio.service';
 import CanvasImage from '../shared/CanvasImage';
@@ -85,7 +86,7 @@ export class DisplayComponent implements OnInit {
 
                     this.images[index].drawToContext(this.ctx);
                 } else {
-                    const newCanvasImage = new CanvasImage( images[i].id, images[i].x, images[i].y, images[i].url );
+                    const newCanvasImage = new CanvasImage( images[i].id, images[i].x, images[i].y, environment.server_path + "/assets/" + images[i].url );
 
                     this.images.push(newCanvasImage);
 

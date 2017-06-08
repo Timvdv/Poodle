@@ -3,7 +3,8 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { SocketioService } from '../shared/socketio.service';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
-import {platform} from "os";
+import { platform } from "os";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-draw',
@@ -27,12 +28,16 @@ export class DrawComponent implements OnInit {
     clickY: any[] = [];
     clickDrag: any[] = [];
     paint: boolean = false;
+    artist: boolean = false;
+
+    timer: number = 30;
 
     doodle_name: string = "";
 
     constructor(
         private http: Http,
-        private socketService: SocketioService
+        private socketService: SocketioService,
+        private router: Router
     ) {
         this.socket = socketService.getSocket();
     }
@@ -50,6 +55,22 @@ export class DrawComponent implements OnInit {
            console.log('doodle naam = ' + data.doodleName);
            this.doodle_name = data.doodleName;
         });
+
+        this.socket.on('isArtist', (data) => {
+            this.artist = data.isArtist;
+        });
+
+        this.socket.on('composePhase', (data) => {
+            if(this.artist) {
+                this.router.navigate( ['/compose'] );
+            } else {
+                this.router.navigate( ['/waiting'] );
+            }
+        });
+
+        this.socket.on('timer', (data) => {
+            this.timer = data.timeLeft;
+        });
     }
 
     @HostListener('document:mouseup')
@@ -59,7 +80,6 @@ export class DrawComponent implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMouseDown(event) {
-        console.log(this.canvasRef)
         var mouseX = event.pageX - this.getOffsetLeft();
         var mouseY = event.pageY - this.getOffsetTop();
 

@@ -10,12 +10,12 @@ export default class CanvasImage {
     height: number;
     radius: number;
 
-    constructor(id: number, posX: number, posY: number, url: string) {
+    constructor(id: number, posX: number, posY: number, url: string, width?: number, height?: number) {
         this.id = id;
         this.x = posX;
         this.y = posY;
-        this.width = 100;
-        this.height = 100;
+        this.width = width || 300;
+        this.height = height || 150;
         this.url = url;
         this.radius = 100;
 

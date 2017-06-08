@@ -71,8 +71,14 @@ module.exports = function SocketConnection(adapter) {
 
     this.notifySpecific = function(eventName, data, socketId){
         if(socketId != undefined) {
-            var socket = socketInfo[socketId].socket;
-            socket.emit(eventName, data);
+            var socket = socketInfo[socketId];
+
+            if(socket) {
+                // Sokje is sokje punt sokje
+                socket = socket.socket
+                socket.emit(eventName, data);
+            }
+
         }
     }
 };

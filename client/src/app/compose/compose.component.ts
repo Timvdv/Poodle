@@ -6,7 +6,6 @@ import 'rxjs/add/operator/toPromise';
 import { SocketioService } from '../shared/socketio.service';
 import CanvasImage from '../shared/CanvasImage';
 
-
 @Component({
   selector: 'app-compose',
   templateUrl: './compose.component.html',
@@ -22,7 +21,7 @@ export class ComposeComponent implements OnInit {
     @ViewChild('title') titleRef: ElementRef;
 
     stageWidth: number = 1000;
-    stageHeight: number = 1000;
+    stageHeight: number = 500;
     color: string = "#ff7e00";
 
     clickX: any[] = [];

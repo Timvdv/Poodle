@@ -7,12 +7,6 @@
     src: url(../../assets/Montserrat-Bold.otf);
 }
 
-
-#background {
-    background-image: url("../../assets/background.png");
-    height: 640px;
-    width: 1136px;
-}
 .mybutton {
     background-image: url("../../assets/startgame_button.png");
     height: 55px;
@@ -21,19 +15,23 @@
     border-color: #F59A15;
     background-color: #F59A15;
 }
+
 .center {
     text-align: center;
     margin: auto;
     width: 50%;
 }
+
 .green {
     color: #3AAF93;
     font-family: Montserrat-Bold;
 }
+
 .orange{
     color: #F59A15;
     font-family: Arvo-Bold;
 }
+
 .code {
     padding: 10px;
     background-color: white;

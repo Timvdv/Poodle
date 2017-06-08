@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {NewGameService} from '../shared/new-game.service';
+import { Component, OnInit } from '@angular/core';
+import { NewGameService } from '../shared/new-game.service';
 import { Router } from '@angular/router';
 import { SocketioService } from '../shared/socketio.service';
 

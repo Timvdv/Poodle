@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit, ViewChild, ElementRef, HostListener } from '@angular/core';
-import {NewGameService} from '../shared/new-game.service';
+import { NewGameService } from '../shared/new-game.service';
 import { environment } from '../../environments/environment';
 
 import { SocketioService } from '../shared/socketio.service';
@@ -26,7 +26,7 @@ export class DisplayComponent implements OnInit {
     ctx: CanvasRenderingContext2D;
 
     stageWidth: number = 1000;
-    stageHeight: number = 1000;
+    stageHeight: number = 500;
 
     images: CanvasImage[] = [];
 

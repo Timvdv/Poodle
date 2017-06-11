@@ -12,7 +12,7 @@ var restDataAdapterFactory = require('./src/Adapters/RestDataAdapter');
 
 var gameManipulatorFactory = require('./src/GameLogic/GameMode/Classic/GameManipulator');
 var gameFactory = require('./src/GameLogic/GameMode/Classic/Game');
-var serverFactory = require('./src/server');
+var serverFactory = require('./src/Server');
 var socketConnectionFactory = require('./src/Connectors/SocketConnection');
 var socketDataAdapterFactory = require('./src/Adapters/SocketDataAdapter');
 var idGeneratorFactory = require('./src/GameLogic/IdGenerator');

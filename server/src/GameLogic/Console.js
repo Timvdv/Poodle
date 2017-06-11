@@ -2,6 +2,7 @@
  * Created by oteken on 5/24/2017.
  */
 module.exports = function Console(){
+    var navigator;
 
     this.executeCommand = function(command){
         /*
@@ -16,7 +17,7 @@ module.exports = function Console(){
     }
 
     function executeSystemCommand(command){
-            command.executeCommand(navigator);
+        command.executeCommand(navigator);
     }
 
     function executeGameCommand(command){

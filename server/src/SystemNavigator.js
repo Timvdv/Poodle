@@ -11,12 +11,15 @@ module.exports = function SystemNavigator(gamesManager, console, notificationAda
     this.getGamesManager = function(){
         return gamesManager;
     }
+
     this.getConsole = function(){
         return console;
     }
+
     this.getNotificationAdapter = function(){
         return notificationAdapter;
     }
+
     this.getImagesManager = function(){
         return imagesManager;
     }

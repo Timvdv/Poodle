@@ -9,6 +9,7 @@
  * this response is returned to the caller.
  */
 module.exports = function RestApi(server, adapter){
+    var server = server;
     var adapter = adapter;
 
     server.post('/doodle', function(req, res){

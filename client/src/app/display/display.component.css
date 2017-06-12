@@ -9,11 +9,14 @@
 
 .mybutton {
     background-image: url("../../assets/startgame_button.png");
+    border: 1px solid rgba(0, 0, 0, 0);
     height: 55px;
-    width: 216px;
+    width: 212px;
     border-radius: 100px;
-    border-color: #F59A15;
     background-color: #F59A15;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
 }
 
 .center {

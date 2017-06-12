@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -8,13 +9,12 @@ import 'rxjs/add/operator/toPromise';
 // bij aanmaken van een nieuwe component niet vergeten de routing aan te passen
 export class NewGameService {
 
-    playerName: string = "pipo";
+    playerName: string = "";
     constructor(private http:Http) {
     }
 
-
     getCode() {
-        return this.http.get('http://localhost:3000/newGame')
+        return this.http.get(environment.server_path + '/newGame')
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
@@ -28,7 +28,7 @@ export class NewGameService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post('http://localhost:3000/join', {
+        return this.http.post(environment.server_path + '/join', {
             "name": this.playerName,
             "image": "to be developed",
             "gameId": code

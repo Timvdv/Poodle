@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    server_path: "http://localhost:3000",
+    server_path: "http://localhost:8087",
     socket_server: "http://localhost:6060"
 };

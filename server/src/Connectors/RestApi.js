@@ -11,6 +11,7 @@
 module.exports = function RestApi(server, adapter){
     var server = server;
     var adapter = adapter;
+    var path = require('path');
 
     server.post('/doodle', function(req, res){
         adapter.saveDoodle(req, function (systemResponse){
@@ -38,6 +39,10 @@ module.exports = function RestApi(server, adapter){
             res.setHeader('Content-Type', 'application/json');
             res.send(systemResponse);
         });
+    });
+
+    server.all('*', function(req, res) {
+       res.sendFile( path.resolve(__dirname + "/../dist/index.html") );
     });
 }
 

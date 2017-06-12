@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
     ) {}
 
     socket: any;
+    name: string;
 
     error: string = "";
     code: string = "";

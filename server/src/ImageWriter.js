@@ -4,7 +4,6 @@
 
 module.exports = function ImageWriter(){
     var fs = require('fs');
-    var relativePath = "../server/assets/";
 
     this.storeRawImageAsPNG = function(name, rawImage){
         var base64Data = toBase64Data(rawImage);
@@ -16,7 +15,7 @@ module.exports = function ImageWriter(){
     }
 
     function writePNGImage(name, image){
-        fs.writeFile(relativePath + name + ".png", image, 'base64', function(err) {
+        fs.writeFile( __dirname + "/../assets/" + name + ".png", image, 'base64', function(err) {
             console.log(err);
         });
     }

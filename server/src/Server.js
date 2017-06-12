@@ -11,13 +11,19 @@ module.exports = function Server() {
 
     var allowedOrigins = [
         'localhost:8087',
-        'http://localhost:8087',
-        'http://localhost:4200',
-        'http://127.0.0.1:3000',
-        'http://www.timvandevathorst.nl',
-        'http://www.timvandevathorst.nl:8083',
-        'http://www.timvandevathorst.nl/poodle/',
-        'www.timvandevathorst.nl'
+        'localhost:8087',
+        'localhost:4200',
+        '127.0.0.1:3000',
+        '178.62.238.8:8087',
+        '178.62.238.8',
+        'www.timvandevathorst.nl',
+        'www.timvandevathorst.nl:8087',
+        'www.timvandevathorst.nl/poodle/',
+        'http://timvandevathorst.nl:8087',
+        'http://timvandevathorst.nl',
+        'timvandevathorst.nl',
+        'timvandevathorst.nl:8087',
+        'timvandevathorst.nl/poodle/',
     ];
 
     var corsOptions = {
@@ -25,6 +31,9 @@ module.exports = function Server() {
             if (allowedOrigins.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {
+                //tmp allow all
+//              callback(null, true)
+
                 callback(new Error('Not allowed by CORS'))
             }
         },

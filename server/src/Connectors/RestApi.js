@@ -42,7 +42,7 @@ module.exports = function RestApi(server, adapter){
     });
 
     server.all('*', function(req, res) {
-       res.sendFile( path.resolve(__dirname + "/../dist/index.html") );
+       res.sendFile( path.resolve(__dirname + "/../../dist/index.html") );
     });
 }
 

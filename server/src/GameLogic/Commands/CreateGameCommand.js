@@ -2,20 +2,23 @@
  * Created by oteken on 5/27/2017.
  */
 module.exports = function CreateGameCommand(){
+    var commandName = "CreateGameCommand";
     var commandType = "systemCommand";
     var response = {};
 
-    this.executeCommand = function(navigator){
-        var gamesManager = navigator.getGamesManager();
-        console.log("creating a game.....");
+    this.executeCommand = function(systemNavigator){
+        var gamesManager = systemNavigator.getGamesManager();
         var gameCreator = gamesManager.getGameCreator();
-        var gameManipulator = gameCreator.createNewGame();
-        var notifier = gameManipulator.getNotifier();
-        notifier.setConsole(navigator.getConsole());
-        gamesManager.addGameManipulator(gameManipulator);
-        var gameId = gameManipulator.getGameId()
+        var gameNavigator = gameCreator.createNewGame();
+
+        gamesManager.addGameNavigator(gameNavigator);
+        var gameId = gameNavigator.getGame().getGameId()
+
         response = {gameId: gameId};
-        console.log("Created a new Game with id " + gameId);
+    }
+
+    this.getCommandName = function(){
+        return commandName;
     }
 
     this.getCommandType = function(){
@@ -24,5 +27,9 @@ module.exports = function CreateGameCommand(){
 
     this.getResponse = function(){
         return response;
+    }
+
+    this.getParameters = function(){
+        return {};
     }
 }

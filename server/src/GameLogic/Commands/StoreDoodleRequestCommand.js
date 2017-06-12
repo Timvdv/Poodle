@@ -5,20 +5,22 @@ module.exports = function StoreImageRequestCommand(playerId, gameId, doodle){
     var playerId = playerId;
     var gameId = gameId;
     var doodle = doodle;
+    var allowed = false;
+    var commandName = "StoreImageRequestCommand";
     var commandType = "systemCommand";
     var response = "Doodle was not allowed to be stored";
-    var allowed = false;
 
-    this.executeCommand = function(navigator){
-        var imagesManager = navigator.getImagesManager();
-        var gamesManager = navigator.getGamesManager();
+    this.executeCommand = function(systemNavigator){
+        var imagesManager = systemNavigator.getImagesManager();
+        var gamesManager = systemNavigator.getGamesManager();
 
         var allowedToStoreImage = imagesManager.allowedToStore(playerId, gameId, doodle);
         var gameExists = gamesManager.gameExists(gameId);
         var playerExists = false;
 
         if(gameExists) {
-            var gameManipulator = gamesManager.getGameManipulator(gameId);
+            var gameNavigator = gamesManager.getGameNavigator(gameId);
+            var gameManipulator = gameNavigator.getGameManipulator();
             playerExists = gameManipulator.playerExists(playerId);
         }
 
@@ -26,6 +28,14 @@ module.exports = function StoreImageRequestCommand(playerId, gameId, doodle){
             response = "Doodle was allowed to be stored."
             allowed = true;
         }
+    }
+
+    this.getAllowed = function(){
+        return allowed;
+    }
+
+    this.getCommandName = function(){
+        return commandName;
     }
 
     this.getCommandType = function(){
@@ -36,7 +46,7 @@ module.exports = function StoreImageRequestCommand(playerId, gameId, doodle){
         return response;
     }
 
-    this.getAllowed = function(){
-        return allowed;
+    this.getParameters = function(){
+        return {playerId: playerId, gameId: gameId, doodle: doodle, allowed: allowed};
     }
 }

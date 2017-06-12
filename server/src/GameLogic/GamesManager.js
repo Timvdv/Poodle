@@ -4,24 +4,24 @@
 module.exports = function GamesManager(gameCreator){
 
     var gameCreator = gameCreator;
-    var gameManipulators = [];
+    var gameNavigators = [];
 
-    this.addGameManipulator = function(gameManipulator){
-        gameManipulators.push(gameManipulator);
+    this.addGameNavigator = function(gameNavigator){
+        gameNavigators.push(gameNavigator);
     }
 
-    this.getGameManipulator = function (gameId){
-        for (var i = 0; i < gameManipulators.length; i++) {
-            if(gameId == gameManipulators[i].getGameId()){
-                return gameManipulators[i];
+    this.getGameNavigator = function (gameId){
+        for (var i = 0; i < gameNavigators.length; i++) {
+            if(gameId == gameNavigators[i].getGame().getGameId()){
+                return gameNavigators[i];
             }
         }
         return undefined;
     }
 
     this.gameExists = function (gameId){
-        for (var i = 0; i < gameManipulators.length; i++) {
-            if(gameId == gameManipulators[i].getGameId()){
+        for (var i = 0; i < gameNavigators.length; i++) {
+            if(gameId == gameNavigators[i].getGame().getGameId()){
                 return true;
             }
         }

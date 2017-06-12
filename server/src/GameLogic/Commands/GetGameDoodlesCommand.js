@@ -3,10 +3,12 @@
  */
 module.exports = function GetGameDoodlesCommand(gameId){
     var gameId = gameId;
-    var response = {};
+    var commandName = "GetGameDoodlesCommand";
     var commandType = "gameCommand";
+    var response = {};
 
-    this.executeCommand = function(gameManipulator){
+    this.executeCommand = function(gameNavigator){
+        var gameManipulator = gameNavigator.getGameManipulator()
         var doodles = gameManipulator.getDoodles();
         var doodleData = [];
         for (var i = 0; i < doodles.length; i++) {
@@ -16,14 +18,23 @@ module.exports = function GetGameDoodlesCommand(gameId){
         response = doodleData;
     }
 
+    this.getGameId = function(){
+        return gameId;
+    }
+
+    this.getCommandName = function(){
+        return commandName;
+    }
+
+    this.getCommandType = function(){
+        return commandType;
+    }
+
     this.getResponse = function(){
         return response;
     }
 
-    this.getGameId = function(){
-        return gameId;
-    }
-    this.getCommandType = function(){
-        return commandType;
+    this.getParameters = function(){
+        return {gameId: gameId};
     }
 }

@@ -3,17 +3,26 @@
  */
 module.exports = function StartGameRequestCommand(gameId){
     var gameId = gameId;
+    var allowed = false;
+    var commandName = "StartGameRequestCommand";
     var commandType = "systemCommand";
     var response = "Starting game was not allowed.";
-    var allowed = false;
 
-    this.executeCommand = function(navigator){
-        var gamesManager = navigator.getGamesManager();
+    this.executeCommand = function(systemNavigator){
+        var gamesManager = systemNavigator.getGamesManager();
         console.log("game exists = " + gamesManager.gameExists(gameId));
         if(gamesManager.gameExists(gameId)) {
             response = "Starting game was allowed."
             allowed = true;
         }
+    }
+
+    this.getAllowed = function(){
+        return allowed;
+    }
+
+    this.getCommandName = function(){
+        return commandName;
     }
 
     this.getCommandType = function(){
@@ -24,7 +33,7 @@ module.exports = function StartGameRequestCommand(gameId){
         return response;
     }
 
-    this.getAllowed = function(){
-        return allowed;
+    this.getParameters = function(){
+        return {gameId: gameId, allowed: allowed};
     }
 }

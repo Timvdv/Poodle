@@ -1,10 +1,21 @@
 /**
  * Created by oteken on 5/18/2017.
  */
-module.exports = function GameRunner(gameManipulator){
-
-    var gameManipulator = gameManipulator;
+module.exports = function GameRunner(){
+    var gameNavigator;
+    var gameManipulator;
+    var game;
     var tickTime = 1000;
+
+    this.setGameNavigatorAndGetDependencies = function(navigator){
+        gameNavigator = navigator;
+        getDependentObjects();
+    }
+
+    function getDependentObjects(){
+        gameManipulator = gameNavigator.getGameManipulator();
+        game = gameNavigator.getGame();
+    }
 
     this.startGame = function(){
         gameManipulator.startGame();
@@ -16,12 +27,8 @@ module.exports = function GameRunner(gameManipulator){
 
     function tick(){
         gameManipulator.tick();
-        if(gameManipulator.getGame().getCurrentlyPlaying()){
+        if(game.getCurrentlyPlaying()){
             setTimeout(tick, tickTime);
         }
     }
-    this.getGameId = function(){
-        return gameManipulator.getGameId();
-    }
-
 }

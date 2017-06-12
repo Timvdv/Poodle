@@ -3,13 +3,28 @@
  */
 var doodleFactory = require('./Doodle');
 
-module.exports = function GameManipulator(game, idGenerator, notifier){
-    var game = game;
-    var players = game.getPlayers();
-    var idGenerator = idGenerator;
+module.exports = function GameManipulator(){
+    var gameNavigator;
+    var game;
+    var players;
+    var idGenerator;
     var gameRunner;
-    var notifier = notifier
+    var notifier;
+
     var distributedElements = false;
+
+    this.setGameNavigatorAndGetDependencies = function(navigator){
+        gameNavigator = navigator;
+        getDependentObjects();
+    }
+
+    function getDependentObjects(){
+        game = gameNavigator.getGame();
+        players = game.getPlayers();
+        idGenerator = gameNavigator.getIdGenerator();
+        gameRunner = gameNavigator.getGameRunner();
+        notifier = gameNavigator.getNotifier();
+    }
 
     this.tick = function(){
         console.log("tick");
@@ -109,25 +124,6 @@ module.exports = function GameManipulator(game, idGenerator, notifier){
             }
         }
         return 0;
-    }
-
-    this.getGame = function(){
-        return game;
-    }
-
-    this.getGameId = function(){
-        return game.getGameId();
-    }
-
-    this.setGameRunner = function(newGameRunner){
-        gameRunner = newGameRunner;
-    }
-    this.getGameRunner = function(){
-        return gameRunner;
-    }
-
-    this.getNotifier = function(){
-        return notifier;
     }
 
     function getCurrentTimeUnixSeconds(){

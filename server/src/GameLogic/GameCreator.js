@@ -1,37 +1,53 @@
 /**
  * Created by oteken on 5/27/2017.
  */
+var gameNavigatorFactory = require('./GameMode/Classic/GameNavigator');
+var gameManipulatorFactory = require('./GameMode/Classic/GameManipulator');
+var gameFactory = require('./GameMode/Classic/Game');
+var playerIdGeneratorFactory = require('./IdGenerator');
+var notifierFactory = require('./GameMode/Classic/Notifier');
+var gameRunnerFactory = require('./GameMode/Classic/GameRunner');
 
-module.exports = function GameCreator(idGenerator){
-    var gameManipulatorFactory = require('./GameMode/Classic/GameManipulator');
-    var gameFactory = require('./GameMode/Classic/Game');
-    var playerIdGeneratorFactory = require('./IdGenerator');
-    var phaseFactory = require('./GameMode/Classic/Phase');
-    var gameRunnerFactory = require('./GameMode/Classic/GameRunner');
+var phaseFactory = require('./GameMode/Classic/Phase');
+var scenarioFactory = require('./GameMode/Classic/Scenario');
+var scenarioElementFactory = require('./GameMode/Classic/ScenarioElement');
+
+module.exports = function GameCreator(idGenerator, systemConsole){
     var idGenerator = idGenerator;
-    var notifierFactory = require('./GameMode/Classic/Notifier');
-    var scenarioFactory = require('./GameMode/Classic/Scenario');
-    var scenarioElementFactory = require('./GameMode/Classic/ScenarioElement');
+    var systemConsole = systemConsole;
 
     this.createNewGame = function(){
         var gameId = idGenerator.generateUniqueId();
-        var gameManipulator = createDefaultGame(gameId);
-        return gameManipulator;
+        var gameNavigator = createDefaultGame(gameId);
+        return gameNavigator;
     }
 
-    createDefaultGame = function(gameId){
+    function createDefaultGame(gameId){
+        var gameManipulator = new gameManipulatorFactory();
+
+        var phases = getDefaultPhases();
+        var scenario = getDefaultScenario();
+        var game = new gameFactory(gameId, scenario, phases);
+
+        var playerIdGenerator = new playerIdGeneratorFactory();
+        var notifier = new notifierFactory();
+        var gameRunner = new gameRunnerFactory();
+
+        var gameNavigator = new gameNavigatorFactory(gameManipulator, game, playerIdGenerator, notifier, gameRunner);
+
+        gameManipulator.setGameNavigatorAndGetDependencies(gameNavigator);
+        gameRunner.setGameNavigatorAndGetDependencies(gameNavigator);
+        notifier.setConsole(systemConsole);
+
+        return gameNavigator;
+    }
+
+    function getDefaultPhases(){
         var phase1 = new phaseFactory("Phase one", 10);
         var phase2 = new phaseFactory("Phase two", 5);
         var phase3 = new phaseFactory("Phase three", 7);
         var phases = [phase1, phase2, phase3];
-        var scenario = getDefaultScenario();
-        var game = new gameFactory(gameId, scenario, phases);
-        var notifier = new notifierFactory();
-        var playerIdGenerator = new playerIdGeneratorFactory();
-        var gameManipulator = new gameManipulatorFactory(game, playerIdGenerator, notifier);
-        var gameRunner = new gameRunnerFactory(gameManipulator);
-        gameManipulator.setGameRunner(gameRunner);
-        return gameManipulator;
+        return phases;
     }
 
     function getDefaultScenario(){

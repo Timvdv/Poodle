@@ -5,17 +5,14 @@ module.exports = function SocketIdentifyCommand(playerId, gameId, socketId){
     var playerId = playerId;
     var gameId = gameId;
     var socketId = socketId;
-    var response = {};
+    var commandName = "SocketIdentifyCommand";
     var commandType = "systemCommand";
+    var response = {};
 
-    this.executeCommand = function(navigator){
-        var notificationAdapter = navigator.getNotificationAdapter();
+    this.executeCommand = function(systemNavigator){
+        var notificationAdapter = systemNavigator.getNotificationAdapter();
         notificationAdapter.identifySocketConnection(playerId, gameId, socketId);
         console.log("Identified socket " + socketId + " with player " + playerId + " joining the game " + gameId);
-    }
-
-    this.getResponse = function(){
-        return response;
     }
 
     this.getPlayerId = function(){
@@ -30,7 +27,19 @@ module.exports = function SocketIdentifyCommand(playerId, gameId, socketId){
         return socketId;
     }
 
+    this.getCommandName = function(){
+        return commandName;
+    }
+
     this.getCommandType = function(){
         return commandType;
+    }
+
+    this.getResponse = function(){
+        return response;
+    }
+
+    this.getParameters = function(){
+        return {playerId: playerId, gameId: gameId, socketId: socketId};
     }
 }

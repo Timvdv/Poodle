@@ -41,10 +41,13 @@ module.exports = function SocketDataAdapter(systemConsole){
         systemConsole.executeCommand(getPlayerDoodleNameCommand);
     }
 
-    this.getGameDoodles = function(gameId){
-        var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
-        systemConsole.executeCommand(getGameDoodlesCommand);
-        console.log(getGameDoodlesCommand.getResponse().doodleUrls);
-        return getGameDoodlesCommand.getResponse();
+    this.getGameDoodles = function(gameId) {
+        if (gameId != undefined) {
+            var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
+            systemConsole.executeCommand(getGameDoodlesCommand);
+            console.log(getGameDoodlesCommand.getResponse().doodleUrls);
+            return getGameDoodlesCommand.getResponse();
+        }
     }
+    return "Wrong parameters";
 }

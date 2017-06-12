@@ -9,11 +9,19 @@ module.exports = function Console(){
          * If inheritance was implemented, it would have been better to check if the given command was an instance of
          * the parent class GameCommand or SystemCommand instead of checking variables inside the commands.
          */
+        logCommand(command);
         if(command.getCommandType() == "systemCommand"){
             executeSystemCommand(command);
         } else if(command.getCommandType() == "gameCommand"){
             executeGameCommand(command);
         }
+    }
+
+    function logCommand(command){
+        var commandName = command.getCommandName();
+        var commandType = command.getCommandType();
+        var parameters = command.getParameters();
+        console.log({commandName: commandName, commandType: commandType, parameters: parameters});
     }
 
     function executeSystemCommand(command){
@@ -22,8 +30,8 @@ module.exports = function Console(){
 
     function executeGameCommand(command){
         if(commandAllowed(command)) {
-            var gameManipulator = navigator.getGamesManager().getGameManipulator(command.getGameId());
-            command.executeCommand(gameManipulator);
+            var gameNavigator = navigator.getGamesManager().getGameNavigator(command.getGameId());
+            command.executeCommand(gameNavigator);
         }
     }
 

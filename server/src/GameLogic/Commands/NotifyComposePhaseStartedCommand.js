@@ -1,13 +1,13 @@
 /**
- * Created by oteken on 6/5/2017.
+ * Created by oteken on 6/12/2017.
  */
-module.exports = function NotifyGameStartedCommand (gameId) {
-    var commandName = "NotifyGameStartedCommand";
+module.exports = function NotifyComposePhaseStartedCommand(gameId) {
+    var commandName = "NotifyComposePhaseStartedCommand";
     var commandType = "systemCommand";
 
     this.executeCommand = function (systemNavigator) {
         notificationAdapter = systemNavigator.getNotificationAdapter();
-        notificationAdapter.notifyGameStarted(gameId);
+        notificationAdapter.notifyComposePhaseStarted(gameId);
     }
 
     this.getCommandName = function(){

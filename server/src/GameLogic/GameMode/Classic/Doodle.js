@@ -1,7 +1,7 @@
 /**
  * Created by oteken on 5/9/2017.
  */
-module.exports = function DoodleClassic(name, priority, layer){
+module.exports = function Doodle(name, priority, layer){
     var name = name;
     var priority = priority;
     var layer = layer;

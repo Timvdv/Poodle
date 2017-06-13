@@ -7,14 +7,9 @@
  * and process this data into an agreed upon object to the front-end.
  * After this processing the object is sent through the websocket.
  */
-module.exports = function NotificationAdapter(socketConnection){
-
+module.exports = function NotificationAdapter(socketConnection, socketConnectionManager){
     var socketConnection = socketConnection;
-    /*
-     * Contains a reference to the identified sockets by a grouping of games.
-     * This way it is faster to notify all players of a specific game.
-     */
-    var gameSockets = [];
+    var socketConnectionManager = socketConnectionManager;
 
     this.notifyNewPlayerAdded = function(player, game){
         var data = {playerId : player.getId(), playerName: player.getName(), gameId: game.getGameId()};
@@ -28,44 +23,32 @@ module.exports = function NotificationAdapter(socketConnection){
         notifyAllGameSockets(eventName, data, gameId);
     }
 
-    this.identifySocketConnection = function(playerId, gameId, socketId){
-        if (gameSockets[gameId] == undefined) {
-            gameSockets[gameId] = [];
-            gameSockets[gameId].gameId = gameId;
-        }
-        gameSockets[gameId].push({socketId: socketId, playerId: playerId});
+    this.notifyComposePhaseStarted = function(gameId){
+        var data = {started: true};
+        var eventName = "composePhase";
+        notifyAllGameSockets(eventName, data, gameId);
+    }
+
+    this.notifyToPlayerIsArtist = function(playerId, gameId){
+        var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
+        var data = {isArtist: true};
+        var eventName = "isArtist";
+        socketConnection.notifySpecific(eventName, data, socketId);
     }
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
-        var socketId = getSocketOfPlayer(playerId, gameId);
+        var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
         console.log('Notifiying to ' + playerId + " from game " + gameId + " doodle name " + doodleName + " through socket " + socketId);
         var eventName = "setDoodle";
         var data = {doodleName: doodleName};
         socketConnection.notifySpecific(eventName, data, socketId);
     }
 
-    function getSocketOfPlayer(playerId, gameId){
-        var socketId;
-        var game = getSocketsForGame(gameId);
-        for (var i = 0; i < game.length; i++) {
-            if(game[i].playerId == playerId){
-                socketId = game[i].socketId;
-            }
-        }
-        return socketId;
-    }
-
-    function getSocketsForGame(gameId){
-        for (var game in gameSockets) {
-            if(gameSockets[game].gameId == gameId) {
-                return gameSockets[game];
-            }
-        }
-    }
-
     function notifyAllGameSockets(eventName, data, gameId){
-        var game = getSocketsForGame(gameId);
+        var game = socketConnectionManager.getSocketsForGame(gameId);
         for (var i = 0; i < game.length; i++) {
+            console.log("now notifying game sockets");
+            console.log(game);
             socketConnection.notifySpecific(eventName, data, game[i].socketId);
         }
     }

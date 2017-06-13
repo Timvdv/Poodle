@@ -10,6 +10,7 @@ module.exports = function GameManipulator(){
     var idGenerator;
     var gameRunner;
     var notifier;
+    var artistPlayer;
 
     var distributedElements = false;
 
@@ -27,15 +28,36 @@ module.exports = function GameManipulator(){
     }
 
     this.tick = function(){
-        console.log("tick");
-        if(currentPhaseExists()) {
-            console.log(game.getCurrentPhase().getDescription());
-            if (phaseTimeOver()) {
-                nextPhase();
-            }
-        } else {
+        console.log("Tick : " + getCurrentPhaseDescription());
+        if(!currentPhaseExists()){
             game.setCurrentlyPlaying(false);
+            return;
         }
+        if(getCurrentPhaseDescription() == "Phase one"){
+            phaseOneTick();
+        } else if(getCurrentPhaseDescription() == "Phase two"){
+            phaseTwoTick();
+        } else if(getCurrentPhaseDescription() == "Phase three"){
+            phaseThreeTick();
+        }
+    }
+
+    function phaseOneTick(){
+        if(phaseTimeOver()){
+            notifier.notifyToPlayerIsArtist(artistPlayer.getId(), game.getGameId());
+            notifier.notifyComposePhaseStarted(game.getGameId());
+            nextPhase();
+        }
+    }
+
+    function phaseTwoTick(){
+        if(phaseTimeOver()){
+            nextPhase();
+        }
+    }
+
+    function phaseThreeTick(){
+
     }
 
     function nextPhase(){
@@ -45,7 +67,11 @@ module.exports = function GameManipulator(){
         }
     }
 
-    function phaseTimeOver() {
+    function getCurrentPhaseDescription(){
+        return game.getCurrentPhase().getDescription();
+    }
+
+    function phaseTimeOver(){
         var currentPhase = game.getCurrentPhase();
         var endTimeForPhase = currentPhase.getStartTime() + currentPhase.getDurationTime();
         return endTimeForPhase <= getCurrentTimeUnixSeconds() ? true : false;
@@ -72,6 +98,7 @@ module.exports = function GameManipulator(){
         players.push(player);
         notifyNewPlayerAdded(player);
         distributeScenarioElementsToPlayers();
+        chooseArtist();
     }
 
     function notifyNewPlayerAdded(player){
@@ -81,6 +108,10 @@ module.exports = function GameManipulator(){
     this.notifyDoodleToPlayer = function(playerId){
         var player = getPlayer(playerId);
         notifier.notifyDoodleToPlayer(playerId, game.getGameId(), player.getDoodle().getName());
+    }
+
+    function chooseArtist(){
+        artistPlayer = players[players.length-1];
     }
 
     function distributeScenarioElementsToPlayers(){
@@ -135,8 +166,11 @@ module.exports = function GameManipulator(){
         var gameDoodles = [];
         console.log('len = ' + players.length);
         for (var i = 0; i < players.length; i++) {
-            if(players[i].getDoodle() != undefined)
+            if(players[i].getDoodle()) {
+                console.log("player = " + players[i].getName());
+                console.log("Url of player = " + players[i].getDoodle().getImage());
                 gameDoodles.push(players[i].getDoodle());
+            }
         }
         return gameDoodles;
     }

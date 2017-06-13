@@ -11,6 +11,7 @@ module.exports = function GetGameDoodlesCommand(gameId){
         var gameManipulator = gameNavigator.getGameManipulator()
         var doodles = gameManipulator.getDoodles();
         var doodleData = [];
+        console.log("The doodles are : " + doodles);
         for (var i = 0; i < doodles.length; i++) {
             console.log('url = ' + doodles[i].getImage());
             doodleData.push({id: i, x: i*10, y: i*10, url: doodles[i].getImage() + '.png'});

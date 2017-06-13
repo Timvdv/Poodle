@@ -4,6 +4,8 @@
 var notifyNewPlayerCommandFactory = require('../../Commands/NotifyNewPlayerCommand');
 var notifyDoodleToPlayerCommandFactory = require('../../Commands/NotifyDoodleToPlayerCommand');
 var notifyGameStartedCommandFactory = require('../../Commands/NotifyGameStartedCommand');
+var notifyComposePhaseStartedCommandFactory = require('../../Commands/NotifyComposePhaseStartedCommand');
+var notifyToPlayerIsArtistCommandFactory = require('../../Commands/NotifyToPlayerIsArtistCommand');
 
 module.exports = function Notifier(){
     var systemConsole;
@@ -21,6 +23,16 @@ module.exports = function Notifier(){
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
         var notifyDoodleToPlayerCommand = new notifyDoodleToPlayerCommandFactory(playerId, gameId, doodleName);
         systemConsole.executeCommand(notifyDoodleToPlayerCommand);
+    }
+
+    this.notifyComposePhaseStarted = function(gameId){
+        var notifyComposePhaseStartedCommand = new notifyComposePhaseStartedCommandFactory(gameId);
+        systemConsole.executeCommand(notifyComposePhaseStartedCommand);
+    }
+
+    this.notifyToPlayerIsArtist = function(playerId, gameId){
+        var notifyToPlayerIsArtistCommand = new notifyToPlayerIsArtistCommandFactory(playerId, gameId);
+        systemConsole.executeCommand(notifyToPlayerIsArtistCommand);
     }
 
     this.setConsole = function(newConsole){

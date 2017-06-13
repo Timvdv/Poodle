@@ -23,20 +23,23 @@ var systemConsoleFactory = require('./src/GameLogic/Console');
 var gameCreatorFactory = require('./src/GameLogic/GameCreator');
 var scenarioFactory = require('./src/GameLogic/GameMode/Classic/Scenario');
 var scenarioElementFactory = require('./src/GameLogic/GameMode/Classic/ScenarioElement');
+var socketConnectionManagerFactory = require('./src/Adapters/SocketConnectionManager');
 
 var systemConsole = new systemConsoleFactory();
 var gameIdGenerator = new idGeneratorFactory();
 var gameCreator = new gameCreatorFactory(gameIdGenerator, systemConsole);
 var gamesManager = new gamesManagerFactory(gameCreator);
 
+var socketConnectionManager = new socketConnectionManagerFactory();
+
 var restDataAdapter = new restDataAdapterFactory(systemConsole);
-var socketDataAdapter = new socketDataAdapterFactory(systemConsole);
+var socketDataAdapter = new socketDataAdapterFactory(systemConsole, socketConnectionManager);
 
 var server = new serverFactory();
 var restApi = new restApiFactory(server.getServer(), restDataAdapter);
-var socketConnection = new socketConnectionFactory(socketDataAdapter);
+var socketConnection = new socketConnectionFactory(socketDataAdapter, socketConnectionManager);
 
-var notificationAdapter = new notificationAdapterFactory(socketConnection);
+var notificationAdapter = new notificationAdapterFactory(socketConnection, socketConnectionManager);
 
 var imageWriter = new imageWriterFactory();
 var imagesManager = new imagesManagerFactory(imageWriter);

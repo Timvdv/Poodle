@@ -6,33 +6,34 @@
  * This class is responsible for receiving requests and
  * sending the data of the request to the adapter object.
  */
-module.exports = function SocketConnection(adapter) {
+module.exports = function SocketConnection(adapter, socketConnectionManager) {
     var io = require('socket.io')(6060);
+    var adapter = adapter;
+    var socketConnectionManager = socketConnectionManager;
 
-    var socketInfo = {};
+    var sockets = {};
 
     io.on('connection', function (socket) {
-        addSocket(socket);
-
+        socketConnectionManager.addSocket(socket);
         var images = [];
 
         //This call links the socket of a client with the game it is participating in.
         socket.on('identifyGame', function(playerId, gameId){
-            adapter.identifySocketConnection(playerId, gameId, socket.id);
+            socketConnectionManager.identifySocketConnection(playerId, gameId, socket.id);
         });
 
-        socket.on('startGame', function(gameId){
-            var response = adapter.startGameRequest(gameId);
+        socket.on('startGame', function(){
+            adapter.startGameRequest(socket.id);
         });
 
-        socket.on('getImages', function (gameId) {
-            var doodles = adapter.getGameDoodles(gameId);
+        socket.on('getImages', function () {
+            var doodles = adapter.getGameDoodles(socket.id);
             images = doodles;
             socket.emit('setImages', doodles);
         });
 
-        socket.on('getDoodle', function(playerId, gameId){
-            adapter.notifyDoodleToPlayer(playerId, gameId);
+        socket.on('getDoodle', function(){
+            adapter.notifyDoodleToPlayer(socket.id);
         });
 
         socket.on('updateImages', function(image) {
@@ -44,17 +45,10 @@ module.exports = function SocketConnection(adapter) {
             }
         });
 
-
-
         socket.on('disconnect', function (data) {
-            delete socketInfo[socket.id];
+            socketConnectionManager.deleteSocket(socket.id);
         });
     });
-
-    function addSocket(socket){
-        socketInfo[socket.id] = [];
-        socketInfo[socket.id].socket = socket;
-    }
 
     function findIndexInData(data, property, value) {
         for(var i = 0, l = data.length ; i < l ; i++) {
@@ -70,15 +64,9 @@ module.exports = function SocketConnection(adapter) {
     };
 
     this.notifySpecific = function(eventName, data, socketId){
-        if(socketId != undefined) {
-            var socket = socketInfo[socketId];
-
-            if(socket) {
-                // Sokje is sokje punt sokje
-                socket = socket.socket
-                socket.emit(eventName, data);
-            }
-
+        var socket = socketConnectionManager.getSocket(socketId);
+        if(socket) {
+            socket.emit(eventName, data);
         }
     }
-};
+}

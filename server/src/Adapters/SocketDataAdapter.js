@@ -11,16 +11,17 @@ var getPlayerDoodleNameCommandFactory = require('../GameLogic/Commands/GetPlayer
  * This class is responsible for receiving requests from the websocket
  * and process this data into a command that can be executed by the system.
  */
-module.exports = function SocketDataAdapter(systemConsole){
-
+module.exports = function SocketDataAdapter(systemConsole, socketConnectionManager){
     var systemConsole = systemConsole;
+    var socketConnectionManager = socketConnectionManager;
 
     this.identifySocketConnection = function(playerId, gameId, socketId){
         var socketIdentifyCommand = new socketIdentifyCommandFactory(playerId, gameId, socketId);
         systemConsole.executeCommand(socketIdentifyCommand);
     }
 
-    this.startGameRequest = function(gameId){
+    this.startGameRequest = function(socketId){
+        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
         if(!(gameId == undefined)){
             var startGameRequestCommand = new startGameRequestCommandFactory(gameId);
             systemConsole.executeCommand(startGameRequestCommand);
@@ -36,13 +37,16 @@ module.exports = function SocketDataAdapter(systemConsole){
         }
     }
 
-    this.notifyDoodleToPlayer = function(playerId, gameId){
+    this.notifyDoodleToPlayer = function(socketId){
+        var playerId = socketConnectionManager.getPlayerIdFromSocket(socketId);
+        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
         var getPlayerDoodleNameCommand = new getPlayerDoodleNameCommandFactory(playerId, gameId);
         systemConsole.executeCommand(getPlayerDoodleNameCommand);
     }
 
-    this.getGameDoodles = function(gameId) {
-        if (gameId != undefined) {
+    this.getGameDoodles = function(socketId){
+        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
+        if (gameId){
             var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
             systemConsole.executeCommand(getGameDoodlesCommand);
             console.log(getGameDoodlesCommand.getResponse().doodleUrls);

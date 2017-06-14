@@ -35,9 +35,11 @@ export class ComposeComponent implements OnInit {
     dragHoldY: number;
     targetX: number;
     targetY: number;
-    timer: any;
+    timer: any = 30;
 
     images: CanvasImage[] = [];
+
+    drawTitle: string = "";
 
     constructor(
         private http: Http,
@@ -48,6 +50,8 @@ export class ComposeComponent implements OnInit {
 
     ngOnInit() {
         this.ctx = this.canvasRef.nativeElement.getContext('2d');
+
+        this.drawTitle = localStorage.getItem('drawTitle') || ""
 
         // Vieze timeout sorry (╯°□°）╯︵ ┻━┻
         setTimeout( () => {
@@ -78,6 +82,14 @@ export class ComposeComponent implements OnInit {
                     }
                 }
             });
+
+        this.socket.on('timer', (data) => {
+            this.timer = data.timeLeft;
+
+            if(data.timeLeft == 0) {
+                localStorage.removeItem('drawTitle');
+            }
+        });
 
         } else {
             console.error('No socket connection :(');

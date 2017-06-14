@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="name" class="col-4 col-form-label">Game Code</label>
+        <label for="code" class="col-4 col-form-label">Game Code</label>
         <div class="col-8">
             <input (ngModelChange)="enterCode($event)" [ngModel]="code" type="text" placeholder="code" id="code" class="form-control">
         </div>
@@ -36,9 +36,11 @@
 
 
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <hr>
 
-    <button class="btn btn-primary" [routerLink]="['/tekenen']"> Maak een tekening </button>
-    <button class="btn btn-primary" [routerLink]="['/compose']"> Verplaats de tekeningen </button>
     <button class="btn btn-primary" [routerLink]="['/display']"> display </button>
 </div>

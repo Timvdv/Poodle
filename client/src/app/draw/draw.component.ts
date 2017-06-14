@@ -58,6 +58,7 @@ export class DrawComponent implements OnInit {
 
         this.socket.on('isArtist', (data) => {
             this.artist = data.isArtist;
+            localStorage.setItem('drawTitle', data.artTitle);
         });
 
         this.socket.on('composePhase', (data) => {

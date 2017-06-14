@@ -15,11 +15,13 @@ module.exports = function SocketConnectionManager(){
     }
 
     this.getSocket = function(socketId){
-        return sockets[socketId].socket;
+        if(sockets[socketId])
+            return sockets[socketId].socket;
     }
 
     this.deleteSocket = function(socketId){
-        delete sockets[socketId];
+        if(sockets[socketId])
+            delete sockets[socketId];
     }
 
     function deleteGameSocket(playerId, gameId){

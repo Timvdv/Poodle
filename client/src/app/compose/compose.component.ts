@@ -98,8 +98,14 @@ export class ComposeComponent implements OnInit {
         this.draggingImage = false;
     }
 
+    @HostListener('document:touchend', ['$event'])
+    onTouchUp(event) {
+        this.onMouseUp();
+    }
+
     @HostListener('mousedown', ['$event'])
     onMouseDown(event) {
+
         var mouseX = event.pageX - this.getOffsetLeft();
         var mouseY = event.pageY - this.getOffsetTop();
 
@@ -108,14 +114,26 @@ export class ComposeComponent implements OnInit {
         this.redraw();
     }
 
+    @HostListener('touchstart', ['$event'])
+    onTouchDown(event) {
+        event.preventDefault();
+        this.onMouseDown(event);
+    }
+
+    @HostListener('touchmove', ['$event'])
+    onTouchMove(event) {
+        this.changePixel(event);
+    }
+
     @HostListener('mousemove', ['$event'])
     changePixel(event) {
+
         if(!this.images.length) {
             console.error('no images');
             return;
         }
 
-        if(this.drag){
+        if(this.drag) {
             this.mousePos = this.getMousePos(event);
             this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop(), true);
 

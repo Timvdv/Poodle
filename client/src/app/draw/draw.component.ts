@@ -78,20 +78,37 @@ export class DrawComponent implements OnInit {
         this.paint = false;
     }
 
+    @HostListener('document:touchend', ['$event'])
+    onTouchUp(event) {
+        this.onMouseUp();
+    }
+
     @HostListener('mousedown', ['$event'])
     onMouseDown(event) {
-        var mouseX = event.pageX - this.getOffsetLeft();
-        var mouseY = event.pageY - this.getOffsetTop();
+        var mouseX = this.getMousePos(event).x;
+        var mouseY = this.getMousePos(event).y;
 
         this.paint = true;
-        this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop());
+        this.addClick(this.getMousePos(event).x, this.getMousePos(event).y);
         this.redraw();
+    }
+
+    @HostListener('touchstart', ['$event'])
+    onTouchDown(event) {
+        this.onMouseDown(event);
+    }
+
+    @HostListener('touchmove', ['$event'])
+    onTouchMove(event) {
+        event.preventDefault();
+        this.changePixel(event);
     }
 
     @HostListener('mousemove', ['$event'])
     changePixel(event) {
-        if(this.paint){
-            this.addClick(event.pageX - this.getOffsetLeft(), event.pageY - this.getOffsetTop(), true);
+
+        if(this.paint) {
+            this.addClick(this.getMousePos(event).x, this.getMousePos(event).y, true);
             this.redraw();
         }
     }
@@ -175,5 +192,13 @@ export class DrawComponent implements OnInit {
 
         console.error(errMsg);
         return Promise.reject(errMsg);
+    }
+
+    getMousePos(event) {
+        const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+        return {
+            x: (event.clientX - rect.left) || (event.changedTouches && event.changedTouches[0].clientX - rect.left),
+            y: (event.clientY - rect.top) || (event.changedTouches && event.changedTouches[0].clientY - rect.top)
+        };
     }
 }

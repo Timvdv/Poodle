@@ -7,6 +7,7 @@ import CanvasImage from '../shared/CanvasImage';
 
 enum DisplayState {
     NEWGAME,
+    INPROGRESS,
     COMPOSE,
     LOADING,
 }
@@ -67,6 +68,14 @@ export class DisplayComponent implements OnInit {
                     playerId: data.playerId,
                     playerName: data.playerName
                 })
+            });
+
+            this.socket.on('gameStarted', (data) => {
+                this.state = DisplayState.INPROGRESS;
+            });
+
+            this.socket.on('composePhase', (data) => {
+                this.state = DisplayState.COMPOSE;
             });
         }
     }

@@ -218,6 +218,7 @@ export class ComposeComponent implements OnInit {
             this.images[this.images.length-1].x = this.mousePos.x - (this.images[this.images.length-1].width / 2);
             this.images[this.images.length-1].y = this.mousePos.y - (this.images[this.images.length-1].height / 2);
 
+            console.log(this.images[this.images.length-1]);
             this.socket.emit('updateImages', this.images[this.images.length-1]);
         }
 

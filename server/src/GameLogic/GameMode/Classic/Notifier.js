@@ -6,6 +6,8 @@ var notifyDoodleToPlayerCommandFactory = require('../../Commands/NotifyDoodleToP
 var notifyGameStartedCommandFactory = require('../../Commands/NotifyGameStartedCommand');
 var notifyComposePhaseStartedCommandFactory = require('../../Commands/NotifyComposePhaseStartedCommand');
 var notifyToPlayerIsArtistCommandFactory = require('../../Commands/NotifyToPlayerIsArtistCommand');
+var notifyTimeLeftCommandFactory = require('../../Commands/NotifyTimeLeftCommand');
+
 
 module.exports = function Notifier(){
     var systemConsole;
@@ -33,6 +35,11 @@ module.exports = function Notifier(){
     this.notifyToPlayerIsArtist = function(playerId, gameId, artTitle){
         var notifyToPlayerIsArtistCommand = new notifyToPlayerIsArtistCommandFactory(playerId, gameId, artTitle);
         systemConsole.executeCommand(notifyToPlayerIsArtistCommand);
+    }
+
+    this.notifyTimeLeft = function(gameId, timeLeft){
+        var notifyTimeLeftCommand = new notifyTimeLeftCommandFactory(gameId, timeLeft);
+        systemConsole.executeCommand(notifyTimeLeftCommand);
     }
 
     this.setConsole = function(newConsole){

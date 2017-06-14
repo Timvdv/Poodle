@@ -36,6 +36,12 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
         socketConnection.notifySpecific(eventName, data, socketId);
     }
 
+    this.notifyTimeLeft = function(gameId, timeLeft){
+        var data = {timeLeft: timeLeft};
+        var eventName = "timer";
+        notifyAllGameSockets(eventName, data, gameId);
+    }
+
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
         var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
         console.log('Notifiying to ' + playerId + " from game " + gameId + " doodle name " + doodleName + " through socket " + socketId);

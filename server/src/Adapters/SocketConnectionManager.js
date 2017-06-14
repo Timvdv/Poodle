@@ -22,6 +22,16 @@ module.exports = function SocketConnectionManager(){
         delete sockets[socketId];
     }
 
+    function deleteGameSocket(playerId, gameId){
+        var game = getSocketsForGame(gameId);
+        for (var i = 0; i < game.length; i++) {
+            if(game[i].playerId == playerId){
+                console.log("Player has new socket");
+                game.splice(i, 1);
+            }
+        }
+    }
+
     this.getPlayerIdFromSocket = function(socketId){
         if(sockets[socketId]) {
             var playerId = sockets[socketId].playerId;
@@ -43,6 +53,13 @@ module.exports = function SocketConnectionManager(){
             gameSockets[gameId] = [];
             gameSockets[gameId].gameId = gameId;
         }
+        console.log("Identifying...");
+        var player = getSocketOfPlayer(playerId, gameId);
+        console.log("for player " + playerId + " of game : " + gameId + " with socket : " + socketId);
+        console.log("in mem for player " + player);
+        if(player){
+            deleteGameSocket(playerId, gameId);
+        }
         gameSockets[gameId].push({socketId: socketId, playerId: playerId});
         sockets[socketId].playerId = playerId;
         sockets[socketId].gameId = gameId;
@@ -59,7 +76,29 @@ module.exports = function SocketConnectionManager(){
         return socketId;
     }
 
+    function getSocketOfPlayer(playerId, gameId){
+        var socketId;
+        var game = getSocketsForGame(gameId);
+        for (var i = 0; i < game.length; i++) {
+            if(game[i].playerId == playerId){
+                socketId = game[i].socketId;
+            }
+        }
+        return socketId;
+    }
+
     this.getSocketsForGame = function(gameId){
+        for (var game in gameSockets) {
+            console.log("Game : " + gameSockets[game].gameId);
+            console.log("Looking for : " + gameId);
+            if(gameSockets[game].gameId == gameId) {
+                console.log("returning correct");
+                return gameSockets[game];
+            }
+        }
+    }
+
+    function getSocketsForGame(gameId){
         for (var game in gameSockets) {
             console.log("Game : " + gameSockets[game].gameId);
             console.log("Looking for : " + gameId);

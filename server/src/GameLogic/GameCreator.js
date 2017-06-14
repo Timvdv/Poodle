@@ -43,9 +43,9 @@ module.exports = function GameCreator(idGenerator, systemConsole){
     }
 
     function getDefaultPhases(){
-        var phase1 = new phaseFactory("Phase one", 10);
-        var phase2 = new phaseFactory("Phase two", 5);
-        var phase3 = new phaseFactory("Phase three", 7);
+        var phase1 = new phaseFactory("Phase one", 30);
+        var phase2 = new phaseFactory("Phase two", 30);
+        var phase3 = new phaseFactory("Phase three", 30);
         var phases = [phase1, phase2, phase3];
         return phases;
     }

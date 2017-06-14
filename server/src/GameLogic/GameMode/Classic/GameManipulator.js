@@ -43,9 +43,11 @@ module.exports = function GameManipulator(){
     }
 
     function phaseOneTick(){
+        var gameId = game.getGameId();
+        var timeLeft = phaseTimeLeft();
+        notifier.notifyTimeLeft(gameId, timeLeft);
         if(phaseTimeOver() || allDoodlesSubmitted()){
             var playerId = artistPlayer.getId();
-            var gameId = game.getGameId();
             var artTitle = game.getScenario().getPaintingName();
             notifier.notifyToPlayerIsArtist(playerId, gameId, artTitle);
             notifier.notifyComposePhaseStarted(game.getGameId());
@@ -54,6 +56,9 @@ module.exports = function GameManipulator(){
     }
 
     function phaseTwoTick(){
+        var gameId = game.getGameId();
+        var timeLeft = phaseTimeLeft();
+        notifier.notifyTimeLeft(gameId, timeLeft);
         if(phaseTimeOver()){
             nextPhase();
         }
@@ -78,6 +83,12 @@ module.exports = function GameManipulator(){
         var currentPhase = game.getCurrentPhase();
         var endTimeForPhase = currentPhase.getStartTime() + currentPhase.getDurationTime();
         return endTimeForPhase <= getCurrentTimeUnixSeconds() ? true : false;
+    }
+
+    function phaseTimeLeft(){
+        var currentPhase = game.getCurrentPhase();
+        var endTimeForPhase = currentPhase.getStartTime() + currentPhase.getDurationTime();
+        return (endTimeForPhase - getCurrentTimeUnixSeconds());
     }
 
     function allDoodlesSubmitted(){

@@ -29,9 +29,9 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
         notifyAllGameSockets(eventName, data, gameId);
     }
 
-    this.notifyToPlayerIsArtist = function(playerId, gameId){
+    this.notifyToPlayerIsArtist = function(playerId, gameId, artTitle){
         var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
-        var data = {isArtist: true};
+        var data = {isArtist: true, artTitle: artTitle};
         var eventName = "isArtist";
         socketConnection.notifySpecific(eventName, data, socketId);
     }

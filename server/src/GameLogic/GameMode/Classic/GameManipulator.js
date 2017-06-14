@@ -136,15 +136,22 @@ module.exports = function GameManipulator(){
     }
 
     function chooseArtist(){
-        artistPlayer = players[players.length-1];
+        var randomInt = getRandomInt(0, players.length-1);
+        artistPlayer = players[randomInt];
     }
 
     function distributeScenarioElementsToPlayers(){
-        console.log("disting");
         var scenarioElements = game.getScenario().getElements();
+        var availableElements = [];
+        for (var i = 0; i < scenarioElements.length; i++) {
+            availableElements[i] = scenarioElements[i];
+        }
+
         var doodle;
         for (var i = 0; i < players.length; i++) {
-            doodle = createDoodleFromScenarioElement(scenarioElements[i]);
+            var randomInt = getRandomInt(0, availableElements.length-1);
+            doodle = createDoodleFromScenarioElement(availableElements[randomInt]);
+            availableElements.splice(randomInt, 1);
             players[i].setDoodle(doodle);
         }
         distributedElements = true;
@@ -234,5 +241,9 @@ module.exports = function GameManipulator(){
             }
         }
         return undefined;
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }

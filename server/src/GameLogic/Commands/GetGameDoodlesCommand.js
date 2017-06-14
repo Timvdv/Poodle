@@ -14,7 +14,7 @@ module.exports = function GetGameDoodlesCommand(gameId){
         console.log("The doodles are : " + doodles);
         for (var i = 0; i < doodles.length; i++) {
             console.log('url = ' + doodles[i].getImage());
-            doodleData.push({id: i, x: i*10, y: i*10, url: doodles[i].getImage() + '.png'});
+            doodleData.push({id: i + 1, x: i*10, y: i*10, url: doodles[i].getImage() + '.png'});
         }
         response = doodleData;
     }

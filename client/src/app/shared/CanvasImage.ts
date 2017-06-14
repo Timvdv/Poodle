@@ -14,8 +14,8 @@ export default class CanvasImage {
         this.id = id;
         this.x = posX;
         this.y = posY;
-        this.width = width || 300;
-        this.height = height || 150;
+        this.width = 300;
+        this.height = 150;
         this.url = url;
         this.radius = 100;
 
@@ -34,15 +34,15 @@ export default class CanvasImage {
     }
 
     hitTest(hitX,hitY) {
-        let dx = this.x - hitX;
-        let dy = this.y - hitY;
+        let dx = this.x - hitX + (this.width / 2);
+        let dy = this.y - hitY + (this.height / 2);
 
         return(dx*dx + dy*dy < this.radius*this.radius);
     }
 
     drawToContext(theContext) {
         if(this.draw) {
-            theContext.drawImage(this.img, this.x, this.y, this.width, this.height);
+            theContext.drawImage(this.img, this.x , this.y, this.width, this.height);
         }
     }
 };

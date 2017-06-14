@@ -196,6 +196,8 @@ export class ComposeComponent implements OnInit {
         this.ctx.lineWidth = 5;
 
         for (let i=0; i < this.images.length; i++) {
+            console.log(this.mousePos.x );
+
             if (this.images[i].hitTest(this.mousePos.x, this.mousePos.y)) {
                 this.draggingImage = true;
                 this.dragIndex = i;
@@ -203,6 +205,7 @@ export class ComposeComponent implements OnInit {
         }
 
         if(this.draggingImage) {
+            console.log(this.dragIndex);
 
             //place currently dragged shape on top
             this.images.push(

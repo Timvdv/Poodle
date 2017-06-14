@@ -44,7 +44,10 @@ module.exports = function GameManipulator(){
 
     function phaseOneTick(){
         if(phaseTimeOver() || allDoodlesSubmitted()){
-            notifier.notifyToPlayerIsArtist(artistPlayer.getId(), game.getGameId());
+            var playerId = artistPlayer.getId();
+            var gameId = game.getGameId();
+            var artTitle = game.getScenario().getPaintingName();
+            notifier.notifyToPlayerIsArtist(playerId, gameId, artTitle);
             notifier.notifyComposePhaseStarted(game.getGameId());
             nextPhase();
         }

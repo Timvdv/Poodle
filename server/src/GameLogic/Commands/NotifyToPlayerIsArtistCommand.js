@@ -1,16 +1,16 @@
 /**
  * Created by oteken on 6/12/2017.
  */
-module.exports = function NotifyToPlayerIsArtistCommand(playerId, gameId){
+module.exports = function NotifyToPlayerIsArtistCommand(playerId, gameId, artTitle){
     var playerId = playerId;
     var gameId = gameId;
+    var artTitle = artTitle;
     var commandName = "NotifyToPlayerIsArtistCommand";
     var commandType = "systemCommand";
 
     this.executeCommand = function(systemNavigator){
         notificationAdapter = systemNavigator.getNotificationAdapter();
-        notificationAdapter.notifyToPlayerIsArtist(playerId, gameId);
-        console.log("The game id = " + gameId);
+        notificationAdapter.notifyToPlayerIsArtist(playerId, gameId, artTitle);
     }
 
     this.getPlayerId = function(){
@@ -19,6 +19,10 @@ module.exports = function NotifyToPlayerIsArtistCommand(playerId, gameId){
 
     this.getGameId = function(){
         return gameId;
+    }
+
+    this.getArtTitle = function(){
+        return artTitle;
     }
 
     this.getCommandName = function(){
@@ -30,6 +34,6 @@ module.exports = function NotifyToPlayerIsArtistCommand(playerId, gameId){
     }
 
     this.getParameters = function(){
-        return {playerId: playerId, gameId: gameId};
+        return {playerId: playerId, gameId: gameId, artTitle: artTitle};
     }
 }

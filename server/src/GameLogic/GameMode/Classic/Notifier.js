@@ -30,8 +30,8 @@ module.exports = function Notifier(){
         systemConsole.executeCommand(notifyComposePhaseStartedCommand);
     }
 
-    this.notifyToPlayerIsArtist = function(playerId, gameId){
-        var notifyToPlayerIsArtistCommand = new notifyToPlayerIsArtistCommandFactory(playerId, gameId);
+    this.notifyToPlayerIsArtist = function(playerId, gameId, artTitle){
+        var notifyToPlayerIsArtistCommand = new notifyToPlayerIsArtistCommandFactory(playerId, gameId, artTitle);
         systemConsole.executeCommand(notifyToPlayerIsArtistCommand);
     }
 

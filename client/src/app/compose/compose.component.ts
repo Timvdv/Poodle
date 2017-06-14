@@ -67,14 +67,17 @@ export class ComposeComponent implements OnInit {
           const gameCode = localStorage.getItem('gameCode') || '';
           console.log('code ' + gameCode);
 
-          this.socket.emit('getImages', gameCode);
 
           var identifyObject = {
-              'gameCode': localStorage.getItem('gameCode'),
-              'playerId': localStorage.getItem('playerId')
+            'gameCode': localStorage.getItem('gameCode'),
+            'playerId': localStorage.getItem('playerId')
           }
 
-          this.socket.emit('identifyGame', identifyObject.gameCode, identifyObject.playerId);
+          this.socket.emit('identifyGame', identifyObject.playerId, identifyObject.gameCode);
+
+
+          this.socket.emit('getImages', gameCode);
+
 
           this.socket.on('setImages', (data) => {
                 if(data) {

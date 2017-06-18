@@ -6,9 +6,8 @@ module.exports = function Server() {
     var express = require('express')
     var server = express();
     var cors = require('cors');
-
-    server.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
-
+    var port = 8087;
+    var bodyParser = require('body-parser');
     var allowedOrigins = [
         'localhost:8087',
         'localhost:8087',
@@ -42,21 +41,18 @@ module.exports = function Server() {
         "credentials": true
     }
 
+    server.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
     server.use(cors(corsOptions));
-
-    var bodyParser = require('body-parser');
     server.use(bodyParser.urlencoded({
         extended: true
     }));
     server.use(bodyParser.json());
-    var port = 8087;
-
     server.use('/assets', express.static(path.join(__dirname, '/../assets')));
     server.use('/poodle/', express.static(path.join(__dirname, '/../dist')));
 
     this.startListening = function startListening() {
         server.listen(port);
-        console.log('runningggg on ' + port);
+        console.log('running on port: ' + port);
     }
 
     this.getPort = function getPort(){

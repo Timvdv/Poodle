@@ -30,7 +30,7 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
     }
 
     this.notifyToPlayerIsArtist = function(playerId, gameId, artTitle){
-        var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
+        var socketId = socketConnectionManager.getSocketIdOfPlayer(playerId, gameId);
         var data = {isArtist: true, artTitle: artTitle};
         var eventName = "isArtist";
         socketConnection.notifySpecific(eventName, data, socketId);
@@ -43,7 +43,7 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
     }
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
-        var socketId = socketConnectionManager.getSocketOfPlayer(playerId, gameId);
+        var socketId = socketConnectionManager.getSocketIdOfPlayer(playerId, gameId);
         console.log('Notifiying to ' + playerId + " from game " + gameId + " doodle name " + doodleName + " through socket " + socketId);
         var eventName = "setDoodle";
         var data = {doodleName: doodleName};

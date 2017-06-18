@@ -34,7 +34,7 @@ module.exports = function SocketConnectionManager(){
         }
     }
 
-    this.getPlayerIdFromSocket = function(socketId){
+    this.getPlayerIdFromSocketId = function(socketId){
         if(sockets[socketId]) {
             var playerId = sockets[socketId].playerId;
             return playerId;
@@ -42,7 +42,7 @@ module.exports = function SocketConnectionManager(){
         return undefined;
     }
 
-    this.getGameIdFromSocket = function(socketId){
+    this.getGameIdFromSocketId = function(socketId){
         if(sockets[socketId]) {
             var gameId = sockets[socketId].gameId;
             return gameId;
@@ -56,7 +56,7 @@ module.exports = function SocketConnectionManager(){
             gameSockets[gameId].gameId = gameId;
         }
         console.log("Identifying...");
-        var player = getSocketOfPlayer(playerId, gameId);
+        var player = getSocketIdOfPlayer(playerId, gameId);
         console.log("for player " + playerId + " of game : " + gameId + " with socket : " + socketId);
         console.log("in mem for player " + player);
         if(player){
@@ -67,7 +67,7 @@ module.exports = function SocketConnectionManager(){
         sockets[socketId].gameId = gameId;
     }
 
-    this.getSocketOfPlayer = function(playerId, gameId){
+    this.getSocketIdOfPlayer = function(playerId, gameId){
         var socketId;
         var game = this.getSocketsForGame(gameId);
         for (var i = 0; i < game.length; i++) {
@@ -78,7 +78,7 @@ module.exports = function SocketConnectionManager(){
         return socketId;
     }
 
-    function getSocketOfPlayer(playerId, gameId){
+    function getSocketIdOfPlayer(playerId, gameId){
         var socketId;
         var game = getSocketsForGame(gameId);
         for (var i = 0; i < game.length; i++) {

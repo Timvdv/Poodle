@@ -45,5 +45,4 @@ module.exports = function Game(gameId, scenario, phases){
     this.setCurrentlyPlaying = function(playingStatus){
         currentlyPlaying = playingStatus;
     }
-
 }

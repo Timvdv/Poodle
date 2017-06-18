@@ -51,6 +51,12 @@ module.exports = function GameCreator(idGenerator, systemConsole){
         return phases;
     }
 
+    function getRandomScenario(){
+        var totalScenarios = allScenarios.length;
+        var randomInt = getRandomInt(0, totalScenarios-1);
+        return allScenarios[randomInt];
+    }
+
     function getAllScenarios(){
         var scenarios = [];
         scenarios.push(getFridgeScenario());
@@ -59,12 +65,6 @@ module.exports = function GameCreator(idGenerator, systemConsole){
         scenarios.push(getChildrenFarm());
         scenarios.push(getRotterdamSkylineScenario());
         return scenarios;
-    }
-
-    function getRandomScenario(){
-        var totalScenarios = allScenarios.length;
-        var randomInt = getRandomInt(0, totalScenarios-1);
-        return allScenarios[randomInt];
     }
 
     function getFridgeScenario(){

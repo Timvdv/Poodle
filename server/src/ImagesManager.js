@@ -12,15 +12,6 @@ module.exports = function ImagesManager(imageWriter){
         return name;
     }
 
-    this.allowedToStore = function(playerId, gameId, rawImage){
-        if(playerId != null && gameId != null && rawImage != null){
-            var name = evaluateName(playerId, gameId);
-            if(!nameTooLong(name) && !nameTooShort(name))
-                return true;
-        }
-        return false
-    }
-
     function evaluateName(playerId, gameId){
         var name = "";
         var playerField = "playerId" + playerId;
@@ -28,6 +19,15 @@ module.exports = function ImagesManager(imageWriter){
         name += playerField;
         name += gameField;
         return name;
+    }
+
+    this.allowedToStore = function(playerId, gameId, rawImage){
+        if(playerId != null && gameId != null && rawImage != null){
+            var name = evaluateName(playerId, gameId);
+            if(!nameTooLong(name) && !nameTooShort(name))
+                return true;
+        }
+        return false
     }
 
     function nameTooLong(name){

@@ -21,7 +21,7 @@ module.exports = function SocketDataAdapter(systemConsole, socketConnectionManag
     }
 
     this.startGameRequest = function(socketId){
-        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
+        var gameId = socketConnectionManager.getGameIdFromSocketId(socketId);
         if(!(gameId == undefined)){
             var startGameRequestCommand = new startGameRequestCommandFactory(gameId);
             systemConsole.executeCommand(startGameRequestCommand);
@@ -38,14 +38,14 @@ module.exports = function SocketDataAdapter(systemConsole, socketConnectionManag
     }
 
     this.notifyDoodleToPlayer = function(socketId){
-        var playerId = socketConnectionManager.getPlayerIdFromSocket(socketId);
-        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
+        var playerId = socketConnectionManager.getPlayerIdFromSocketId(socketId);
+        var gameId = socketConnectionManager.getGameIdFromSocketId(socketId);
         var getPlayerDoodleNameCommand = new getPlayerDoodleNameCommandFactory(playerId, gameId);
         systemConsole.executeCommand(getPlayerDoodleNameCommand);
     }
 
     this.getGameDoodles = function(socketId){
-        var gameId = socketConnectionManager.getGameIdFromSocket(socketId);
+        var gameId = socketConnectionManager.getGameIdFromSocketId(socketId);
         if (gameId){
             var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
             systemConsole.executeCommand(getGameDoodlesCommand);

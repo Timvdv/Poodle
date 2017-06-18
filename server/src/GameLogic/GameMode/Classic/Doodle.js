@@ -10,16 +10,18 @@ module.exports = function Doodle(name, priority, layer){
     this.getName = function getName(){
         return name;
     }
+
     this.getPriority = function(){
         return priority
     }
+
     this.getLayer = function(){
         return layer;
     }
+
     this.getImage = function getImage(){
         return image;
     }
-
     this.setImage = function setImage(newImage){
         image = newImage;
     }

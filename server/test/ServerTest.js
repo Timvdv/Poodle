@@ -6,7 +6,7 @@ var ServerFactory = require('../src/Server');
 
 
 describe('Server', function(){
-    var defaultPort = 3000;
+    var defaultPort = 8087;
     var server = new ServerFactory();
     it('Server on default port', function(){
         var port = server.getPort();

@@ -44,7 +44,6 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
 
     this.notifyDoodleToPlayer = function(playerId, gameId, doodleName){
         var socketId = socketConnectionManager.getSocketIdOfPlayer(playerId, gameId);
-        console.log('Notifiying to ' + playerId + " from game " + gameId + " doodle name " + doodleName + " through socket " + socketId);
         var eventName = "setDoodle";
         var data = {doodleName: doodleName};
         socketConnection.notifySpecific(eventName, data, socketId);
@@ -53,8 +52,6 @@ module.exports = function NotificationAdapter(socketConnection, socketConnection
     function notifyAllGameSockets(eventName, data, gameId){
         var game = socketConnectionManager.getSocketsForGame(gameId);
         for (var i = 0; i < game.length; i++) {
-            console.log("now notifying game sockets");
-            console.log(game);
             socketConnection.notifySpecific(eventName, data, game[i].socketId);
         }
     }

@@ -28,7 +28,6 @@ module.exports = function SocketConnectionManager(){
         var game = getSocketsForGame(gameId);
         for (var i = 0; i < game.length; i++) {
             if(game[i].playerId == playerId){
-                console.log("Player has new socket");
                 game.splice(i, 1);
             }
         }
@@ -55,10 +54,7 @@ module.exports = function SocketConnectionManager(){
             gameSockets[gameId] = [];
             gameSockets[gameId].gameId = gameId;
         }
-        console.log("Identifying...");
         var player = getSocketIdOfPlayer(playerId, gameId);
-        console.log("for player " + playerId + " of game : " + gameId + " with socket : " + socketId);
-        console.log("in mem for player " + player);
         if(player){
             deleteGameSocket(playerId, gameId);
         }
@@ -91,10 +87,7 @@ module.exports = function SocketConnectionManager(){
 
     this.getSocketsForGame = function(gameId){
         for (var game in gameSockets) {
-            console.log("Game : " + gameSockets[game].gameId);
-            console.log("Looking for : " + gameId);
             if(gameSockets[game].gameId == gameId) {
-                console.log("returning correct");
                 return gameSockets[game];
             }
         }
@@ -102,10 +95,7 @@ module.exports = function SocketConnectionManager(){
 
     function getSocketsForGame(gameId){
         for (var game in gameSockets) {
-            console.log("Game : " + gameSockets[game].gameId);
-            console.log("Looking for : " + gameId);
             if(gameSockets[game].gameId == gameId) {
-                console.log("returning correct");
                 return gameSockets[game];
             }
         }

@@ -15,11 +15,6 @@ module.exports = function SocketDataAdapter(systemConsole, socketConnectionManag
     var systemConsole = systemConsole;
     var socketConnectionManager = socketConnectionManager;
 
-    this.identifySocketConnection = function(playerId, gameId, socketId){
-        var socketIdentifyCommand = new socketIdentifyCommandFactory(playerId, gameId, socketId);
-        systemConsole.executeCommand(socketIdentifyCommand);
-    }
-
     this.startGameRequest = function(socketId){
         var gameId = socketConnectionManager.getGameIdFromSocketId(socketId);
         if(!(gameId == undefined)){
@@ -49,7 +44,6 @@ module.exports = function SocketDataAdapter(systemConsole, socketConnectionManag
         if (gameId){
             var getGameDoodlesCommand = new getGameDoodlesCommandFactory(gameId);
             systemConsole.executeCommand(getGameDoodlesCommand);
-            console.log(getGameDoodlesCommand.getResponse().doodleUrls);
             return getGameDoodlesCommand.getResponse();
         }
     }

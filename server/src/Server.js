@@ -1,11 +1,14 @@
 /**
  * Created by oteken on 5/9/2017.
  */
+var expressAdapterFactory = require('./ExpressAdapter');
+var path = require('path');
+var express = require('express')
+var cors = require('cors');
+
 module.exports = function Server() {
-    var path = require('path');
-    var express = require('express')
-    var server = express();
-    var cors = require('cors');
+    var expressAdapter = new expressAdapterFactory();
+    var server = expressAdapter.getExpressServer();
     var port = 8087;
     var bodyParser = require('body-parser');
     var allowedOrigins = [

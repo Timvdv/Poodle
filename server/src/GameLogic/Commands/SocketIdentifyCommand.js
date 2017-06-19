@@ -12,7 +12,6 @@ module.exports = function SocketIdentifyCommand(playerId, gameId, socketId){
     this.executeCommand = function(systemNavigator){
         var notificationAdapter = systemNavigator.getNotificationAdapter();
         notificationAdapter.identifySocketConnection(playerId, gameId, socketId);
-        console.log("Identified socket " + socketId + " with player " + playerId + " joining the game " + gameId);
     }
 
     this.getPlayerId = function(){

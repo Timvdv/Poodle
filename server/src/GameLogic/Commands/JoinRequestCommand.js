@@ -11,7 +11,6 @@ module.exports = function JoinRequestCommand(player, gameId){
 
     this.executeCommand = function(gameNavigator){
         var gameManipulator = gameNavigator.getGameManipulator()
-        console.log("allowed to game = " + gameManipulator.allowedToJoin(player))
         if(gameManipulator.allowedToJoin(player)){
             response = "Player was allowed to join.";
             allowed = true;

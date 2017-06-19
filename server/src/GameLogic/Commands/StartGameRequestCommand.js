@@ -10,7 +10,6 @@ module.exports = function StartGameRequestCommand(gameId){
 
     this.executeCommand = function(systemNavigator){
         var gamesManager = systemNavigator.getGamesManager();
-        console.log("game exists = " + gamesManager.gameExists(gameId));
         if(gamesManager.gameExists(gameId)) {
             response = "Starting game was allowed."
             allowed = true;

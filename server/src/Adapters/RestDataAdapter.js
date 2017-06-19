@@ -44,7 +44,6 @@ module.exports = function RestDataAdapter(systemConsole){
            body.gameId != undefined) {
             var player = new playerFactory(body.name, body.image);
             var gameId = body.gameId;
-            console.log("Join request, name: " + body.name + ", image:" + body.image + ", gameId:" + body.gameId);
             var joinRequestCommand = new joinRequestCommandFactory(player, gameId);
             var joinCommand = new joinCommandFactory(player, gameId);
             systemConsole.executeCommand(joinRequestCommand);

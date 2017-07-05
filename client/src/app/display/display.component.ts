@@ -77,6 +77,7 @@ export class DisplayComponent implements OnInit {
             this.socket.on('composePhase', (data) => {
                 this.state = DisplayState.COMPOSE;
             });
+
         }
     }
 

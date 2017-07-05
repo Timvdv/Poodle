@@ -44,9 +44,7 @@ export class HomeComponent implements OnInit {
     }
 
     startGame() {
-
         this.socket.emit('startGame', this.code);
-
     }
 
     submitCode(event) {

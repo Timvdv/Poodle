@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 
     socket: any;
     name: string;
+    joined: boolean = false;
 
     error: string = "";
     code: string = "";
@@ -42,25 +43,31 @@ export class HomeComponent implements OnInit {
         this.playerName = event;
     }
 
-    startGame(event) {
+    startGame() {
+
         this.socket.emit('startGame', this.code);
+
     }
 
     submitCode(event) {
         this.error = "";
 
-        this.newGameService.validateCode(this.code, this.playerName).then( (data) => {
-            console.log(data);
+        if(!this.joined) {
+            this.newGameService.validateCode(this.code, this.playerName).then( (data) => {
 
-            if(data.systemResponse == "Player was allowed to join.") {
-                this.gameData = data.addedPlayer;
+                if(data.systemResponse == "Player was allowed to join.") {
+                    this.gameData = data.addedPlayer;
 
-                this.identify(this.gameData);
-            } else {
-                this.error = data.response;
-            }
+                    this.joined = true;
 
-        })
+                    this.identify(this.gameData);
+                } else {
+                    console.log(data);
+                    this.error = data.systemResponse;
+                }
+
+            });
+        }
     }
 
     identify(data) {

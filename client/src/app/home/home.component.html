@@ -23,24 +23,20 @@
         </div>
     </div>
 
-    <button type="submit" name="submit" class="btn btn-success" (click)="submitCode($event)">
+    <button [hidden]="joined" type="submit" name="submit" class="btn btn-success" (click)="submitCode($event)">
         Play!
     </button>
 
     <div class="start-new-game" [hidden]="isEmpty(gameData)">
         <hr>
-        <button (click)="startGame($event)" class="btn btn-lg">
+        <br><br>
+        <button (click)="startGame()" class="btn btn-primary btn-lg">
             Start game
         </button>
     </div>
 
 
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <hr>
 
-    <button class="btn btn-primary" [routerLink]="['/display']"> display </button>
 </div>
